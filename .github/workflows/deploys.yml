@@ -3,7 +3,7 @@ name: Deploy To GitHub Pages
 on:
   push:
     branches:
-      - 'dev'
+      - 'main'
 jobs:
   build:
     name: Build Angular App
