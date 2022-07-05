@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href=https://2022-d04-java-fs.github.io/gestion-des-transports-front/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
