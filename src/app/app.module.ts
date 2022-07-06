@@ -6,11 +6,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MenuComponentComponent } from './menu-component/menu-component.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OfferListComponent } from './offer-list/offer-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponentComponent
+    MenuComponentComponent,
+    OfferListComponent
   ],
   imports: [
     BrowserModule,
