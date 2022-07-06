@@ -1,5 +1,5 @@
 import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -10,15 +10,22 @@ import { Component, OnInit } from '@angular/core';
 export class OfferFormComponent implements OnInit {
 
   formOffer: FormGroup
+  addressList = [
+    'Gare de Lyon',
+    'Gare Lille Flandres',
+    'Gare Lille Europe',
+    'Gare St Lazarre'
+  ]
+
 
   constructor(private fb:FormBuilder, private modalService: NgbModal) {
     this.formOffer = fb.group({
-      departureAddress:['', [Validators.required]],
-      arrivalAddress:['', [Validators.required]],
+      departureAddress:['', [Validators.required, this.validatorAddress.bind(this)]],
+      arrivalAddress:['', [Validators.required, this.validatorAddress.bind(this)]],
       licensePlate:['', [Validators.required, Validators.pattern('^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$')]],
       brand:['', [Validators.required]],
       model:['', [Validators.required]],
-      availableSeats:['', [Validators.required]],
+      availableSeats:['', [Validators.required, Validators.min(1), Validators.max(20)]],
       date:['', [Validators.required]],
       hour:[null, [Validators.required]],
       minutes:[null, [Validators.required]]
@@ -51,6 +58,17 @@ export class OfferFormComponent implements OnInit {
   }
 
 
+  validatorAddress(control:FormControl):ValidationErrors | null{
+    if(control.pristine){
+      return null
+    }
+    if (!(this.addressList.includes(control.value))){
+      return {address: "addresse inconnue"}
+    }
+    return null
+  }
+
+
   open(content:any) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'})
   }
@@ -75,5 +93,11 @@ export class OfferFormComponent implements OnInit {
     return this.formOffer.controls['licensePlate'].hasError('pattern') && this.formOffer.get('licensePlate')?.value != ""
   }
 
+  checkDateTime(){
+    const dateBool = this.formOffer.controls['date'].hasError('required') && this.formOffer.controls['date'].touched
+    const hourBool = this.formOffer.controls['hour'].hasError('required') && this.formOffer.controls['date'].touched
+    const minuteBool = this.formOffer.controls['minutes'].hasError('required') && this.formOffer.controls['date'].touched
+    return dateBool || hourBool || minuteBool
+  }
 
 }

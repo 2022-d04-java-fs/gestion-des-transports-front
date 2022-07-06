@@ -10,6 +10,9 @@
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
+            <small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address')">
+              L'adresse de départ est une adresse inconnue
+            </small>
           </div>
         </div>
 
@@ -22,6 +25,9 @@
             </small>
             <small class="text-danger" *ngIf="formOffer.hasError('daaddress')">
               Les addresse de départ et d'arrivée doivent être différentes
+            </small>
+            <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address')">
+              L'adresse d'arrivée est une adresse inconnue'
             </small>
           </div>
         </div>
@@ -57,7 +63,7 @@
           <div class="col-sm-6">
             <input type="text" formControlName="brand" id="brandInput" class="form-control">
             <small class="text-danger" *ngIf="checkRequired('brand')">
-              La marque du véhicule est obligatoire
+              La marque est obligatoire
             </small>
           </div>
         </div>
@@ -67,7 +73,7 @@
           <div class="col-sm-6">
             <input type="text" formControlName="model" id="modelInput" class="form-control">
             <small class="text-danger" *ngIf="checkRequired('model')">
-              Le modèle du véhicule est obligatoire
+              Le modèle est obligatoire
             </small>
           </div>
         </div>
@@ -76,8 +82,8 @@
           <label for="seatsInput" class="col-sm-2 col-form-label text-end">Nombre de places disponibles*</label>
           <div class="col-sm-6">
             <input type="number" formControlName="availableSeats" id="seatsInput" class="form-control">
-            <small class="text-danger" *ngIf="checkRequired('availableSeats')">
-              Le nombre de places est obligatoire
+            <small class="text-danger" *ngIf="formOffer.controls['availableSeats'].hasError('max') || formOffer.controls['availableSeats'].hasError('min')">
+              Le nombre de places doit être compris entre 1 et 20
             </small>
           </div>
         </div>
@@ -137,7 +143,15 @@
         <div class="col-sm-2"></div>
         <div class="col">
           <small class="text-danger">
-            La date et l'heure saisies sont passées
+            La date et l'heure ne peuvent être antérieure à aujourd'hui
+          </small>
+        </div>
+      </div>
+      <div class="row" *ngIf="checkDateTime()">
+        <div class="col-sm-2"></div>
+        <div class="col">
+          <small class="text-danger">
+            La date et l'heure sont obligatoires
           </small>
         </div>
       </div>
