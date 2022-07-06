@@ -1,9 +1,9 @@
-import { SharedModule } from './../../shared/shared.module';
-import { AppModule } from './../../app.module';
+import { CollabModule } from './../../collab/collab.module';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OfferPage } from './offer.page';
-import { ReactiveFormsModule } from '@angular/forms';
+
 
 
 
@@ -13,7 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    CollabModule
   ],
   exports:[
     OfferPage

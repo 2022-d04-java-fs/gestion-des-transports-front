@@ -1,5 +1,5 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
   name: 'dateInput'
