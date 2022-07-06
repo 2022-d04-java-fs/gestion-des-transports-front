@@ -1,0 +1,73 @@
+<header></header>
+<h2>Vos Réservations</h2>
+<a class="btn btn-outline-secondary" href="/collaborateur/propositions/creer" role="button">Réserver un transport</a>
+<div class="card">
+  <div class="card-header" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed"
+    aria-controls="card-covoiture">
+    Covoiturage
+  </div>
+  <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
+    <h4>Réservations en cours</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date/Heure</th>
+          <th scope="col">Départ</th>
+          <th scope="col">Destination</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let reservation of reservationList; let index = index">
+          <th>{{reservation.date}}</th>
+          <th>{{reservation.depart}}</th>
+          <th>{{reservation.destination}}</th>
+          <th>
+            <button class="btn btn-outline-secondary" (click)="open(content)"
+              data-target="#exampleModal">Détails</button>
+            <button class="btn btn-danger">Annuler</button>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+    <h4>Historique</h4>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Date/Heure</th>
+          <th scope="col">Départ</th>
+          <th scope="col">Destination</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let history of historyList; let index = index">
+          <th>{{history.date}}</th>
+          <th>{{history.depart}}</th>
+          <th>{{history.destination}}</th>
+          <th>
+            <button class="btn btn-outline-secondary" (click)="open(content)"
+              data-target="#exampleModal">Détails</button>
+          </th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Détails du covoiturage</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <p>Départ: {{closeResult}}</p>
+    <p>Destination: {{closeResult}}</p>
+    <p>Date/heure: {{closeResult}}</p>
+    <p>Véhicule: {{closeResult}}</p>
+    <p>Chauffeur: {{closeResult}}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
+  </div>
+</ng-template>
