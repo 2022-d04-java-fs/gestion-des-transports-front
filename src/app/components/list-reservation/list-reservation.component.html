@@ -23,7 +23,7 @@
           <th>{{reservation.depart}}</th>
           <th>{{reservation.destination}}</th>
           <th>
-            <button class="btn btn-outline-secondary" (click)="open(content)"
+            <button class="btn btn-outline-secondary" (click)="open(content, reservation)"
               data-target="#exampleModal">Détails</button>
             <button class="btn btn-danger">Annuler</button>
           </th>
@@ -41,17 +41,34 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let history of historyList; let index = index">
+        <tr
+          *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
           <th>{{history.date}}</th>
           <th>{{history.depart}}</th>
           <th>{{history.destination}}</th>
           <th>
-            <button class="btn btn-outline-secondary" (click)="open(content)"
+            <button class="btn btn-outline-secondary" (click)="open(content, history)"
               data-target="#exampleModal">Détails</button>
           </th>
         </tr>
       </tbody>
     </table>
+    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
+      <ng-template ngbPaginationPages let-page let-pages="pages">
+        <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+          <div class="mb-3 d-flex flex-nowrap px-2">
+            <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+            <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+              id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+              (input)="formatInput($any($event).target)" aria-labelledby="paginationInputLabel paginationDescription"
+              style="width: 2.5rem" />
+            <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+              of {{pages.length}}</span>
+          </div>
+        </li>
+      </ng-template>
+
+    </ngb-pagination>
   </div>
 </div>
 
@@ -61,11 +78,11 @@
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
   </div>
   <div class="modal-body">
-    <p>Départ: {{closeResult}}</p>
-    <p>Destination: {{closeResult}}</p>
-    <p>Date/heure: {{closeResult}}</p>
-    <p>Véhicule: {{closeResult}}</p>
-    <p>Chauffeur: {{closeResult}}</p>
+    <p>Départ: {{modalTable[0]}}</p>
+    <p>Destination: {{modalTable[1]}}</p>
+    <p>Date/heure: {{modalTable[2]}}</p>
+    <p>Véhicule: {{modalTable[3]}}</p>
+    <p>Chauffeur: {{modalTable[4]}}</p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
