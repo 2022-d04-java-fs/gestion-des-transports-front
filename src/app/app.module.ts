@@ -1,27 +1,33 @@
+
+import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponentComponent } from './menu-component/menu-component.component';
+
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { OfferListComponent } from './offer-list/offer-list.component';
+
+import { MenuComponent } from './collab/components/menu/menu.component';
+import { OfferListComponent } from './collab/components/offer-list/offer-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponentComponent,
-    OfferListComponent
+   MenuComponent,
+   OfferListComponent
+
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule
 
   ],
   providers: [
-    
+
   ],
   bootstrap: [AppComponent]
 })
