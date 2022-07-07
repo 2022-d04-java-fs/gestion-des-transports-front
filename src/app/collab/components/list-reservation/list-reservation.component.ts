@@ -1,8 +1,11 @@
+import { RefreshService } from './../../../providers/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { filter, Subscription } from 'rxjs';
+import { Refresh } from 'src/app/models/refresh';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 /**
@@ -24,62 +27,26 @@ export class ListReservationComponent implements OnInit {
 
   public reservationList: Reservation[] = []
 
-  public historyList = [
-    {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T12:30",
-      vehicule: "",
-      chauffeur: ""
-    },
-    {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T14:30",
-      vehicule: "",
-      chauffeur: ""
-    }, {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T12:30",
-      vehicule: "",
-      chauffeur: ""
-    },
-    {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T14:30",
-      vehicule: "",
-      chauffeur: ""
-    }, {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T12:30",
-      vehicule: "",
-      chauffeur: ""
-    },
-    {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T14:30",
-      vehicule: "",
-      chauffeur: ""
-    }
-  ]
+  public historyList: Reservation[] = []
 
-  currentDate: string = "2017-06-22T13:30";
-  datePipe = new DatePipe('en-US');
+  EventSub!: Subscription;
+  private currentDate: string = "2017-06-22T13:30";
   page = 1;
   pageSize = 3;
 
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal, private client: HttpClient) { }
+  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService) { }
   ngOnInit(): void {
-    this.fillTab(this.reservationList, "");
-    this.fillTab(this.historyList, "");
-    this.findReservations(this.currentDate);
+    this.refresh();
+    this.EventSub = this.refreshEvent.getRefreshEvent()
+      .pipe(
+        filter(refresh => refresh === Refresh.REFRESH)
+      )
+      .subscribe(
+        () => this.refresh()
+      );
   }
   /**
    * @param content: object
@@ -106,13 +73,18 @@ export class ListReservationComponent implements OnInit {
   /**
    * @param liste la liste à compléter
    * @param URL le lien où récupérer les tableaux
+   *
   */
-  fillTab(liste: Reservation[], URL: string): void {
+  fillTab(URL: string): void {
     this.client.get<Reservation[]>(URL).subscribe({
       next: (reservations: Reservation[]) => {
-        liste = reservations
+        this.historyList = reservations
+        this.findReservations(this.currentDate);
       }
     })
+  }
+  refresh() {
+    this.fillTab("assets/reservation.json") //insérer l'URL ici
   }
   /**
    * @param dateString la date d'aujourd'hui au format string
