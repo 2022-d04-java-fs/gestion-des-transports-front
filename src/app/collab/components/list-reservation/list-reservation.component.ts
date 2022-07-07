@@ -1,4 +1,4 @@
-import { Reservation } from './../../models/reservation';
+import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
