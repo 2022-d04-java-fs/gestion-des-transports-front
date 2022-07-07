@@ -6,39 +6,39 @@
         <div class="form-group row" style="margin:0.5em">
           <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keypress)="refresh('departureAddress')" ><!-- [ngbTypeahead]="researchAddress" -->
+            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keypress)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
-            <!--<small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address')">
+            <small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address')">
               L'adresse de départ est une adresse inconnue
-            </small>-->
+            </small>
           </div>
         </div>
 
         <div class="form-group row" style="margin:0.5em">
           <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control" (keypress)="refresh('arrivalAddress')"><!-- [ngbTypeahead]="researchAddress" -->
+            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control" (keypress)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
             <small class="text-danger" *ngIf="checkRequired('arrivalAddress')">
               L'addresse d'arrivée est obligatoire
             </small>
             <small class="text-danger" *ngIf="formOffer.hasError('daaddress')">
               Les addresse de départ et d'arrivée doivent être différentes
             </small>
-            <!--<small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address')">
-              L'adresse d'arrivée est une adresse inconnue'
-            </small>-->
+            <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address')">
+              L'adresse d'arrivée est une adresse inconnue
+            </small>
           </div>
         </div>
 
         <div class="row" style="margin:0.5em">
           <label class="col-sm-2 text-end" for="">Durée du trajet</label>
-          <div class="col-sm-6">Longtemps (PLACEHOLDER)</div>
+          <div class="col-sm-6">{{time | duration}}</div>
         </div>
         <div class="row" style="margin:0.5em">
           <label class="col-sm-2 text-end" for="">Distance</label>
-          <div class="col-sm-6">Loin (PLACEHOLDER)</div>
+          <div class="col-sm-6">{{distance}} km</div>
         </div>
       </div>
     </div>
