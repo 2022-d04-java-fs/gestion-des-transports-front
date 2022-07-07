@@ -22,15 +22,7 @@ export class ListReservationComponent implements OnInit {
 
   //Données test, à changer après l'installation du back
 
-  public reservationList = [
-    {
-      depart: "Gare de Nantes",
-      destination: "Gare de Saint-Nazaire",
-      date: "2017-06-22T12:30",
-      vehicule: "",
-      chauffeur: ""
-    }
-  ]
+  public reservationList: Reservation[] = []
 
   public historyList = [
     {
@@ -43,10 +35,10 @@ export class ListReservationComponent implements OnInit {
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date:"2017-06-22T14:30",
+      date: "2017-06-22T14:30",
       vehicule: "",
       chauffeur: ""
-    },    {
+    }, {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
       date: "2017-06-22T12:30",
@@ -59,7 +51,7 @@ export class ListReservationComponent implements OnInit {
       date: "2017-06-22T14:30",
       vehicule: "",
       chauffeur: ""
-    },    {
+    }, {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
       date: "2017-06-22T12:30",
@@ -75,8 +67,8 @@ export class ListReservationComponent implements OnInit {
     }
   ]
 
-
-  datePipe= new DatePipe('en-US');
+  currentDate: string = "2017-06-22T13:30";
+  datePipe = new DatePipe('en-US');
   page = 1;
   pageSize = 3;
 
@@ -87,6 +79,7 @@ export class ListReservationComponent implements OnInit {
   ngOnInit(): void {
     this.fillTab(this.reservationList, "");
     this.fillTab(this.historyList, "");
+    this.findReservations(this.currentDate);
   }
   /**
    * @param content: object
@@ -121,5 +114,16 @@ export class ListReservationComponent implements OnInit {
       }
     })
   }
-
+  /**
+   * @param dateString la date d'aujourd'hui au format string
+   * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
+  */
+  findReservations(dateString: string) {
+    let date: number = new Date(dateString).getTime()
+    this.historyList.forEach(reservation => {
+      if (new Date(reservation.date).getTime() >= date) {
+        this.reservationList.push(reservation)
+      }
+    });
+  }
 }
