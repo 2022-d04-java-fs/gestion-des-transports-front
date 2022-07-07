@@ -1,8 +1,15 @@
+import { Reservation } from './../../models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
-
+/**
+ * @export
+ * @class ListReservationComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-list-reservation',
   templateUrl: './list-reservation.component.html',
@@ -19,7 +26,7 @@ export class ListReservationComponent implements OnInit {
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 12:30",
+      date: "2017-06-22T12:30",
       vehicule: "",
       chauffeur: ""
     }
@@ -29,59 +36,64 @@ export class ListReservationComponent implements OnInit {
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 12:30",
+      date: "2017-06-22T12:30",
       vehicule: "",
       chauffeur: ""
     },
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 14:30",
+      date:"2017-06-22T14:30",
       vehicule: "",
       chauffeur: ""
     },    {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 12:30",
+      date: "2017-06-22T12:30",
       vehicule: "",
       chauffeur: ""
     },
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 14:30",
+      date: "2017-06-22T14:30",
       vehicule: "",
       chauffeur: ""
     },    {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 12:30",
+      date: "2017-06-22T12:30",
       vehicule: "",
       chauffeur: ""
     },
     {
       depart: "Gare de Nantes",
       destination: "Gare de Saint-Nazaire",
-      date: "22/06/2017 14:30",
+      date: "2017-06-22T14:30",
       vehicule: "",
       chauffeur: ""
-    },
+    }
   ]
 
+
+  datePipe= new DatePipe('en-US');
   page = 1;
   pageSize = 3;
 
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private client: HttpClient) { }
   ngOnInit(): void {
+    this.fillTab(this.reservationList, "");
+    this.fillTab(this.historyList, "");
   }
   /**
-   * Parameters: content: any et objet: any
+   * @param content: object
+   * @param objet: Reservation
    * Cette fonction permettra d'initialiser les éléments de la fenêtre modale avant de l'ouvrir
    */
-  open(content: any, objet: any): void {
+  open(content: object, objet: Reservation): void {
     this.modalTable[0] = objet.depart;
     this.modalTable[1] = objet.destination;
     this.modalTable[2] = objet.date;
@@ -97,4 +109,17 @@ export class ListReservationComponent implements OnInit {
   formatInput(input: HTMLInputElement) {
     input.value = input.value.replace(FILTER_PAG_REGEX, '');
   }
+
+  /**
+   * @param liste la liste à compléter
+   * @param URL le lien où récupérer les tableaux
+  */
+  fillTab(liste: Reservation[], URL: string): void {
+    this.client.get<Reservation[]>(URL).subscribe({
+      next: (reservations: Reservation[]) => {
+        liste = reservations
+      }
+    })
+  }
+
 }

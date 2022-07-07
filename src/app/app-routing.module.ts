@@ -5,6 +5,7 @@ import { CollabPage } from './pages/collab/collab.page';
 
 const routes: Routes = [
   { path: 'collaborateur/reservations', component: CollabPage },
+  { path: 'collaborateur/propositions/creer', redirectTo: 'collaborateur/reservations' },
   { path: '', pathMatch: 'full', redirectTo: 'collaborateur/reservations' }
 ];
 
