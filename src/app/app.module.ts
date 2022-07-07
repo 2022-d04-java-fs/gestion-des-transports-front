@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CollabModule } from './collab/collab.module';
-
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -15,7 +15,8 @@ import { CollabModule } from './collab/collab.module';
     BrowserModule,
     AppRoutingModule,
     CollabModule,
-    OfferModule
+    OfferModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

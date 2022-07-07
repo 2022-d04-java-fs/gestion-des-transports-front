@@ -1,6 +1,9 @@
+import { AddressService } from './../../../services/address.service';
 import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Observable, OperatorFunction } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-offer-form',
@@ -10,18 +13,13 @@ import { Component, OnInit } from '@angular/core';
 export class OfferFormComponent implements OnInit {
 
   formOffer: FormGroup
-  addressList = [
-    'Gare de Lyon',
-    'Gare Lille Flandres',
-    'Gare Lille Europe',
-    'Gare St Lazarre'
-  ]
+  addressList:string[] = []
 
 
-  constructor(private fb:FormBuilder, private modalService: NgbModal) {
+  constructor(private fb:FormBuilder, private modalService: NgbModal, private addressServ : AddressService) {
     this.formOffer = fb.group({
-      departureAddress:['', [Validators.required, this.validatorAddress.bind(this)]],
-      arrivalAddress:['', [Validators.required, this.validatorAddress.bind(this)]],
+      departureAddress:['', [Validators.required/*, this.validatorAddress.bind(this)*/]],
+      arrivalAddress:['', [Validators.required/*, this.validatorAddress.bind(this)*/]],
       licensePlate:['', [Validators.required, Validators.pattern('^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$')]],
       brand:['', [Validators.required]],
       model:['', [Validators.required]],
@@ -32,6 +30,22 @@ export class OfferFormComponent implements OnInit {
     },{validators: [this.validatorDAAddress, this.validatorDate.bind(this)], updateOn: "blur"})
   }
 
+
+  researchAddress: OperatorFunction<string, readonly string[]> = (text$ : Observable<String>) =>{
+    return text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term.length < 2 ? []
+        : this.addressList))
+  }
+
+  refresh(field:String) {
+    this.addressList = []
+    this.addressServ.getListAddresses(this.formOffer.get(field.toString())?.value)
+      .subscribe(addresses => addresses.features.forEach(element => {
+        this.addressList.push(element.properties.label)
+      }));
+  }
 
   validatorDAAddress(control:AbstractControl):ValidationErrors | null{
     if (control.get("departureAddress")?.pristine || control.get("arrivalAddress")?.pristine || control.get("departureAddress")?.value ==="" || control.get("arrivalAddress")?.value === ""){
