@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Détails du covoiturage</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <p class="col-4">Départ:</p>
+    <p class="col-4">{{ carpool.departureAddress }}</p>
+  </div>
+  <div class="row">
+    <p class="col-4">Destination:</p>
+    <p class="col-4">{{ carpool.arrivalAddress }}</p>
+  </div>
+  <div class="row">
+    <p class="col-4">Date/Heure:</p>
+    <p class="col-4">{{ carpool.dateHeure | date:'dd/MM/yyyy HH:mm'}}</p>
+  </div>
+  <div class="row">
+    <p class="col-4">Véhicule:</p>
+    <p class="col-4">{{ carpool.vehicle.model }} {{ carpool.vehicle.brand }}</p>
+  </div>
+  <div class="row">
+    <p class="col-4">Chauffeur:</p>
+    <p class="col-4">{{ carpool.driver.lastname }} {{ carpool.driver.firstname }}</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Annuler</button>
+  <button type="button" class="btn btn-outline-dark" (click)="postData()">Confirmer</button>
+</div>
