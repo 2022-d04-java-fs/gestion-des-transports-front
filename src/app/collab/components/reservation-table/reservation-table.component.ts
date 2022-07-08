@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Carpool } from 'src/app/models/carpool';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
-import { CarpoolsByService } from 'src/app/services/carpools-by.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -13,43 +12,29 @@ import { Subscription } from 'rxjs';
 })
 export class ReservationTableComponent implements OnInit {
   carpoolsList: Carpool[] = [];
-  carpoolsByDepartureAddressList: Carpool[] = [];
-  departureAddressSub!: Subscription;
+  gdtEventSub!: Subscription;
+  carpoolSub!: Subscription;
   departureAddress: string = '';
 
   constructor(
     private carpoolService: CarpoolService,
-    private modalService: NgbModal,
-    private carpoolByService: CarpoolsByService
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
-    this.getCarpools();
-    this.getCarpoolsByDepartureAddress();
+    this.carpoolSub = this.carpoolService
+      .getObservable()
+      .subscribe((departureAddress) => {
+        if (departureAddress.length > 0) {
+          this.refreshCarpoolList(departureAddress);
+        }
+      });
   }
 
-  getCarpools() {
+  refreshCarpoolList(departureAddress: string) {
     this.carpoolService
-      .getCarpoolsList()
-      .subscribe((carpools) => (this.carpoolsList = carpools));
-  }
-
-  getCarpoolsByDepartureAddress() {
-    this.carpoolByService.data.subscribe((res) => {
-      console.log('reservation-table.component >> ', res);
-      this.departureAddress = res;
-    });
-    console.log(
-      'reservation-table.component - departureAddress >> ',
-      this.departureAddress
-    );
-    // if (this.departureAddress.length > 0) {
-    this.carpoolService
-      .getCarpoolsByDepartureAddressList(this.departureAddress)
-      .subscribe(
-        (carpools) => (this.carpoolsByDepartureAddressList = carpools)
-      );
-    // }
+      .getCarpoolsByDepartureAddressList(departureAddress)
+      .subscribe((v) => (this.carpoolsList = v));
   }
 
   openModal(carpool: Carpool) {

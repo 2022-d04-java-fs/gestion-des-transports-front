@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Carpool } from '../models/carpool';
 
 const URL = 'http://localhost:8080/api';
@@ -9,6 +9,16 @@ const URL = 'http://localhost:8080/api';
   providedIn: 'root',
 })
 export class CarpoolService {
+  carpoolSub = new BehaviorSubject<string>('');
+
+  sendData(data: string) {
+    this.carpoolSub.next(data);
+  }
+
+  getObservable() {
+    return this.carpoolSub.asObservable();
+  }
+
   constructor(private http: HttpClient) {}
 
   getCarpoolsList(): Observable<Carpool[]> {

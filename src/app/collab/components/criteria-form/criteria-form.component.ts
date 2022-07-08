@@ -13,12 +13,9 @@ import {
   map,
   Observable,
   OperatorFunction,
-  Subject,
 } from 'rxjs';
 import { Features } from 'src/app/models/address-models/features';
-import { Carpool } from 'src/app/models/carpool';
 import { CarpoolService } from 'src/app/services/carpool.service';
-import { CarpoolsByService } from 'src/app/services/carpools-by.service';
 
 @Component({
   selector: 'app-criteria-form',
@@ -36,7 +33,7 @@ export class CriteriaFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private addressService: AddressService,
-    private carpoolByService: CarpoolsByService
+    private carpoolService: CarpoolService
   ) {
     this.colForm = fb.group({
       departureAddress: ['', [Validators.required]],
@@ -47,14 +44,8 @@ export class CriteriaFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  sendInput() {
-    this.departureAddress = this.colForm.get('departureAddress')?.value;
-    console.log('1');
-    console.log('criteria-form.component.ts >> ', this.departureAddress);
-    if (this.departureAddress.length > 0) {
-      console.log('2');
-      this.carpoolByService.sendData(this.departureAddress);
-    }
+  triggerRefresh() {
+    this.carpoolService.sendData(this.colForm.get('departureAddress')?.value);
   }
 
   /**
@@ -134,11 +125,13 @@ export class CriteriaFormComponent implements OnInit {
         (e) => e.properties.label === this.colForm.get('arrivalAddress')?.value
       )
       .map((e) => e.geometry.coordinates)[0];
-    this.addressService
-      .getDistanceTime(coord1[0], coord1[1], coord2[0], coord2[1])
-      .subscribe((distanceTime) => {
-        this.distance = (distanceTime.total_distance / 1000) | 1;
-        this.time = distanceTime.total_time;
-      });
+    if (coord1 !== undefined && coord2 !== undefined) {
+      this.addressService
+        .getDistanceTime(coord1[0], coord1[1], coord2[0], coord2[1])
+        .subscribe((distanceTime) => {
+          this.distance = (distanceTime.total_distance / 1000) | 1;
+          this.time = distanceTime.total_time;
+        });
+    }
   }
 }
