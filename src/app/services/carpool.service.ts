@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Carpool } from '../models/carpool';
 
 const URL = 'http://localhost:8080/api';
@@ -13,6 +13,14 @@ export class CarpoolService {
 
   getCarpoolsList(): Observable<Carpool[]> {
     return this.http.get<Carpool[]>(`${URL}/carpools`);
+  }
+
+  getCarpoolsByDepartureAddressList(
+    departureAddress: String
+  ): Observable<Carpool[]> {
+    return this.http.get<Carpool[]>(
+      `${URL}/carpools?departureAddress=${departureAddress}`
+    );
   }
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {

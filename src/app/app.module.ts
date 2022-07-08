@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CollabModule } from './collab/collab.module';
-import { CarReservationPage } from './pages/car-reservation/car-reservation.page';
 
 import { HttpClientModule } from '@angular/common/http';
 import { CarReservationModule } from './pages/car-reservation/car-reservation.module';
