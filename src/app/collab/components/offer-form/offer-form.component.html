@@ -1,3 +1,4 @@
+<!-- Formulaire de création de covoiturage -->
 <form [formGroup]="formOffer">
   <div>
     <div class="card" style="margin:0.5em">
@@ -161,49 +162,51 @@
 </form>
 
 
+<!-- Fenêtre modale de validation -->
+
 <ng-template #content let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Confirmation de votre proposition</h4>
   </div>
   <div class="modal-body">
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Départ</label>
+      <label class="col-sm-6 text-end">Départ</label>
       <div class="col-sm-6">
         {{formOffer.get("departureAddress")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Destination</label>
+      <label class="col-sm-6  text-end">Destination</label>
       <div class="col-sm-6">
         {{formOffer.get("arrivalAddress")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Immatriculation</label>
+      <label class="col-sm-6  text-end">Immatriculation</label>
       <div class="col-sm-6">
         {{formOffer.get("licensePlate")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Marque</label>
+      <label class="col-sm-6  text-end">Marque</label>
       <div class="col-sm-6">
         {{formOffer.get("brand")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Modèle</label>
+      <label class="col-sm-6  text-end">Modèle</label>
       <div class="col-sm-6">
         {{formOffer.get("model")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Nb.places disponibles</label>
+      <label class="col-sm-6 text-end">Nb.places disponibles</label>
       <div class="col-sm-6">
         {{formOffer.get("availableSeats")?.value}}
       </div>
     </div>
     <div class="row" style="margin:0.5em">
-      <label class="col-sm-6 col-form-label text-end">Date/heure</label>
+      <label class="col-sm-6  text-end">Date/heure</label>
       <div class="col-sm-6">
         le {{formOffer.get("date")?.value | dateInput}} à {{formOffer.get("hour")?.value}} h
         {{formOffer.get("minutes")?.value}}

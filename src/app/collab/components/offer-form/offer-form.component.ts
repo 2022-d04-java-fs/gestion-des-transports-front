@@ -34,52 +34,71 @@ export class OfferFormComponent implements OnInit {
     }, { validators: [this.validatorDAAddress, this.validatorDate.bind(this)]})
   }
 
-
+  /**
+   * fonction d'autocomplétion pour l'adresse de départ
+   */
   researchDepartureAddress: OperatorFunction<string, readonly string[]> = (text$: Observable<String>) => {
     return text$.pipe(
-      debounceTime(10),
+      debounceTime(100),
       distinctUntilChanged(),
       map(term => term.length < 2 ? []
         : this.departureAddressList.map(f => f.properties.label)))
   }
 
+   /**
+   * fonction d'autocomplétion pour l'adresse d'arrivée
+   */
   researchArrivalAddress: OperatorFunction<string, readonly string[]> = (text$: Observable<String>) => {
     return text$.pipe(
-      debounceTime(10),
+      debounceTime(100),
       distinctUntilChanged(),
       map(term => term.length < 2 ? []
         : this.arrivalAddressList.map(f => f.properties.label)))
   }
 
-
+  /**
+   * Mise à joue de la liste d'addresse de départ grâce à l'API api-adresse.data.gouv.fr/
+  */
   refreshDeparture() {
-    this.departureAddressList = []
     this.addressServ.getListAddresses(this.formOffer.get('departureAddress')?.value)
-      .subscribe(addresses => addresses.features.forEach(element => {
+      .subscribe(addresses => {
+        this.departureAddressList = [];
+        return addresses.features.forEach(element => {
         this.departureAddressList.push(element)
-      }));
+      })});
   }
 
+   /**
+   * Mise à joue de la liste d'addresse d'arrivée grâce à l'API api-adresse.data.gouv.fr/search/
+  */
   refreshArrival() {
     this.arrivalAddressList = []
     this.addressServ.getListAddresses(this.formOffer.get('arrivalAddress')?.value)
-      .subscribe(addresses => addresses.features.forEach(element => {
+      .subscribe(addresses => {
+        this.arrivalAddressList = [];
+        return addresses.features.forEach(element => {
         this.arrivalAddressList.push(element)
-      }));
+      })});
   }
 
+  /**
+   * Calucl de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
+   */
   estimateDistanceTime() {
-    try{
+    console.log(this.arrivalAddressList)
+    console.log(this.departureAddressList)
+
       let coord1 = this.departureAddressList.filter(e => e.properties.label === this.formOffer.get('departureAddress')?.value).map(e => e.geometry.coordinates)[0]
       let coord2 = this.arrivalAddressList.filter(e => e.properties.label === this.formOffer.get('arrivalAddress')?.value).map(e => e.geometry.coordinates)[0]
       this.addressServ.getDistanceTime(coord1[0], coord1[1], coord2[0], coord2[1]).subscribe(distanceTime => {
         this.distance = distanceTime.total_distance/1000|1;
         this.time = distanceTime.total_time;
       })
-    }
-    catch{}
   }
 
+  /**
+   * Validator : vérifie que l'adresse de départ et d'arrivée sont différentes
+   */
   validatorDAAddress(control: AbstractControl): ValidationErrors | null {
     if (control.get("departureAddress")?.pristine || control.get("arrivalAddress")?.pristine || control.get("departureAddress")?.value === "" || control.get("arrivalAddress")?.value === "") {
       return null
@@ -92,6 +111,9 @@ export class OfferFormComponent implements OnInit {
     return null
   }
 
+  /**
+   * Validator : vérifie que la date saisie est posterieure à la date en cour
+   */
   validatorDate(control: AbstractControl): ValidationErrors | null {
     if (control.get("date")?.pristine || control.get("hour")?.pristine || control.get("minutes")?.pristine) {
       return null
@@ -104,7 +126,9 @@ export class OfferFormComponent implements OnInit {
     return null
   }
 
-
+  /**
+   *  Validator : vérifie que l'adresse de départ saisie est connue de L'API api-adresse.data.gouv.fr/search/
+   */
   validatorDepartureAddress(control: FormControl): ValidationErrors | null {
     if (control.pristine) {
       return null
@@ -115,7 +139,9 @@ export class OfferFormComponent implements OnInit {
     return null
   }
 
-
+  /**
+   *  Validator : vérifie que l'adresse d'arrivée saisie est connue de L'API api-adresse.data.gouv.fr/search/
+   */
   validatorArrivalAddress(control: FormControl): ValidationErrors | null {
     if (control.pristine) {
       return null
@@ -126,14 +152,24 @@ export class OfferFormComponent implements OnInit {
     return null
   }
 
+
+  /**
+   * ouvre la fenêtre modale
+   */
   open(content: any) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' })
   }
 
+  /**
+   * convertit et fusionne les différents paramètres temporels en un objet TS Date
+   */
   dateTransform(date: NgbDateStruct, hour: number, minutes: number): Date {
     return new Date(date.year, date.month - 1, date.day, hour, minutes, 0);
   }
 
+  /**
+   * Valide le formulaire
+   */
   validate() {
     alert("coucou")
     this.formOffer.reset()
@@ -142,13 +178,20 @@ export class OfferFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  /**
+   * Vérifie que le validator Required est bien respecté pour un paramètre donné
+   */
   checkRequired(param: String) {
     return this.formOffer.controls[param.toString()].dirty && this.formOffer.controls[param.toString()].hasError('required')
   }
 
+  /**
+   * Vérifie que le validator Pattern du paramètre licensePlate est bien respecté
+   */
   checkLicense() {
     return this.formOffer.controls['licensePlate'].hasError('pattern') && this.formOffer.get('licensePlate')?.value != ""
   }
+
 
   checkDateTime() {
     const dateBool = this.formOffer.controls['date'].hasError('required') && this.formOffer.controls['date'].touched
