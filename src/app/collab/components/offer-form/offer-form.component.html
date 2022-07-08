@@ -11,7 +11,7 @@
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
-            <small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address')">
+            <small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address') && !checkRequired('departureAddress')">
               L'adresse de départ est une adresse inconnue
             </small>
           </div>
@@ -24,7 +24,7 @@
             <small class="text-danger" *ngIf="checkRequired('arrivalAddress')">
               L'addresse d'arrivée est obligatoire
             </small>
-            <small class="text-danger" *ngIf="formOffer.hasError('daaddress')">
+            <small class="text-danger" *ngIf="formOffer.hasError('daaddress') && !checkRequired('arrivalAddress')">
               Les addresse de départ et d'arrivée doivent être différentes
             </small>
             <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address')">
