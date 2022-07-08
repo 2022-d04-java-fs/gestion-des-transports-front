@@ -1,0 +1,93 @@
+<div class="container-fluid">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+        <!-- Logo and name -->
+        <div class="logo_name">
+          <img src="./assets/images/GDT_Logo.png" class="logo img-fluid" alt="Logo GDT">
+          <h1>GDT</h1>
+          <h2>Gestion Des Transports</h2>
+        </div>
+
+        <div class="d-flex align-items-center">
+
+          <form method="post" [formGroup]="formDataAuth" (ngSubmit)="checkAuth(formDataAuth.value)">
+
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+              <input type="email" id="emailInput" class="form-control form-control-lg" formControlName="email" />
+              <label class="form-label" for="emailInput">Email</label>
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-4">
+              <input type="password" id="passwordInput" class="form-control form-control-lg"
+                formControlName="password" />
+              <label class="form-label" for="passwordInput">Mot de passe</label>
+            </div>
+
+            <!-- Connexion button-->
+            <small *ngIf="authError" class="text-danger">Vos informations d'authentification sont invalides</small>
+            <div>
+              <button class="btn btn-outline-dark btn-block" type="submit">Se Connecter</button>
+            </div>
+
+          </form>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Fenêtre modal pour cas Chauffeur -->
+<ng-template #contentDriver let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Choisissez votre profil</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-sm-6">
+          <img src="./assets/images/collab.png" alt="logo collaborateur" (click)="goToCollab()">
+          <p>Collaborateur</p>
+        </div>
+        <div class="col-sm-6">
+          <img src="./assets/images/chauffeur.png" alt="logo chauffeur" (click)="goToDriver()">
+          <p>Chauffeur</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
+  </div>
+</ng-template>
+
+<!-- Fenêtre modal pour cas Admin -->
+<ng-template #contentAdmin let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Choisissez votre profil</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-sm-4">
+          <img src="./assets/images/collab.png" alt="logo collaborateur" (click)="goToCollab()">
+          <p>Collaborateur</p>
+        </div>
+        <div class="col-sm-4">
+          <img src="./assets/images/chauffeur.png" alt="logo chauffeur" (click)="goToDriver()">
+          <p>Chauffeur</p>
+        </div>
+        <div class="col-sm-4">
+          <img src="./assets/images/admin.png" alt="logo admin" (click)="goToAdmin()">
+          <p>Administrateur</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
+  </div>
+</ng-template>
