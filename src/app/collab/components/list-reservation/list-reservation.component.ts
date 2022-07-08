@@ -1,9 +1,8 @@
 import { RefreshService } from './../../../providers/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
-import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 
@@ -23,14 +22,12 @@ export class ListReservationComponent implements OnInit {
   public isCollapsed = false;
   public isModal = true;
 
-  //Données test, à changer après l'installation du back
-
   public reservationList: Reservation[] = []
 
   public historyList: Reservation[] = []
 
   EventSub!: Subscription;
-  private currentDate: string = "2017-06-22T13:30";
+  private currentDate: number = Date.now(); //Sert à tester "2017-06-22T13:30"
   page = 1;
   pageSize = 3;
 
@@ -54,18 +51,23 @@ export class ListReservationComponent implements OnInit {
    * Cette fonction permettra d'initialiser les éléments de la fenêtre modale avant de l'ouvrir
    */
   open(content: object, objet: Reservation): void {
-    this.modalTable[0] = objet.depart;
-    this.modalTable[1] = objet.destination;
-    this.modalTable[2] = objet.date;
-    this.modalTable[3] = objet.vehicule;
-    this.modalTable[4] = objet.chauffeur;
+    //console.log(objet);
+    this.modalTable[0] = objet.departureAddress;
+    this.modalTable[1] = objet.arrivalAddress;
+    this.modalTable[2] = objet.dateHeure;
+    this.modalTable[3] = objet.vehicle.brand + " " + objet.vehicle.model;
+    this.modalTable[4] = objet.driver.lastname + " " + objet.driver.firstname;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
 
   selectPage(page: string) {
     this.page = parseInt(page, 10) || 1;
   }
-
+  /**
+   *
+   * @param input l'élément HTML à modifier
+   * La fonction formatte la valeur entrée en nombre
+   */
   formatInput(input: HTMLInputElement) {
     input.value = input.value.replace(FILTER_PAG_REGEX, '');
   }
@@ -73,27 +75,29 @@ export class ListReservationComponent implements OnInit {
   /**
    * @param liste la liste à compléter
    * @param URL le lien où récupérer les tableaux
-   *
+   *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
   */
   fillTab(URL: string): void {
-    this.client.get<Reservation[]>(URL).subscribe({
-      next: (reservations: Reservation[]) => {
-        this.historyList = reservations
-        this.findReservations(this.currentDate);
-      }
+    this.client.get<Reservation[]>(URL).subscribe(reservations => {
+      this.historyList = reservations
+      this.findReservations(this.currentDate);
+      console.log(this.historyList)
     })
   }
+
   refresh() {
-    this.fillTab("assets/reservation.json") //insérer l'URL ici
+    this.fillTab("http://localhost:8080/api/carpools?user_id=2") //insérer l'URL ici
+    //Ici, l'url devra prendre l'ID de connexion de l'utilisateur
   }
   /**
    * @param dateString la date d'aujourd'hui au format string
    * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
   */
-  findReservations(dateString: string) {
-    let date: number = new Date(dateString).getTime()
+  findReservations(date: number) {
+    //let date: number = new Date(dateString).getTime()
     this.historyList.forEach(reservation => {
-      if (new Date(reservation.date).getTime() >= date) {
+      console.log(new Date(reservation.dateHeure).getTime() + ">="+ date + "?")
+      if (new Date(reservation.dateHeure).getTime() >= date) {
         this.reservationList.push(reservation)
       }
     });

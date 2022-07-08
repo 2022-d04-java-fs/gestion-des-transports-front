@@ -19,9 +19,9 @@
       </thead>
       <tbody>
         <tr *ngFor="let reservation of reservationList; let index = index">
-          <th class="col-3">{{reservation.date | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-3">{{reservation.depart}}</th>
-          <th class="col-3">{{reservation.destination}}</th>
+          <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+          <th class="col-3">{{reservation.departureAddress}}</th>
+          <th class="col-3">{{reservation.arrivalAddress}}</th>
           <th class="col-3">
             <button class="btn btn-outline-secondary" (click)="open(content, reservation)"
               data-target="#exampleModal">Détails</button>
@@ -43,9 +43,9 @@
       <tbody>
         <tr
           *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-          <th class="col-3">{{history.date |  date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-3">{{history.depart}}</th>
-          <th class="col-3">{{history.destination}}</th>
+          <th class="col-3">{{history.dateHeure |  date:'dd/MM/yyyy HH:mm'}}</th>
+          <th class="col-3">{{history.departureAddress}}</th>
+          <th class="col-3">{{history.arrivalAddress}}</th>
           <th class="col-3">
             <button class="btn btn-outline-secondary" (click)="open(content, history)"
               data-target="#exampleModal">Détails</button>
