@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { OfferFormComponent } from '../collab/components/offer-form/offer-form.component';
 import { DateInputPipe } from '../collab/pipes/date-input.pipe';
 import { DurationPipe } from '../collab/pipes/duration.pipe';
+import { DistancePipe } from './pipes/distance.pipe';
 
 
 
@@ -12,7 +13,8 @@ import { DurationPipe } from '../collab/pipes/duration.pipe';
   declarations: [
     OfferFormComponent,
     DateInputPipe,
-    DurationPipe
+    DurationPipe,
+    DistancePipe
   ],
   imports: [
     CommonModule,

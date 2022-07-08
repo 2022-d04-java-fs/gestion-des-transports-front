@@ -1,11 +1,11 @@
+import { PrivateVehicle } from './private-vehicle';
 export interface Carpool {
+  creatorId:number;
   departureAddress: String;
   arrivalAddress: String;
-  date:Date;
   distance:number;
   duration:number;
+  vehicle: PrivateVehicle
   availableSeats:number;
-  licensePlate:String;
-  brand:String;
-  model:String;
+  date:String;
 }

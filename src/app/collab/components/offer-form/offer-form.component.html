@@ -7,7 +7,7 @@
         <div class="form-group row" style="margin:0.5em">
           <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keypress)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
+            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
@@ -20,7 +20,7 @@
         <div class="form-group row" style="margin:0.5em">
           <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control" (keypress)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
+            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control" (keydown)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
             <small class="text-danger" *ngIf="checkRequired('arrivalAddress')">
               L'addresse d'arrivée est obligatoire
             </small>
@@ -39,7 +39,7 @@
         </div>
         <div class="row" style="margin:0.5em">
           <label class="col-sm-2 text-end" for="">Distance</label>
-          <div class="col-sm-6">{{distance}} km</div>
+          <div class="col-sm-6">{{distance | distance}} km</div>
         </div>
       </div>
     </div>
@@ -95,8 +95,8 @@
       <div class="card-header">Date et horaire</div>
       <div class="form-group row" style="margin:0.5em">
         <label class="col-sm-2 col-form-label text-end">Date/Heure*</label>
-        <div class="col-sm-1">
-          <input type="text" formControlName="date" id="dateInput" ngbDatepicker #d="ngbDatepicker"
+        <div class="col-sm-2">
+          <input type="text" class="form-control" formControlName="date" id="dateInput" ngbDatepicker #d="ngbDatepicker"
             (click)="d.toggle()" />
         </div>
         <div class="col-sm-1">

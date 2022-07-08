@@ -1,4 +1,7 @@
-import { DistanceTime } from './../../../models/address-models/distance-time';
+
+import { CarpoolService } from './../../../services/carpool.service';
+import { PrivateVehicle } from './../../../models/private-vehicle';
+import { Carpool } from './../../../models/carpool';
 import { Features } from './../../../models/address-models/features';
 import { AddressService } from './../../../services/address.service';
 import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -19,8 +22,9 @@ export class OfferFormComponent implements OnInit {
   arrivalAddressList: Features[] = []
   distance = 0
   time = 0
+  date!:Date
 
-  constructor(private fb: FormBuilder, private modalService: NgbModal, private addressServ: AddressService) {
+  constructor(private fb: FormBuilder, private modalService: NgbModal, private addressServ: AddressService, private carpoolServ : CarpoolService) {
     this.formOffer = fb.group({
       departureAddress: ['', [Validators.required, this.validatorDepartureAddress.bind(this)]],
       arrivalAddress: ['', [Validators.required, this.validatorArrivalAddress.bind(this)]],
@@ -85,15 +89,14 @@ export class OfferFormComponent implements OnInit {
    * Calucl de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
    */
   estimateDistanceTime() {
-    console.log(this.arrivalAddressList)
-    console.log(this.departureAddressList)
-
-      let coord1 = this.departureAddressList.filter(e => e.properties.label === this.formOffer.get('departureAddress')?.value).map(e => e.geometry.coordinates)[0]
-      let coord2 = this.arrivalAddressList.filter(e => e.properties.label === this.formOffer.get('arrivalAddress')?.value).map(e => e.geometry.coordinates)[0]
+    let coord1 = this.departureAddressList.filter(e => e.properties.label === this.formOffer.get('departureAddress')?.value).map(e => e.geometry.coordinates)[0]
+    let coord2 = this.arrivalAddressList.filter(e => e.properties.label === this.formOffer.get('arrivalAddress')?.value).map(e => e.geometry.coordinates)[0]
+    if(coord1 != undefined && coord2 != undefined){
       this.addressServ.getDistanceTime(coord1[0], coord1[1], coord2[0], coord2[1]).subscribe(distanceTime => {
-        this.distance = distanceTime.total_distance/1000|1;
+        this.distance = distanceTime.total_distance;
         this.time = distanceTime.total_time;
       })
+    }
   }
 
   /**
@@ -164,14 +167,33 @@ export class OfferFormComponent implements OnInit {
    * convertit et fusionne les différents paramètres temporels en un objet TS Date
    */
   dateTransform(date: NgbDateStruct, hour: number, minutes: number): Date {
-    return new Date(date.year, date.month - 1, date.day, hour, minutes, 0);
+    this.date = new Date(date.year, date.month - 1, date.day, hour, minutes, 0);
+    return this.date
   }
 
   /**
    * Valide le formulaire
    */
   validate() {
-    alert("coucou")
+    let privateVehicle:PrivateVehicle = {
+      licensePlate:this.formOffer.get('licensePlate')?.value,
+      brand:this.formOffer.get('brand')?.value,
+      model:this.formOffer.get('model')?.value
+    }
+    let carpool:Carpool = {
+      creatorId:1, //Default user (PLACEHOLDER)
+      departureAddress: this.formOffer.get('departureAddress')?.value,
+      arrivalAddress: this.formOffer.get('arrivalAddress')?.value,
+      distance: this.distance,
+      duration: this.time,
+      vehicle : privateVehicle,
+      availableSeats: this.formOffer.get('availableSeats')?.value,
+      date: this.formatDate(this.date)
+    }
+
+    console.log(privateVehicle)
+    console.log(carpool)
+    this.carpoolServ.addCarpool(carpool).subscribe()
     this.formOffer.reset()
   }
 
@@ -198,6 +220,22 @@ export class OfferFormComponent implements OnInit {
     const hourBool = this.formOffer.controls['hour'].hasError('required') && this.formOffer.controls['date'].touched
     const minuteBool = this.formOffer.controls['minutes'].hasError('required') && this.formOffer.controls['date'].touched
     return dateBool || hourBool || minuteBool
+  }
+
+  formatDate(date: Date) {
+    return (
+      [
+        date.getFullYear(),
+        (date.getMonth() + 1).toString().padStart(2, '0'),
+        (date.getDate()).toString().padStart(2, '0'),
+      ].join('-') +
+      ' ' +
+      [
+        (date.getHours()).toString().padStart(2, '0'),
+        (date.getMinutes()).toString().padStart(2, '0'),
+        (date.getSeconds()).toString().padStart(2, '0'),
+      ].join(':')
+    );
   }
 
 }
