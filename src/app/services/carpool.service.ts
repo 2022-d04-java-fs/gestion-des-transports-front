@@ -11,6 +11,7 @@ const URL = 'http://localhost:8080/api';
 export class CarpoolService {
   private departureSubject = new Subject<string>();
   private arrivalSubject = new Subject<string>();
+  private dateSubject = new Subject<string>();
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +23,10 @@ export class CarpoolService {
     return this.arrivalSubject;
   }
 
+  getDateSubject() {
+    return this.dateSubject;
+  }
+
   sendData(subject: Subject<string>, data: string) {
     subject.next(data);
   }
@@ -31,6 +36,15 @@ export class CarpoolService {
   ): Observable<Carpool[]> {
     return this.http.get<Carpool[]>(
       `${URL}/carpools?departureAddress=${departureAddress}`
+    );
+  }
+
+  createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
+    // TODO par défaut user_id = 2 car pas d'authentification
+    // A remplacer avec l'id du user grâce à l'authentification
+    return this.http.post<Carpool>(
+      `${URL}/users/2/carpools/${carpool.carpool_id}`,
+      {}
     );
   }
 }

@@ -30,9 +30,9 @@
         <div class="row">
           <label class="col-sm-5" for="dp">Date de départ</label>
           <div class="input-group w-50">
-            <input class="form-control" placeholder="dd-mm-yyyy" id="dp" name="dp" ngbDatepicker #d="ngbDatepicker"
-              formControlName="dp">
-            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="dp" name="dp" ngbDatepicker #d="ngbDatepicker"
+              formControlName="dp" (blur)="getInputDate()">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle(); d.onFocus()" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" fill="currentColor" class="bi bi-calendar3"
                 viewBox="0 0 16 16">
                 <path

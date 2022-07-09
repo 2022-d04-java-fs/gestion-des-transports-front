@@ -16,6 +16,7 @@ import {
 } from 'rxjs';
 import { Features } from 'src/app/models/address-models/features';
 import { CarpoolService } from 'src/app/services/carpool.service';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-criteria-form',
@@ -44,6 +45,10 @@ export class CriteriaFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Envoi de la valeur de l'input 'departureAddress' au service pour effectuer
+   * une requête : Récupérer tous les carpools correspondants
+   */
   getInputDepartureAddress() {
     this.carpoolService.sendData(
       this.carpoolService.getDepartureSubject(),
@@ -51,6 +56,9 @@ export class CriteriaFormComponent implements OnInit {
     );
   }
 
+  /**
+   * Envoi de la valeur de l'input 'arrivalAddress' au service pour trier les carpools
+   */
   getInputArrivalAddress() {
     const inputArrivalAddress = this.colForm.get('arrivalAddress')?.value;
 
@@ -62,6 +70,31 @@ export class CriteriaFormComponent implements OnInit {
       this.carpoolService.getArrivalSubject(),
       inputArrivalAddress
     );
+  }
+
+  transform(value: NgbDateStruct): string {
+    let day = value.day.toString();
+    let month = value.month.toString();
+    let year = value.year.toString();
+    if (day.length === 1) {
+      day = '0' + day;
+    }
+    if (month.length === 1) {
+      month = '0' + month;
+    }
+    return year + '-' + month + '-' + day;
+  }
+
+  /**
+   * Envoi de la valeur de l'input 'dp' au service pour trier les carpools
+   */
+  getInputDate() {
+    if (!this.colForm.get('dp')?.value) {
+      this.getInputDepartureAddress();
+    } else {
+      let date = this.transform(this.colForm.get('dp')?.value);
+      this.carpoolService.sendData(this.carpoolService.getDateSubject(), date);
+    }
   }
 
   /**

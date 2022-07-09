@@ -9,7 +9,7 @@
         <th scope="col">Destination</th>
         <th scope="col">Véhicule</th>
         <th scope="col">Chauffeur</th>
-        <th scope="col">Places disponible</th>
+        <th scope="col">Places disponibles</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -18,12 +18,12 @@
         <th scope="row ">{{ carpool.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
         <td>{{ carpool.departureAddress }}</td>
         <td>{{ carpool.arrivalAddress }}</td>
-        <td>{{ carpool.vehicle.model }} {{ carpool.vehicle.brand }}</td>
+        <td>{{ carpool.vehicle.brand }} {{ carpool.vehicle.model }}</td>
         <td>{{ carpool.driver.lastname }} {{ carpool.driver.firstname }}</td>
         <td>{{ carpool.availableSeats }}</td>
         <td class="text-center">
-          <button type="button" class="btn btn-outline-dark" (click)="openModal(carpool)"
-            data-target="#exampleModal">Réserver</button>
+          <button type="button" class="btn btn-outline-dark" (click)="openModal(carpool)" data-target="#exampleModal"
+            [disabled]="carpool.availableSeats === 0">Réserver</button>
         </td>
       </tr>
     </tbody>

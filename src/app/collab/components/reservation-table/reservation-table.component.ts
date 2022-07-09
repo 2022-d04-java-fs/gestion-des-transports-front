@@ -25,7 +25,8 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     this.addCarpoolsInArray();
-    this.filterCarpools();
+    this.filterCarpoolsByArrivalAddress();
+    this.filterCarpoolsByDate();
   }
 
   addCarpoolsInArray() {
@@ -40,12 +41,22 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
       });
   }
 
-  filterCarpools() {
+  filterCarpoolsByArrivalAddress() {
     this.carpoolSubscription = this.carpoolService
       .getArrivalSubject()
       .subscribe((res) => {
         this.carpoolsList = this.carpoolsList.filter(
           (carpool) => carpool.arrivalAddress === res
+        );
+      });
+  }
+
+  filterCarpoolsByDate() {
+    this.carpoolSubscription = this.carpoolService
+      .getDateSubject()
+      .subscribe((res) => {
+        this.carpoolsList = this.carpoolsList.filter((carpool) =>
+          carpool.dateHeure.includes(res)
         );
       });
   }
