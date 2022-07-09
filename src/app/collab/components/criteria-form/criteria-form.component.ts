@@ -44,12 +44,24 @@ export class CriteriaFormComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  triggerRefresh() {
-    this.carpoolService.sendData(this.colForm.get('departureAddress')?.value);
+  getInputDepartureAddress() {
+    this.carpoolService.sendData(
+      this.carpoolService.getDepartureSubject(),
+      this.colForm.get('departureAddress')?.value
+    );
   }
 
-  refreshArrivalAddress() {
-    this.carpoolService.sendData(this.colForm.get('arrivalAddress')?.value);
+  getInputArrivalAddress() {
+    const inputArrivalAddress = this.colForm.get('arrivalAddress')?.value;
+
+    if (inputArrivalAddress.length === 0) {
+      this.getInputDepartureAddress();
+    }
+
+    this.carpoolService.sendData(
+      this.carpoolService.getArrivalSubject(),
+      inputArrivalAddress
+    );
   }
 
   /**

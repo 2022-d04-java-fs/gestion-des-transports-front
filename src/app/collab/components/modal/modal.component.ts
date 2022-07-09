@@ -19,15 +19,15 @@ export class ModalComponent implements OnInit {
 
   postData() {
     // TODO : Récupérer l'id du user connecté pour la requête post du back
-    this.createNewReservation();
+    // this.createNewReservation();
     this.activeModal.close();
   }
 
-  createNewReservation() {
-    this.carpoolService
-      .createCarpoolReservation(this.carpool)
-      .subscribe((col) => {
-        console.log(col);
-      });
-  }
+  // createNewReservation() {
+  //   this.carpoolService
+  //     .createCarpoolReservation(this.carpool)
+  //     .subscribe((col) => {
+  //       console.log(col);
+  //     });
+  // }
 }
