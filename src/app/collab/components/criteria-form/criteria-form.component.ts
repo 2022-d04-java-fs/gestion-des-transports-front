@@ -31,11 +31,11 @@ export class CriteriaFormComponent implements OnInit {
   departureAddress: string = '';
 
   constructor(
-    private fb: FormBuilder,
+    private formB: FormBuilder,
     private addressService: AddressService,
     private carpoolService: CarpoolService
   ) {
-    this.colForm = fb.group({
+    this.colForm = this.formB.group({
       departureAddress: ['', [Validators.required]],
       arrivalAddress: ['', []],
       dp: ['', []],
@@ -46,6 +46,10 @@ export class CriteriaFormComponent implements OnInit {
 
   triggerRefresh() {
     this.carpoolService.sendData(this.colForm.get('departureAddress')?.value);
+  }
+
+  refreshArrivalAddress() {
+    this.carpoolService.sendData(this.colForm.get('arrivalAddress')?.value);
   }
 
   /**

@@ -32,9 +32,16 @@ export class ReservationTableComponent implements OnInit {
   }
 
   refreshCarpoolList(departureAddress: string) {
+    console.log('DEPARTURE ADDRESS >> ');
     this.carpoolService
       .getCarpoolsByDepartureAddressList(departureAddress)
       .subscribe((v) => (this.carpoolsList = v));
+  }
+
+  refreshCarpoolListByArrivalAddress(arrivalAddress: string) {
+    this.carpoolService.getObservable().subscribe((arrivalAddress) => {
+      console.log(arrivalAddress);
+    });
   }
 
   openModal(carpool: Carpool) {

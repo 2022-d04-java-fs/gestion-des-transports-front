@@ -9,7 +9,7 @@ const URL = 'http://localhost:8080/api';
   providedIn: 'root',
 })
 export class CarpoolService {
-  carpoolSub = new BehaviorSubject<string>('');
+  private carpoolSub = new BehaviorSubject<string>('');
 
   sendData(data: string) {
     this.carpoolSub.next(data);

@@ -15,7 +15,8 @@
         <div class="row">
           <label class="col-sm-6" for="arrivalAddress">Adresse de destination</label>
           <input type="text" class="form-control w-50" id="arrivalAddress" formControlName="arrivalAddress"
-            (keydown)="refreshArrival()" [ngbTypeahead]="researchArrivalAddress" (blur)="estimateDistanceTime()">
+            (keydown)="refreshArrival()" [ngbTypeahead]="researchArrivalAddress"
+            (blur)="refreshArrivalAddress(); estimateDistanceTime()">
         </div>
       </div>
 
