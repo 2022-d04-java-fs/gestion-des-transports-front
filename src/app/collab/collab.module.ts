@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './components/modal/modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DurationPipe } from './pipes/duration.pipe';
+import { ToastGlobalComponent } from './components/toast-global/toast-global.component';
 
 @NgModule({
   declarations: [
@@ -18,8 +19,14 @@ import { DurationPipe } from './pipes/duration.pipe';
     ReservationTableComponent,
     ModalComponent,
     DurationPipe,
+    ToastGlobalComponent,
   ],
   imports: [CommonModule, RouterModule, NgbModule, ReactiveFormsModule],
-  exports: [CarpoolAccordionComponent, CriteriaFormComponent, BackBtnComponent],
+  exports: [
+    CarpoolAccordionComponent,
+    CriteriaFormComponent,
+    BackBtnComponent,
+    ToastGlobalComponent,
+  ],
 })
 export class CollabModule {}
