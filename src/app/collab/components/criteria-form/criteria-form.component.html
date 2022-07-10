@@ -9,6 +9,10 @@
           <input type="text" class="form-control w-50" id="departureAddress" formControlName="departureAddress"
             (keydown)="refreshDeparture()" [ngbTypeahead]="researchDepartureAddress"
             (blur)="getInputDepartureAddress(); estimateDistanceTime()">
+
+          <small class="text-danger" *ngIf="colForm.controls['departureAddress'].hasError('address')">
+            L'adresse de départ est une adresse inconnue
+          </small>
         </div>
       </div>
       <div class="form-group col-4">
@@ -17,6 +21,9 @@
           <input type="text" class="form-control w-50" id="arrivalAddress" formControlName="arrivalAddress"
             (keydown)="refreshArrival()" [ngbTypeahead]="researchArrivalAddress"
             (blur)="getInputArrivalAddress(); estimateDistanceTime()">
+          <small class="text-danger" *ngIf="colForm.controls['arrivalAddress'].hasError('address')">
+            L'adresse d'arrivée est une adresse inconnue
+          </small>
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import {
   FormGroup,
   ValidationErrors,
   Validators,
+  FormControl,
 } from '@angular/forms';
 import {
   debounceTime,
@@ -37,8 +38,11 @@ export class CriteriaFormComponent implements OnInit {
     private carpoolService: CarpoolService
   ) {
     this.colForm = this.formB.group({
-      departureAddress: ['', [Validators.required]],
-      arrivalAddress: ['', []],
+      departureAddress: [
+        '',
+        [Validators.required, this.validatorDepartureAddress.bind(this)],
+      ],
+      arrivalAddress: ['', [this.validatorArrivalAddress.bind(this)]],
       dp: ['', []],
     });
   }
@@ -143,6 +147,40 @@ export class CriteriaFormComponent implements OnInit {
           this.departureAddressList.push(element);
         });
       });
+  }
+
+  /**
+   *  Validator : vérifie que l'adresse de départ saisie est connue de L'API api-adresse.data.gouv.fr/search/
+   */
+  validatorDepartureAddress(control: FormControl): ValidationErrors | null {
+    if (control.pristine || !control.value) {
+      return null;
+    }
+    if (
+      !this.departureAddressList
+        .map((e) => e.properties.label)
+        .includes(control.value)
+    ) {
+      return { address: 'addresse inconnue' };
+    }
+    return null;
+  }
+
+  /**
+   *  Validator : vérifie que l'adresse d'arrivée saisie est connue de L'API api-adresse.data.gouv.fr/search/
+   */
+  validatorArrivalAddress(control: FormControl): ValidationErrors | null {
+    if (control.pristine || !control.value) {
+      return null;
+    }
+    if (
+      !this.arrivalAddressList
+        .map((e) => e.properties.label)
+        .includes(control.value)
+    ) {
+      return { address: 'addresse inconnue' };
+    }
+    return null;
   }
 
   /**
