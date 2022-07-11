@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CollabPage } from './collab.page';
+import { CarpoolReservationPages } from './carpool-reservation.pages';
 
-describe('CollabPage', () => {
-  let component: CollabPage;
-  let fixture: ComponentFixture<CollabPage>;
+describe('CarpoolReservationPages', () => {
+  let component: CarpoolReservationPages;
+  let fixture: ComponentFixture<CarpoolReservationPages>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CollabPage ]
+      declarations: [ CarpoolReservationPages ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CollabPage);
+    fixture = TestBed.createComponent(CarpoolReservationPages);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,10 +1,9 @@
-import { CollabModule } from './pages/collab/collab.module';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CollabPage } from './pages/collab/collab.page';
+import { CarpoolReservationPages } from './pages/carpool-reservation/carpool-reservation.pages';
 
 const routes: Routes = [
-  { path: 'collaborateur/reservations', component: CollabPage },
+  { path: 'collaborateur/reservations', component: CarpoolReservationPages },
   { path: 'collaborateur/propositions/creer', redirectTo: 'collaborateur/reservations' },
   { path: '', pathMatch: 'full', redirectTo: 'collaborateur/reservations' }
 ];
