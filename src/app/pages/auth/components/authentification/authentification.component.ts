@@ -5,6 +5,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
+const URL_COLLAB: string = '/collaborateur/reservations'; // URL par défaut une fois connecté en tant que collaborateur
+const URL_CHAUFFEUR: string = '/collaborateur/reservations'; // à modifier
+const URL_ADMIN: string = '/collaborateur/reservations'; // à modifier
+
 @Component({
   selector: 'app-authentification',
   templateUrl: './authentification.component.html',
@@ -49,7 +53,7 @@ export class AuthentificationComponent implements OnInit {
     this.user.password = data.password;
 
         if (this.authSrv.login(this.user) == 1) {
-          this.router.navigateByUrl('/collaborateur')
+          this.router.navigateByUrl(URL_COLLAB)
         } else if (this.authSrv.login(this.user) == 2) {
           this.modalSrv.open(this.driverRef);
         } else if (this.authSrv.login(this.user) == 3) {
@@ -61,17 +65,17 @@ export class AuthentificationComponent implements OnInit {
 
   goToCollab() {
     this.modalSrv.dismissAll();
-    this.router.navigateByUrl('/collaborateur');
+    this.router.navigateByUrl(URL_COLLAB);
   }
 
   goToDriver() {
     this.modalSrv.dismissAll();
-    this.router.navigateByUrl('/collaborateur'); //changer le lien vers la bonne page chauffeur
+    this.router.navigateByUrl(URL_CHAUFFEUR);
   }
 
   goToAdmin() {
     this.modalSrv.dismissAll();
-    this.router.navigateByUrl('/collaborateur'); //changer le lien vers la bonne page admin
+    this.router.navigateByUrl(URL_ADMIN);
   }
 
 

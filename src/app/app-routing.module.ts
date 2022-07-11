@@ -6,7 +6,7 @@ import { AuthPage } from './pages/auth/auth.page';
 const routes: Routes = [
   {path: 'auth', component: AuthPage},
   {path: '', pathMatch: 'full', redirectTo: 'auth'},
-  {path: 'collaborateur', component: CollabPage},
+  {path: 'collaborateur/reservations', component: CollabPage},
 ];
 
 @NgModule({
