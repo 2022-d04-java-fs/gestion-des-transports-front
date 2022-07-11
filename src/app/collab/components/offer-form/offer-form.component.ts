@@ -18,6 +18,9 @@ import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operato
 })
 export class OfferFormComponent implements OnInit {
 
+  minutesList!:number[]
+  hoursList!:number[]
+
   formOffer: FormGroup
   departureAddressList: Features[] = []
   arrivalAddressList: Features[] = []
@@ -26,6 +29,8 @@ export class OfferFormComponent implements OnInit {
   date!:Date
 
   constructor(private fb: FormBuilder, private modalService: NgbModal, private addressServ: AddressService, private carpoolServ : CarpoolService) {
+    this.minutesList = Array(6).fill(1).map((x, i) => x*i*10);
+    this.hoursList = Array(24).fill(1).map((x, i) => x*i);
     this.formOffer = fb.group({
       departureAddress: ['', [Validators.required, this.validatorDepartureAddress.bind(this)]],
       arrivalAddress: ['', [Validators.required, this.validatorArrivalAddress.bind(this)]],
