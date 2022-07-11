@@ -1,4 +1,4 @@
-import { RefreshService } from './../../../providers/refresh.service';
+import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -51,7 +51,6 @@ export class ListReservationComponent implements OnInit {
    * Cette fonction permettra d'initialiser les éléments de la fenêtre modale avant de l'ouvrir
    */
   open(content: object, objet: Reservation): void {
-    //console.log(objet);
     this.modalTable[0] = objet.departureAddress;
     this.modalTable[1] = objet.arrivalAddress;
     this.modalTable[2] = objet.dateHeure;
@@ -59,7 +58,12 @@ export class ListReservationComponent implements OnInit {
     this.modalTable[4] = objet.driver.lastname + " " + objet.driver.firstname;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
-
+  /**
+   *
+   *
+   * @param {string} page
+   * La fonction permet de donner la bonne page à renvoyer
+   */
   selectPage(page: string) {
     this.page = parseInt(page, 10) || 1;
   }
@@ -81,10 +85,11 @@ export class ListReservationComponent implements OnInit {
     this.client.get<Reservation[]>(URL).subscribe(reservations => {
       this.historyList = reservations
       this.findReservations(this.currentDate);
-      console.log(this.historyList)
     })
   }
-
+  /**
+   * La fonction fera une mise à jour des tableaux à chaque appel
+   */
   refresh() {
     this.fillTab("http://localhost:8080/api/carpools?user_id=2") //insérer l'URL ici
     //Ici, l'url devra prendre l'ID de connexion de l'utilisateur
@@ -94,9 +99,7 @@ export class ListReservationComponent implements OnInit {
    * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
   */
   findReservations(date: number) {
-    //let date: number = new Date(dateString).getTime()
     this.historyList.forEach(reservation => {
-      console.log(new Date(reservation.dateHeure).getTime() + ">="+ date + "?")
       if (new Date(reservation.dateHeure).getTime() >= date) {
         this.reservationList.push(reservation)
       }
