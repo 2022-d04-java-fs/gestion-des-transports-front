@@ -18,10 +18,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let offer of offerList; let index = index">
-          <th class="col-2">{{offer.date | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-2">{{offer.depart}}</th>
-          <th class="col-2">{{offer.destination}}</th>
-          <th class="col-4">{{offer.nbVoyageurs}}</th>
+          <th class="col-2">{{offer.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+          <th class="col-2">{{offer.departureAddress}}</th>
+          <th class="col-2">{{offer.arrivalAddress}}</th>
+          <th class="col-4">{{offer.availableSeats}}</th>
           <th>
 
             <button class="btn btn-danger">Annuler</button>
@@ -42,10 +42,10 @@
       </thead>
       <tbody>
         <tr *ngFor="let history of historyList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-          <th class="col-2">{{history.date | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-2">{{history.depart}}</th>
-          <th class="col-2">{{history.destination}}</th>
-          <th class="col-8">{{history.nbVoyageurs}}</th>
+          <th class="col-2">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+          <th class="col-2">{{history.departureAddress}}</th>
+          <th class="col-2">{{history.arrivalAddress}}</th>
+          <th class="col-8">{{history.availableSeats}}</th>
 
         </tr>
       </tbody>

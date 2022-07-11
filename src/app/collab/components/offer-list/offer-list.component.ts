@@ -21,7 +21,7 @@ export class OfferListComponent implements OnInit {
 
    public historyList: Offer[] = []
    EventSub!: Subscription;
-   private currentDate: string = "2017-06-22T13:30";
+   private currentDate: number = Date.now(); //Sert à tester "2017-06-22T13:30"
 
     page = 1;
     pageSize = 3;
@@ -50,10 +50,11 @@ export class OfferListComponent implements OnInit {
     refresh() {
       this.fillTab("assets/offer.json") //insérer l'URL ici
     }
-    findOffer(dateString: string) {
-      let date: number = new Date(dateString).getTime()
+    findOffer(date: number) {
+     // let date: number = new Date(dateString).getTime()
       this.historyList.forEach(offer => {
-        if (new Date(offer.date).getTime() >= date) {
+        console.log(new Date(offer.dateHeure).getTime() + ">="+ date + "?")
+        if (new Date(offer.dateHeure).getTime() >= date) {
           this.offerList.push(offer)
         }
       });

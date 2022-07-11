@@ -1,10 +1,13 @@
 export interface Offer {
-  depart: string;
-  destination: string,
-  date: string,
-  vehicule: string,
-  marque: string,
-  immatriculation: string,
-  modèle:string,
-  nbVoyageurs:number,
+  carpool_id: number,
+  dateHeure: string,
+  departureAddress: string,
+  arrivalAddress: string,
+  vehicle: {
+      model: string,
+      brand: string,
+      licensePlate: string,
+  },
+  availableSeats: number
 }
+
