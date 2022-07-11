@@ -8,7 +8,6 @@
           <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
           <div class="col-sm-6">
             <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
-
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
@@ -28,7 +27,7 @@
             <small class="text-danger" *ngIf="formOffer.hasError('daaddress') && !checkRequired('arrivalAddress')">
               Les addresse de départ et d'arrivée doivent être différentes
             </small>
-            <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address')">
+            <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address') && !checkRequired('departureAddress')">
               L'adresse d'arrivée est une adresse inconnue
             </small>
           </div>
