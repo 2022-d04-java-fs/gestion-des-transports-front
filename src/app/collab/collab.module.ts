@@ -19,8 +19,7 @@ import { DistancePipe } from './pipes/distance.pipe';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    NgbModule,
-
+    NgbModule
   ],
   exports:[
     OfferFormComponent

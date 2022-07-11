@@ -1,3 +1,4 @@
+import { Properties } from './../../../models/address-models/properties';
 
 import { CarpoolService } from './../../../services/carpool.service';
 import { PrivateVehicle } from './../../../models/private-vehicle';
@@ -8,7 +9,7 @@ import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-offer-form',
@@ -29,19 +30,23 @@ export class OfferFormComponent implements OnInit {
       departureAddress: ['', [Validators.required, this.validatorDepartureAddress.bind(this)]],
       arrivalAddress: ['', [Validators.required, this.validatorArrivalAddress.bind(this)]],
       licensePlate: ['', {validators:[Validators.required, Validators.pattern('^[A-Z]{2}[-][0-9]{3}[-][A-Z]{2}$')], updateOn: "blur" }],
-      brand: ['', [Validators.required]],
-      model: ['', [Validators.required]],
-      availableSeats: ['', [Validators.required, Validators.min(1), Validators.max(20)]],
-      date: ['', [Validators.required]],
-      hour: [null, [Validators.required]],
-      minutes: [null, [Validators.required]]
+      brand: ['', {validators : [Validators.required], updateOn: "blur"}],
+      model: ['', {validators : [Validators.required], updateOn: "blur"}],
+      availableSeats: ['', {validators : [Validators.required, Validators.min(1), Validators.max(20)], updateOn: "blur"}],
+      date: ['', {validators : [Validators.required], updateOn: "blur"}],
+      hour: [null, {validators : [Validators.required], updateOn: "blur"}],
+      minutes: [null, {validators : [Validators.required], updateOn: "blur"}]
     }, { validators: [this.validatorDAAddress, this.validatorDate.bind(this)]})
   }
+
+
+
+
 
   /**
    * fonction d'autocomplétion pour l'adresse de départ
    */
-  researchDepartureAddress: OperatorFunction<string, readonly string[]> = (text$: Observable<String>) => {
+  researchDepartureAddress: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) => {
     return text$.pipe(
       debounceTime(100),
       distinctUntilChanged(),
@@ -84,6 +89,7 @@ export class OfferFormComponent implements OnInit {
         this.arrivalAddressList.push(element)
       })});
   }
+
 
   /**
    * Calucl de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
