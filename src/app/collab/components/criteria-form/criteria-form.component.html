@@ -1,0 +1,60 @@
+<div class="container">
+  <h2 class="fs-4">Critères</h2>
+  <form class="p-2" [formGroup]="colForm">
+
+    <div class="row">
+      <div class="form-group col-4">
+        <div class="row">
+          <label class="col-sm-5" for="departureAddress">Adresse de départ <span style="color: red;">*</span></label>
+          <input type="text" class="form-control w-50" id="departureAddress" formControlName="departureAddress"
+            (keydown)="refreshDeparture()" [ngbTypeahead]="researchDepartureAddress"
+            (blur)="getInputDepartureAddress(); estimateDistanceTime()">
+
+          <small class="text-danger" *ngIf="colForm.controls['departureAddress'].hasError('address')">
+            L'adresse de départ est une adresse inconnue
+          </small>
+        </div>
+      </div>
+      <div class="form-group col-4">
+        <div class="row">
+          <label class="col-sm-6" for="arrivalAddress">Adresse de destination</label>
+          <input type="text" class="form-control w-50" id="arrivalAddress" formControlName="arrivalAddress"
+            (keydown)="refreshArrival()" [ngbTypeahead]="researchArrivalAddress"
+            (blur)="getInputArrivalAddress(); estimateDistanceTime()">
+          <small class="text-danger" *ngIf="colForm.controls['arrivalAddress'].hasError('address')">
+            L'adresse d'arrivée est une adresse inconnue
+          </small>
+        </div>
+      </div>
+
+      <div class="form-group col-4 text-end">
+        <p class="m-0">Durée du trajet: <span>{{ time | duration }}</span></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group mt-3 col-4">
+        <div class="row">
+          <label class="col-sm-5" for="dp">Date de départ</label>
+          <div class="input-group w-50">
+            <input class="form-control" placeholder="yyyy-mm-dd" id="dp" name="dp" ngbDatepicker #d="ngbDatepicker"
+              formControlName="dp" (blur)="getInputDate()">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle(); d.onFocus()" type="button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" fill="currentColor" class="bi bi-calendar3"
+                viewBox="0 0 16 16">
+                <path
+                  d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                <path
+                  d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-4"></div>
+      <div class="form-group col-4 text-end">
+        <p class="m-0">Distance: <span>{{ distance }} km</span></p>
+      </div>
+    </div>
+  </form>
+</div>

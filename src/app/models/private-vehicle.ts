@@ -1,5 +1,5 @@
 export interface PrivateVehicle {
-  licensePlate:String;
-  brand:String;
-  model:String;
+  licensePlate: String;
+  brand: String;
+  model: String;
 }

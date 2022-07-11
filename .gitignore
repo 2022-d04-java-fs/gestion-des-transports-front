@@ -43,3 +43,4 @@ Thumbs.db
 
 #Test JSON
 /src/app/resources
+package-lock.json
