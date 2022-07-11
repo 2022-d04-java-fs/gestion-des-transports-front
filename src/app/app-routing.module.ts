@@ -2,19 +2,18 @@ import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CarReservationPage } from './pages/car-reservation/car-reservation.page';
+import { OfferPage } from './pages/offer/offer.page';
+import { CarpoolReservationPages } from './pages/carpool-reservation/carpool-reservation.pages';
 
 const routes: Routes = [
   { path: 'collaborateur/reservations/creer', component: CarReservationPage },
   {
-    path: 'collaborateur/reservations/',
-    pathMatch: 'full',
-    redirectTo: 'collaborateur/reservations/creer',
-  },
-  {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'collaborateur/reservations/creer',
+    redirectTo: 'collaborateur/reservations',
   },
+  { path: 'collaborateur/reservations', component: CarpoolReservationPages },
+  { path: 'collaborateur/annonces/creer', component: OfferPage },
 ];
 
 @NgModule({

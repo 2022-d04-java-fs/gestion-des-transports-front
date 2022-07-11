@@ -1,3 +1,5 @@
+import { PrivateVehicle } from './private-vehicle';
+
 export interface Carpool {
   carpool_id: number;
   dateHeure: string;
@@ -13,4 +15,15 @@ export interface Carpool {
     firstname: string;
   };
   availableSeats: number;
+}
+
+export interface AddCarpool {
+  creatorId: number;
+  departureAddress: String;
+  arrivalAddress: String;
+  distance: number;
+  duration: number;
+  vehicle: PrivateVehicle;
+  availableSeats: number;
+  date: String;
 }

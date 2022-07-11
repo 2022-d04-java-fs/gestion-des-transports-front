@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { Carpool } from '../models/carpool';
+
+import { AddCarpool, Carpool } from '../models/carpool';
 
 const URL = 'http://localhost:8080/api';
 
@@ -46,5 +47,9 @@ export class CarpoolService {
       `${URL}/users/2/carpools/${carpool.carpool_id}`,
       {}
     );
+  }
+
+  addCarpool(carpool: AddCarpool) {
+    return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
 }
