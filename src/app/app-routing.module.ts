@@ -1,3 +1,4 @@
+import { OfferPage } from './pages/offer/offer.page';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CarpoolReservationPages } from './pages/carpool-reservation/carpool-reservation.pages';
@@ -5,7 +6,7 @@ import { CarpoolReservationPages } from './pages/carpool-reservation/carpool-res
 const routes: Routes = [
   { path: 'collaborateur/reservations', component: CarpoolReservationPages },
   { path: 'collaborateur/propositions/creer', redirectTo: 'collaborateur/reservations' },
-  { path: '', pathMatch: 'full', redirectTo: 'collaborateur/reservations' }
+  { path: 'collaborateur/annonces/creer', component: OfferPage }
 ];
 
 @NgModule({
