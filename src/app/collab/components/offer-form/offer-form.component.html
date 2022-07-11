@@ -7,11 +7,13 @@
         <div class="form-group row" style="margin:0.5em">
           <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control" (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
+            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control"
+              (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
             <small class="text-danger" *ngIf="checkRequired('departureAddress')">
               L'addresse de départ est obligatoire
             </small>
-            <small class="text-danger" *ngIf="formOffer.controls['departureAddress'].hasError('address') && !checkRequired('departureAddress')">
+            <small class="text-danger"
+              *ngIf="formOffer.controls['departureAddress'].hasError('address') && !checkRequired('departureAddress')">
               L'adresse de départ est une adresse inconnue
             </small>
           </div>
@@ -20,14 +22,16 @@
         <div class="form-group row" style="margin:0.5em">
           <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination*</label>
           <div class="col-sm-6">
-            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control" (keydown)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
+            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control"
+              (keydown)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
             <small class="text-danger" *ngIf="checkRequired('arrivalAddress')">
               L'addresse d'arrivée est obligatoire
             </small>
             <small class="text-danger" *ngIf="formOffer.hasError('daaddress') && !checkRequired('arrivalAddress')">
               Les addresse de départ et d'arrivée doivent être différentes
             </small>
-            <small class="text-danger" *ngIf="formOffer.controls['arrivalAddress'].hasError('address') && !checkRequired('departureAddress')">
+            <small class="text-danger"
+              *ngIf="formOffer.controls['arrivalAddress'].hasError('address') && !checkRequired('departureAddress')">
               L'adresse d'arrivée est une adresse inconnue
             </small>
           </div>
@@ -83,7 +87,8 @@
           <label for="seatsInput" class="col-sm-2 col-form-label text-end">Nombre de places disponibles*</label>
           <div class="col-sm-6">
             <input type="number" formControlName="availableSeats" id="seatsInput" class="form-control">
-            <small class="text-danger" *ngIf="formOffer.controls['availableSeats'].hasError('max') || formOffer.controls['availableSeats'].hasError('min')">
+            <small class="text-danger"
+              *ngIf="formOffer.controls['availableSeats'].hasError('max') || formOffer.controls['availableSeats'].hasError('min')">
               Le nombre de places doit être compris entre 1 et 20
             </small>
           </div>
