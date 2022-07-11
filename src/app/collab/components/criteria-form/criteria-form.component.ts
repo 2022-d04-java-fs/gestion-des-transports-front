@@ -153,10 +153,13 @@ export class CriteriaFormComponent implements OnInit {
    *  Validator : vérifie que l'adresse de départ saisie est connue de L'API api-adresse.data.gouv.fr/search/
    */
   validatorDepartureAddress(control: FormControl): ValidationErrors | null {
-    if (control.pristine || !control.value) {
-      return null;
-    }
     if (
+      control.pristine ||
+      !control.value ||
+      this.departureAddressList.length === 0
+    ) {
+      return null;
+    } else if (
       !this.departureAddressList
         .map((e) => e.properties.label)
         .includes(control.value)
@@ -170,7 +173,11 @@ export class CriteriaFormComponent implements OnInit {
    *  Validator : vérifie que l'adresse d'arrivée saisie est connue de L'API api-adresse.data.gouv.fr/search/
    */
   validatorArrivalAddress(control: FormControl): ValidationErrors | null {
-    if (control.pristine || !control.value) {
+    if (
+      control.pristine ||
+      !control.value ||
+      this.departureAddressList.length === 0
+    ) {
       return null;
     }
     if (

@@ -37,6 +37,8 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
           this.carpoolService
             .getCarpoolsByDepartureAddressList(res)
             .subscribe((carpools) => (this.carpoolsList = carpools));
+        } else {
+          this.carpoolsList = [];
         }
       });
   }
