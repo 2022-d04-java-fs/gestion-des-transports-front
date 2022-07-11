@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
     MyOfferListPage,
   ],
   imports: [
-  CommonModule,
- CollabModule,
+    CommonModule,
+    CollabModule,
   ],
   exports: [
     MyOfferListPage

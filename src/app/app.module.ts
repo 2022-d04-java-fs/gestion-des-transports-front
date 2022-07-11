@@ -16,11 +16,8 @@ import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
 
 @NgModule({
   declarations: [
-  AppComponent,
-   MenuComponent,
-
-
-
+    AppComponent,
+    MenuComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,11 +25,11 @@ import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
     NgbModule,
     HttpClientModule,
     MyOfferListModule
-
   ],
   providers: [
-
+    
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

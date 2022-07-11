@@ -1,12 +1,12 @@
-<header></header>
-<h2 >Vos Annonces</h2>
+<h2>Vos Annonces</h2>
 
-<a class="btn btn-outline-secondary offset-10"  href="/collaborateur/annonces/creer" role="button"> Créer une nouvelle annonce</a>
-
-<div class="card-header m-2"  >
-  <h4>Annonces en cours</h4>
-</div>
-<div class="card-body">
+<a class="btn btn-outline-secondary offset-10" href="/collaborateur/annonces/creer" role="button"> Créer une nouvelle
+  annonce</a>
+<div class="card">
+  <div class="card-header m-2">
+    <h3>Annonces en cours</h3>
+  </div>
+  <div class="card-body">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -29,45 +29,48 @@
         </tr>
       </tbody>
     </table>
-    <h4>Historique</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Date/Heure</th>
-          <th scope="col">Départ</th>
-          <th scope="col">Destination</th>
-          <th scope="col">Nombre de voyageurs</th>
+  </div>
+  <div class="card">
+    <div class="card-header m-2">
+      <h3>Historique</h3>
+      <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Date/Heure</th>
+              <th scope="col">Départ</th>
+              <th scope="col">Destination</th>
+              <th scope="col">Nombre de voyageurs</th>
 
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let history of historyList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-          <th class="col-2">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-2">{{history.departureAddress}}</th>
-          <th class="col-2">{{history.arrivalAddress}}</th>
-          <th class="col-8">{{history.availableSeats}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let history of historyList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
+              <th class="col-2">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+              <th class="col-2">{{history.departureAddress}}</th>
+              <th class="col-2">{{history.arrivalAddress}}</th>
+              <th class="col-8">{{history.availableSeats}}</th>
 
-        </tr>
-      </tbody>
-    </table>
-    <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length" >
-      <ng-template ngbPaginationPages let-page let-pages="pages">
-        <li class="ngb-custom-pages-item" *ngIf="pages.length > 0" class="offset-10">
-          <div class="mb-3 d-flex flex-nowrap px-2">
-            <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
-            <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
-              id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
-              (input)="formatInput($any($event).target)" aria-labelledby="paginationInputLabel paginationDescription"
-              style="width: 2.5rem" />
-            <span id="paginationDescription" class="col-form-label text-nowrap px-2">
-              of {{pages.length}}</span>
-          </div>
-        </li>
-      </ng-template>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
+          <ng-template ngbPaginationPages let-page let-pages="pages">
+            <li class="ngb-custom-pages-item" *ngIf="pages.length > 0" class="offset-10">
+              <div class="mb-3 d-flex flex-nowrap px-2">
+                <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                  id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                  (input)="formatInput($any($event).target)"
+                  aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                  of {{pages.length}}</span>
+              </div>
+            </li>
+          </ng-template>
 
-    </ngb-pagination>
-
-
-
-
-</div>
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
