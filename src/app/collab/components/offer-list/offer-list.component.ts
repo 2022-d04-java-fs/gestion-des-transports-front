@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
-import { RefreshService } from './../../../providers/refresh.service';
+import { RefreshService } from '../../../service/refresh.service';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 @Component({

@@ -1,4 +1,4 @@
-import { Refresh } from './../models/refresh';
+import { Refresh } from '../models/refresh';
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
