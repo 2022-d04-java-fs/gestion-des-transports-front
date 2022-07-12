@@ -1,3 +1,5 @@
+import { Carpool } from 'src/app/models/carpool';
+import { CarpoolService } from 'src/app/services/carpool.service';
 import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
@@ -19,6 +21,8 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
 })
 export class ListReservationComponent implements OnInit {
 
+  public cancelResa!:Reservation
+
   public isCollapsed = false;
   public isModal = true;
 
@@ -34,7 +38,7 @@ export class ListReservationComponent implements OnInit {
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService) { }
+  constructor(private modalService: NgbModal, private refreshEvent: RefreshService, private carpoolService:CarpoolService) { }
   ngOnInit(): void {
     this.refresh();
     this.EventSub = this.refreshEvent.getRefreshEvent()
@@ -50,7 +54,7 @@ export class ListReservationComponent implements OnInit {
    * @param objet: Reservation
    * Cette fonction permettra d'initialiser les éléments de la fenêtre modale avant de l'ouvrir
    */
-  open(content: object, objet: Reservation): void {
+  openDetails(content: object, objet: Reservation): void {
     this.modalTable[0] = objet.departureAddress;
     this.modalTable[1] = objet.arrivalAddress;
     this.modalTable[2] = objet.dateHeure;
@@ -77,32 +81,30 @@ export class ListReservationComponent implements OnInit {
   }
 
   /**
-   * @param liste la liste à compléter
-   * @param URL le lien où récupérer les tableaux
-   *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
-  */
-  fillTab(URL: string): void {
-    this.client.get<Reservation[]>(URL).subscribe(reservations => {
-      this.historyList = reservations
-      this.findReservations(this.currentDate);
-    })
-  }
-  /**
    * La fonction fera une mise à jour des tableaux à chaque appel
    */
   refresh() {
-    this.fillTab("http://localhost:8080/api/carpools?user_id=2") //insérer l'URL ici
-    //Ici, l'url devra prendre l'ID de connexion de l'utilisateur
+    this.carpoolService.getCarpoolsReservationsByUserId(3).subscribe(reservations => {
+      reservations.forEach(reservation => {
+        if (new Date(reservation.dateHeure).getTime() >= this.currentDate && reservation.status === "OK"){
+          this.reservationList.push(reservation)
+        }
+        else{
+          this.historyList.push(reservation)
+        }
+      })
+      this.reservationList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+      this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+    })
   }
-  /**
-   * @param dateString la date d'aujourd'hui au format string
-   * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
-  */
-  findReservations(date: number) {
-    this.historyList.forEach(reservation => {
-      if (new Date(reservation.dateHeure).getTime() >= date) {
-        this.reservationList.push(reservation)
-      }
-    });
+
+
+  openCancel(content: object, resa: Reservation): void {
+    this.cancelResa = resa;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  cancel():void{
+    this.carpoolService.cancelCarpoolReservation(this.cancelResa.reservation_id).subscribe()
   }
 }

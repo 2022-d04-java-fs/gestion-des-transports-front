@@ -23,9 +23,9 @@
           <th class="col-3">{{reservation.departureAddress}}</th>
           <th class="col-3">{{reservation.arrivalAddress}}</th>
           <th class="col-3">
-            <button class="btn btn-outline-secondary" (click)="open(content, reservation)"
+            <button class="btn btn-outline-secondary" (click)="openDetails(details, reservation)"
               data-target="#exampleModal">Détails</button>
-            <button class="btn btn-danger">Annuler</button>
+            <button class="btn btn-danger" (click)="openCancel(cancelWindow, reservation)">Annuler</button>
           </th>
         </tr>
       </tbody>
@@ -47,7 +47,7 @@
           <th class="col-3">{{history.departureAddress}}</th>
           <th class="col-3">{{history.arrivalAddress}}</th>
           <th class="col-3">
-            <button class="btn btn-outline-secondary" (click)="open(content, history)"
+            <button class="btn btn-outline-secondary" (click)="openDetails(details, history)"
               data-target="#exampleModal">Détails</button>
           </th>
         </tr>
@@ -73,7 +73,7 @@
   </div>
 </div>
 
-<ng-template #content let-modal>
+<ng-template #details let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Détails du covoiturage</h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
@@ -86,6 +86,21 @@
     <p>Chauffeur: {{modalTable[4]}}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Fermer</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+  </div>
+</ng-template>
+
+
+<ng-template #cancelWindow let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Annulation de la réservation</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>Êtes vous sûr de vouloir annuler cette réservation ?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Annuler</button>
+    <button type="button" class="btn btn-outline-dark" (click)="cancel() ; modal.close()">Confimer</button>
   </div>
 </ng-template>

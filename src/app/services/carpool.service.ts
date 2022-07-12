@@ -1,3 +1,4 @@
+import { Reservation } from 'src/app/models/reservation';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
@@ -44,7 +45,7 @@ export class CarpoolService {
     // TODO par défaut user_id = 2 car pas d'authentification
     // A remplacer avec l'id du user grâce à l'authentification
     return this.http.post<Carpool>(
-      `${URL}/users/2/carpools/${carpool.carpool_id}`,
+      `${URL}/carpools/reservations/2/${carpool.carpool_id}`,
       {}
     );
   }
@@ -52,7 +53,16 @@ export class CarpoolService {
   addCarpool(carpool: AddCarpool) {
     return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
+
   listCarpoolByUser(userID:number){
-    return this.http.get<Offer[]>("http://localhost:8080/api/carpools/reservations/" + userID ) //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+    return this.http.get<Offer[]>("http://localhost:8080/api/carpools/" + userID ) //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+  }
+
+  cancelCarpoolReservation(reservationId:number){
+    return this.http.patch<Reservation>("http://localhost:8080/api/carpools/reservations?reservation_id=" + reservationId, {}) //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/users/{user_id}/reservations/{carpool_id}
+  }
+
+  getCarpoolsReservationsByUserId(userID:number){
+    return this.http.get<Reservation[]>("http://localhost:8080/api/carpools/reservations?user_id=" + userID)
   }
 }
