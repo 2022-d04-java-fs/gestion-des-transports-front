@@ -1,0 +1,10 @@
+<div class="container">
+  <ngb-accordion class="accordion" [closeOthers]="true" activeIds="static-1">
+    <ngb-panel id="static-1" title="Covoiturage">
+      <ng-template ngbPanelContent>
+        <app-criteria-form></app-criteria-form>
+        <app-reservation-table></app-reservation-table>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+</div>
