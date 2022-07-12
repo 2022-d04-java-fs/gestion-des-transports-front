@@ -1,12 +1,12 @@
+import { User, userCredentials } from './../../../../models/user';
 import { Router } from '@angular/router';
-import { User } from './../../../../classes/user';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 const URL_COLLAB: string = '/collaborateur/reservations'; // URL par défaut une fois connecté en tant que collaborateur
-const URL_CHAUFFEUR: string = '/collaborateur/reservations'; // à modifier
+const URL_DRIVER: string = '/collaborateur/reservations'; // à modifier
 const URL_ADMIN: string = '/collaborateur/reservations'; // à modifier
 
 @Component({
@@ -19,6 +19,7 @@ export class AuthentificationComponent implements OnInit {
   formDataAuth: FormGroup;
 
   public user!: User;
+  public userCredentials!: userCredentials;
 
   authError: boolean = false;
 
@@ -36,9 +37,6 @@ export class AuthentificationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user = new User();
-    this.user.email = '';
-    this.user.password = '';
   }
 
   /**
@@ -49,18 +47,18 @@ export class AuthentificationComponent implements OnInit {
    */
   checkAuth(data: any) {
 
-    this.user.email = data.email;
-    this.user.password = data.password;
-
-        if (this.authSrv.login(this.user) == 1) {
+    this.userCredentials.email = data.email;
+    this.userCredentials.password = data.password;
+/*
+        if (this.authSrv.login(this.userCredentials) == 1) {
           this.router.navigateByUrl(URL_COLLAB)
-        } else if (this.authSrv.login(this.user) == 2) {
+        } else if (this.authSrv.login(this.userCredentials) == 2) {
           this.modalSrv.open(this.driverRef);
-        } else if (this.authSrv.login(this.user) == 3) {
+        } else if (this.authSrv.login(this.userCredentials) == 3) {
           this.modalSrv.open(this.adminRef);
         } else {
           this.authError = true;
-        }
+        }*/
   }
 
   goToCollab() {
@@ -70,7 +68,7 @@ export class AuthentificationComponent implements OnInit {
 
   goToDriver() {
     this.modalSrv.dismissAll();
-    this.router.navigateByUrl(URL_CHAUFFEUR);
+    this.router.navigateByUrl(URL_DRIVER);
   }
 
   goToAdmin() {

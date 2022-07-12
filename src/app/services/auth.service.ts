@@ -1,3 +1,4 @@
+import { userCredentials } from './../models/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Role } from '../classes/role';
@@ -15,16 +16,16 @@ const COLLAB: User = {
 const CHAUFFEUR: User = {
   email: 'chauffeur',
   password: 'chauffeur',
-  role: [Role.COLLAB, Role.CHAUFFEUR]
+  role: [Role.COLLAB, Role.DRIVER]
 }
 
 const ADMIN: User = {
   email: 'admin',
   password: 'admin',
-  role: [Role.COLLAB, Role.CHAUFFEUR, Role.ADMIN]
+  role: [Role.COLLAB, Role.DRIVER, Role.ADMIN]
 }
 
-const URL: string = ''
+const URL: string = 'http://localhost:8080/api'
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class AuthService {
    Fonctionne avec des données factices seulement déclarées en amont
    * @param user
    * @returns
-   */
+   *
   login(user:User): number {
     if(user.email===COLLAB.email && user.password===COLLAB.password){
       return COLLAB.role.length
@@ -52,7 +53,7 @@ export class AuthService {
       console.log("error")
       return 0
     }
-  }
+  }*/
 
   /**WIP
    *
@@ -61,7 +62,7 @@ export class AuthService {
    * @param user
    * @returns
    */
-  login2(user:User){
+  login(user:userCredentials){
     return this.http.post<any>(URL, {"email":user.email, "password":user.password})
   }
 
