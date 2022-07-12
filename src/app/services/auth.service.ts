@@ -1,29 +1,8 @@
-import { userCredentials } from './../models/user';
+import { userCredentials, User } from './../models/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Role } from '../classes/role';
-import { User } from '../classes/user';
+import { tap } from 'rxjs';
 
-
-//Data pour test
-// à supprimer quand connexion avec le back
-const COLLAB: User = {
-  email: 'collab',
-  password: 'collab',
-  role: [Role.COLLAB]
-}
-
-const CHAUFFEUR: User = {
-  email: 'chauffeur',
-  password: 'chauffeur',
-  role: [Role.COLLAB, Role.DRIVER]
-}
-
-const ADMIN: User = {
-  email: 'admin',
-  password: 'admin',
-  role: [Role.COLLAB, Role.DRIVER, Role.ADMIN]
-}
 
 const URL: string = 'http://localhost:8080/api'
 
@@ -34,26 +13,7 @@ export class AuthService {
 
   constructor(private http: HttpClient){}
 
-  /**
-   *Fonction de connexion qui retourne la taille du tableau de role
-   qui sert à déterminer où envoyer le user selon son role
-
-   Fonctionne avec des données factices seulement déclarées en amont
-   * @param user
-   * @returns
-   *
-  login(user:User): number {
-    if(user.email===COLLAB.email && user.password===COLLAB.password){
-      return COLLAB.role.length
-    } else if(user.email===CHAUFFEUR.email && user.password===CHAUFFEUR.password){
-      return CHAUFFEUR.role.length
-    } else if(user.email===ADMIN.email && user.password===ADMIN.password){
-      return ADMIN.role.length
-    } else {
-      console.log("error")
-      return 0
-    }
-  }*/
+  userDetails!: User;
 
   /**WIP
    *
@@ -63,7 +23,24 @@ export class AuthService {
    * @returns
    */
   login(user:userCredentials){
-    return this.http.post<any>(URL, {"email":user.email, "password":user.password})
+    console.log(user)
+    return this.http.post<User>(URL+"/auth/", user)
+    .pipe(tap(userBack=>localStorage.setItem("user",JSON.stringify(userBack))))
+
+  }
+
+  getUser(){
+    const user = localStorage.getItem("user");
+    if(user){
+      return JSON.parse(user);
+    }
+  }
+
+  getUserId(){
+    const user = this.getUser();
+    if(user){
+      return user.user_id;
+    }
   }
 
 }

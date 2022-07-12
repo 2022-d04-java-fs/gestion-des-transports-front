@@ -19,7 +19,7 @@ export class AuthentificationComponent implements OnInit {
   formDataAuth: FormGroup;
 
   public user!: User;
-  public userCredentials!: userCredentials;
+  public userCredentials: userCredentials={email:'',password:''};
 
   authError: boolean = false;
 
@@ -45,20 +45,26 @@ export class AuthentificationComponent implements OnInit {
    * Fonctionne qu'avec des données factices pour l'instant
    * @param data
    */
-  checkAuth(data: any) {
+  checkAuth() {
 
-    this.userCredentials.email = data.email;
-    this.userCredentials.password = data.password;
-/*
-        if (this.authSrv.login(this.userCredentials) == 1) {
+    this.userCredentials.email = this.formDataAuth.value.email;
+    this.userCredentials.password = this.formDataAuth.value.password;
+    console.log(this.userCredentials)
+    this.authSrv.login(this.userCredentials).subscribe(user=>
+      {//this.authError = false;
+        this.user=user;
+        if (user.roles.length == 1) {
           this.router.navigateByUrl(URL_COLLAB)
-        } else if (this.authSrv.login(this.userCredentials) == 2) {
+        } else if (user.roles.length == 2) {
           this.modalSrv.open(this.driverRef);
-        } else if (this.authSrv.login(this.userCredentials) == 3) {
+        } else if (user.roles.length == 3) {
           this.modalSrv.open(this.adminRef);
-        } else {
-          this.authError = true;
-        }*/
+        }
+      }, error => {this.authError = true;
+      console.log('test')}
+    )
+
+
   }
 
   goToCollab() {

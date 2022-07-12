@@ -3,7 +3,7 @@ export interface User {
   user_id: number;
   lastname: string;
   firstname: string;
-  role: Role[];
+  roles: Role[];
 }
 
 export interface userCredentials {

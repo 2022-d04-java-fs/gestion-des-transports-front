@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { CarpoolService } from './../../../services/carpool.service';
 import { AddCarpool, Carpool } from './../../../models/carpool';
 import { Features } from './../../../models/address-models/features';
@@ -36,7 +37,8 @@ export class OfferFormComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private addressServ: AddressService,
-    private carpoolServ: CarpoolService
+    private carpoolServ: CarpoolService,
+    private authSrv: AuthService
   ) {
     this.minutesList = Array(6)
       .fill(1)
@@ -283,7 +285,7 @@ export class OfferFormComponent implements OnInit {
       model: this.formOffer.get('model')?.value,
     };
     let carpool: AddCarpool = {
-      creatorId: 1, //Default user (PLACEHOLDER)
+      creatorId: this.authSrv.getUserId(),
       departureAddress: this.formOffer.get('departureAddress')?.value,
       arrivalAddress: this.formOffer.get('arrivalAddress')?.value,
       distance: this.distance,

@@ -1,10 +1,12 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AddCarpool, Carpool } from '../models/carpool';
 import { Offer } from '../models/offer';
+import { Reservation } from '../models/reservation';
 
-const URL = 'https://gestion-des-transports.herokuapp.com/api';
+const URL = 'http://localhost:8080/api';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,7 @@ export class CarpoolService {
   private arrivalSubject = new Subject<string>();
   private dateSubject = new Subject<string>();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authSrv: AuthService) {}
 
   getDepartureSubject() {
     return this.departureSubject;
@@ -41,10 +43,8 @@ export class CarpoolService {
   }
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
-    // TODO par défaut user_id = 2 car pas d'authentification
-    // A remplacer avec l'id du user grâce à l'authentification
     return this.http.post<Carpool>(
-      `${URL}/users/2/carpools/${carpool.carpool_id}`,
+      `${URL}/users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
       {}
     );
   }
@@ -52,7 +52,11 @@ export class CarpoolService {
   addCarpool(carpool: AddCarpool) {
     return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
-  listCarpoolByUser(userID: number) {
-    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + userID); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+  listCarpoolByUser() {
+    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + this.authSrv.getUserId()); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+  }
+
+  listReservationsByUser(){
+    return this.http.get<Reservation[]>("http://localhost:8080/api/users/"+ this.authSrv.getUserId()+"/reservations" )
   }
 }

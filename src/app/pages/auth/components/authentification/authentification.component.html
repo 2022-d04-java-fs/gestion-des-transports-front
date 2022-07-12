@@ -11,7 +11,7 @@
 
         <div class="d-flex align-items-center">
 
-          <form method="post" [formGroup]="formDataAuth" (ngSubmit)="checkAuth(formDataAuth.value)">
+          <form method="post" [formGroup]="formDataAuth" (ngSubmit)="checkAuth()">
 
             <!-- Email input -->
             <div class="form-outline mb-4">
@@ -30,14 +30,6 @@
             <small *ngIf="authError" class="text-danger">Vos informations d'authentification sont invalides</small>
             <div>
               <button class="btn btn-outline-dark btn-block" type="submit">Se Connecter</button>
-            </div>
-
-            <!-- Profils tests pour info, à supprimer -->
-            <div>
-              <h6>Test profil</h6>
-              Email : collab / Mdp : collab <br>
-              Email : chauffeur / Mdp : chauffeur <br>
-              Email : admin / Mdp : admin
             </div>
 
           </form>

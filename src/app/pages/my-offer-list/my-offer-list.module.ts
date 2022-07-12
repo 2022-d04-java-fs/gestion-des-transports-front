@@ -1,4 +1,4 @@
-import { CollabModule } from './../../collab/collab.module';
+import { CollabModule } from 'src/app/collab/collab.module';
 
 import { MyOfferListPage } from './my-offer-list.page';
 import { NgModule } from '@angular/core';
