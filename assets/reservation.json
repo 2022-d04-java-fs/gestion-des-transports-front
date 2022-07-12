@@ -1,0 +1,60 @@
+[
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T12:30",
+    "vehicule": "",
+    "chauffeur": ""
+  },
+  {
+    "carpool_id": 1,
+    "dateHeure": "2022-07-05T13:36:03",
+    "departureAddress": "Tourcoing",
+    "arrivalAddress": "Lille",
+    "vehicle": {
+      "model": "Astra",
+      "brand": "Opel"
+    },
+    "driver": {
+      "lastname": "Test",
+      "firstname": "Test",
+      "id": 1
+    },
+    "availableSeats": 2
+  },
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T14:30",
+    "vehicule": "",
+    "chauffeur": ""
+  },
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T12:30",
+    "vehicule": "",
+    "chauffeur": ""
+  },
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T14:30",
+    "vehicule": "",
+    "chauffeur": ""
+  },
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T12:30",
+    "vehicule": "",
+    "chauffeur": ""
+  },
+  {
+    "depart": "Gare de Nantes",
+    "destination": "Gare de Saint-Nazaire",
+    "date": "2017-06-22T14:30",
+    "vehicule": "",
+    "chauffeur": ""
+  }
+]
