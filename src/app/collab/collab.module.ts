@@ -2,10 +2,8 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-
 import { CarpoolAccordionComponent } from './components/carpool-accordion/carpool-accordion.component';
 import { CriteriaFormComponent } from './components/criteria-form/criteria-form.component';
 import { BackBtnComponent } from './components/back-btn/back-btn.component';
@@ -17,9 +15,11 @@ import { ListReservationComponent } from 'src/app/collab/components/list-reserva
 import { OfferFormComponent } from '../collab/components/offer-form/offer-form.component';
 import { DateInputPipe } from '../collab/pipes/date-input.pipe';
 import { DistancePipe } from './pipes/distance.pipe';
+import { OfferListComponent } from './components/offer-list/offer-list.component';
 
 @NgModule({
   declarations: [
+    OfferListComponent,
     CarpoolAccordionComponent,
     CriteriaFormComponent,
     BackBtnComponent,
@@ -46,6 +46,7 @@ import { DistancePipe } from './pipes/distance.pipe';
     CriteriaFormComponent,
     BackBtnComponent,
     ToastGlobalComponent,
+    OfferListComponent,
   ],
 })
 export class CollabModule {}
