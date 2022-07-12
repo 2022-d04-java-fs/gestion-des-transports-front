@@ -1,0 +1,197 @@
+<!-- Formulaire de création de covoiturage -->
+<form [formGroup]="formOffer">
+  <div>
+    <div class="card" style="margin:0.5em">
+      <div class="card-header">Itinéraire</div>
+      <div class="card-body">
+        <div class="form-group row" style="margin:0.5em">
+          <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
+          <div class="col-sm-6">
+            <input type="text" formControlName="departureAddress" id="departureInput" class="form-control"
+              (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
+            <small class="text-danger" *ngIf="checkRequired('departureAddress')">
+              L'addresse de départ est obligatoire
+            </small>
+            <small class="text-danger"
+              *ngIf="formOffer.controls['departureAddress'].hasError('address') && !checkRequired('departureAddress')">
+              L'adresse de départ est une adresse inconnue
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row" style="margin:0.5em">
+          <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination*</label>
+          <div class="col-sm-6">
+            <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control"
+              (keydown)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
+            <small class="text-danger" *ngIf="checkRequired('arrivalAddress')">
+              L'addresse d'arrivée est obligatoire
+            </small>
+            <small class="text-danger" *ngIf="formOffer.hasError('daaddress') && !checkRequired('arrivalAddress')">
+              Les addresse de départ et d'arrivée doivent être différentes
+            </small>
+            <small class="text-danger"
+              *ngIf="formOffer.controls['arrivalAddress'].hasError('address') && !checkRequired('departureAddress')">
+              L'adresse d'arrivée est une adresse inconnue
+            </small>
+          </div>
+        </div>
+
+        <div class="row" style="margin:0.5em">
+          <label class="col-sm-2 text-end" for="">Durée du trajet</label>
+          <div class="col-sm-6">{{time | duration}}</div>
+        </div>
+        <div class="row" style="margin:0.5em">
+          <label class="col-sm-2 text-end" for="">Distance</label>
+          <div class="col-sm-6">{{distance | distance}} km</div>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin:0.5em">
+      <div class="card-header">Véhicule</div>
+      <div class="card-body">
+        <div class="form-group row" style="margin:0.5em">
+          <label for="licenseInput" class="col-sm-2 col-form-label text-end">Immatriculation*</label>
+          <div class="col-sm-6">
+            <input type="text" formControlName="licensePlate" id="licenseInput" class="form-control">
+            <small class="text-danger" *ngIf="checkRequired('licensePlate')">
+              La plaque d'immatriculation est obligatoire
+            </small>
+            <small class="text-danger" *ngIf="checkLicense()">
+              La plaque d'immatriculation n'est pas au format XX-123-YY
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row" style="margin:0.5em">
+          <label for="brandInput" class="col-sm-2 col-form-label text-end">Marque*</label>
+          <div class="col-sm-6">
+            <input type="text" formControlName="brand" id="brandInput" class="form-control">
+            <small class="text-danger" *ngIf="checkRequired('brand')">
+              La marque est obligatoire
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row" style="margin:0.5em">
+          <label for="modelInput" class="col-sm-2 col-form-label text-end">Modèle*</label>
+          <div class="col-sm-6">
+            <input type="text" formControlName="model" id="modelInput" class="form-control">
+            <small class="text-danger" *ngIf="checkRequired('model')">
+              Le modèle est obligatoire
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group row" style="margin:0.5em">
+          <label for="seatsInput" class="col-sm-2 col-form-label text-end">Nombre de places disponibles*</label>
+          <div class="col-sm-6">
+            <input type="number" formControlName="availableSeats" id="seatsInput" class="form-control">
+            <small class="text-danger"
+              *ngIf="formOffer.controls['availableSeats'].hasError('max') || formOffer.controls['availableSeats'].hasError('min')">
+              Le nombre de places doit être compris entre 1 et 20
+            </small>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="card" style="margin:0.5em">
+      <div class="card-header">Date et horaire</div>
+      <div class="form-group row" style="margin:0.5em">
+        <label class="col-sm-2 col-form-label text-end">Date/Heure*</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" formControlName="date" id="dateInput" ngbDatepicker #d="ngbDatepicker"
+            (click)="d.toggle()" />
+        </div>
+        <div class="col-sm-1">
+          <select class="form-control custom-select" formControlName="hour" id="exampleFormControlSelect1">
+            <option [ngValue]="null" disabled>Heures</option>
+            <option *ngFor="let hour of hoursList" value={{hour}}>{{hour | number : '2.0-0'}}</option>
+          </select>
+        </div>
+        <div class="col-sm-1">
+          <select class="form-control custom-select" formControlName="minutes" id="exampleFormControlSelect1">
+            <option [ngValue]="null" disabled>Minutes</option>
+            <option *ngFor="let minute of minutesList" value={{minute}}>{{minute | number : '2.0-0'}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row" *ngIf="formOffer.hasError('date')">
+        <div class="col-sm-2"></div>
+        <div class="col">
+          <small class="text-danger">
+            La date et l'heure ne peuvent être antérieure à aujourd'hui
+          </small>
+        </div>
+      </div>
+      <div class="row" *ngIf="checkDateTime()">
+        <div class="col-sm-2"></div>
+        <div class="col">
+          <small class="text-danger">
+            La date et l'heure sont obligatoires
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button [disabled]="formOffer.invalid" (click)="open(content)" class="btn btn-primary">Publier</button>
+</form>
+
+
+<!-- Fenêtre modale de validation -->
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirmation de votre proposition</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6 text-end">Départ</label>
+      <div class="col-sm-6">
+        {{formOffer.get("departureAddress")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6  text-end">Destination</label>
+      <div class="col-sm-6">
+        {{formOffer.get("arrivalAddress")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6  text-end">Immatriculation</label>
+      <div class="col-sm-6">
+        {{formOffer.get("licensePlate")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6  text-end">Marque</label>
+      <div class="col-sm-6">
+        {{formOffer.get("brand")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6  text-end">Modèle</label>
+      <div class="col-sm-6">
+        {{formOffer.get("model")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6 text-end">Nb.places disponibles</label>
+      <div class="col-sm-6">
+        {{formOffer.get("availableSeats")?.value}}
+      </div>
+    </div>
+    <div class="row" style="margin:0.5em">
+      <label class="col-sm-6  text-end">Date/heure</label>
+      <div class="col-sm-6">
+        le {{formOffer.get("date")?.value | dateInput}} à {{formOffer.get("hour")?.value}} h
+        {{formOffer.get("minutes")?.value}}
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Annuler</button>
+    <button type="button" class="btn btn-outline-dark" (click)="validate(); modal.close()">Confirmer</button>
+  </div>
+</ng-template>

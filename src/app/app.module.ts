@@ -1,18 +1,15 @@
-import { MyOfferListModule } from './pages/my-offer-list/my-offer-list.module';
-
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { CollabModule } from './collab/collab.module';
+import { OfferModule } from './pages/offer/offer.module';
+import { CarpoolReservationModule } from './pages/carpool-reservation/carpool-reservation.module';
+import { CarReservationModule } from './pages/car-reservation/car-reservation.module';
 import { MenuComponent } from './collab/components/menu/menu.component';
-import { OfferListComponent } from './collab/components/offer-list/offer-list.component';
-import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
+import { MyOfferListModule } from './pages/my-offer-list/my-offer-list.module';
 
 @NgModule({
   declarations: [
@@ -22,14 +19,16 @@ import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    CarReservationModule,
+    HttpClientModule,
     NgbModule,
+    CarpoolReservationModule,
+    CollabModule,
+    OfferModule,
     HttpClientModule,
     MyOfferListModule
   ],
-  providers: [
-    
-  ],
-
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
