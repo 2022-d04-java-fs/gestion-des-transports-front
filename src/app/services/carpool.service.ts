@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { AddCarpool, Carpool } from '../models/carpool';
 import { Offer } from '../models/offer';
 
-const URL = 'http://localhost:8080/api';
+const URL = 'https://gestion-des-transports.herokuapp.com/api';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +52,7 @@ export class CarpoolService {
   addCarpool(carpool: AddCarpool) {
     return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
-  listCarpoolByUser(userID:number){
-    return this.http.get<Offer[]>("http://localhost:8080/api/carpools/reservations/" + userID ) //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+  listCarpoolByUser(userID: number) {
+    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + userID); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
   }
 }
