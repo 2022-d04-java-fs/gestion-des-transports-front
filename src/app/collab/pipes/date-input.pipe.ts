@@ -7,6 +7,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DateInputPipe implements PipeTransform {
 
   transform(value: NgbDateStruct): string {
+    if (value === null){
+      return "";
+    }
     let day = value.day.toString();
     let month = value.month.toString();
     let year = value.year.toString();
