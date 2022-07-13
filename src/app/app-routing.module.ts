@@ -9,15 +9,14 @@ import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
 
 const routes: Routes = [
   {path:"collaborateur/annonces", component:MyOfferListPage},
-
   { path: 'collaborateur/reservations/creer', component: CarReservationPage },
+  { path: 'collaborateur/reservations', component: CarpoolReservationPages },
+  { path: 'collaborateur/annonces/creer', component: OfferPage },
   {
     path: '',
     pathMatch: 'full',
     redirectTo: 'collaborateur/reservations',
   },
-  { path: 'collaborateur/reservations', component: CarpoolReservationPages },
-  { path: 'collaborateur/annonces/creer', component: OfferPage },
 ];
 
 @NgModule({
