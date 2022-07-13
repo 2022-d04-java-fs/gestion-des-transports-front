@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    MyOfferListPage,
+    MyOfferListPage
   ],
   imports: [
     CommonModule,

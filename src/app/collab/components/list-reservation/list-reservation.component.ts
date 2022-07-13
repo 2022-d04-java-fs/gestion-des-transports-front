@@ -8,6 +8,7 @@ import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
+const URL = 'https://gestion-des-transports.herokuapp.com/api';
 /**
  * @export
  * @class ListReservationComponent
@@ -16,16 +17,15 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
 @Component({
   selector: 'app-list-reservation',
   templateUrl: './list-reservation.component.html',
-  styleUrls: ['./list-reservation.component.scss']
+  styleUrls: ['./list-reservation.component.scss'],
 })
 export class ListReservationComponent implements OnInit {
-
   public isCollapsed = false;
   public isModal = true;
 
-  public reservationList: Reservation[] = []
+  public reservationList: Reservation[] = [];
 
-  public historyList: Reservation[] = []
+  public historyList: Reservation[] = [];
 
   EventSub!: Subscription;
   private currentDate: number = Date.now(); //Sert à tester "2017-06-22T13:30"
@@ -38,13 +38,10 @@ export class ListReservationComponent implements OnInit {
   constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
   ngOnInit(): void {
     this.refresh();
-    this.EventSub = this.refreshEvent.getRefreshEvent()
-      .pipe(
-        filter(refresh => refresh === Refresh.REFRESH)
-      )
-      .subscribe(
-        () => this.refresh()
-      );
+    this.EventSub = this.refreshEvent
+      .getRefreshEvent()
+      .pipe(filter((refresh) => refresh === Refresh.REFRESH))
+      .subscribe(() => this.refresh());
   }
   /**
    * @param content: object
@@ -55,8 +52,8 @@ export class ListReservationComponent implements OnInit {
     this.modalTable[0] = objet.departureAddress;
     this.modalTable[1] = objet.arrivalAddress;
     this.modalTable[2] = objet.dateHeure;
-    this.modalTable[3] = objet.vehicle.brand + " " + objet.vehicle.model;
-    this.modalTable[4] = objet.driver.lastname + " " + objet.driver.firstname;
+    this.modalTable[3] = objet.vehicle.brand + ' ' + objet.vehicle.model;
+    this.modalTable[4] = objet.driver.lastname + ' ' + objet.driver.firstname;
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
   }
   /**
@@ -99,11 +96,11 @@ export class ListReservationComponent implements OnInit {
   /**
    * @param dateString la date d'aujourd'hui au format string
    * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
-  */
+   */
   findReservations(date: number) {
-    this.historyList.forEach(reservation => {
+    this.historyList.forEach((reservation) => {
       if (new Date(reservation.dateHeure).getTime() >= date) {
-        this.reservationList.push(reservation)
+        this.reservationList.push(reservation);
       }
     });
   }

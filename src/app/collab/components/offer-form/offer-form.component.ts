@@ -296,7 +296,10 @@ export class OfferFormComponent implements OnInit {
     };
 
     this.carpoolServ.addCarpool(carpool).subscribe();
+    this.distance = 0;
+    this.time = 0;
     this.formOffer.reset();
+
   }
 
   ngOnInit(): void {}

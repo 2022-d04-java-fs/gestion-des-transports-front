@@ -52,6 +52,8 @@ export class OfferListComponent implements OnInit {
           this.historyList.push(offer)
         }
       });
+      this.offerList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+      this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
     })
   }
   refresh() {
