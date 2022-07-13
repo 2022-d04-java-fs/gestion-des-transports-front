@@ -1,10 +1,12 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { AddCarpool, Carpool } from '../models/carpool';
 import { Offer } from '../models/offer';
+import { Reservation } from '../models/reservation';
+import { environment } from 'src/environments/environment';
 
-const URL = 'https://gestion-des-transports.herokuapp.com/api';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,11 @@ export class CarpoolService {
   private arrivalSubject = new Subject<string>();
   private dateSubject = new Subject<string>();
 
-  constructor(private http: HttpClient) {}
+  private apiUrl: string;
+
+  constructor(private http: HttpClient, private authSrv: AuthService) {
+    this.apiUrl=environment.apiUrl;
+  }
 
   getDepartureSubject() {
     return this.departureSubject;
@@ -36,23 +42,27 @@ export class CarpoolService {
     departureAddress: string
   ): Observable<Carpool[]> {
     return this.http.get<Carpool[]>(
-      `${URL}/carpools?departureAddress=${departureAddress}`
+      `${this.apiUrl}carpools?departureAddress=${departureAddress}`
     );
   }
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
-    // TODO par défaut user_id = 2 car pas d'authentification
-    // A remplacer avec l'id du user grâce à l'authentification
     return this.http.post<Carpool>(
-      `${URL}/users/2/carpools/${carpool.carpool_id}`,
+      `${this.apiUrl}users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
       {}
     );
   }
 
   addCarpool(carpool: AddCarpool) {
-    return this.http.post<any>(`http://localhost:8080/api/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
+    return this.http.post<any>(`${this.apiUrl}carpools`, carpool);
   }
-  listCarpoolByUser(userID: number) {
-    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + userID); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+  listCarpoolByUser() {
+    return this.http.get<Offer[]>(`${this.apiUrl}carpools/reservations/` + this.authSrv.getUserId());
+  }
+
+  listReservationsByUser(){
+    return this.http.get<Reservation[]>(
+      this.apiUrl + 'users/' + this.authSrv.getUserId() + '/reservations'
+      );
   }
 }

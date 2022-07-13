@@ -42,8 +42,8 @@ export class OfferListComponent implements OnInit {
       );
   }
   fillTab(): void {
-    let userId = 1;
-    this.carpoolService.listCarpoolByUser(userId).subscribe(offerListByUser => {
+
+    this.carpoolService.listCarpoolByUser().subscribe(offerListByUser => {
       offerListByUser.forEach(offer => {
         if (new Date(offer.dateHeure).getTime() >= this.currentDate) {
           this.offerList.push(offer)
@@ -57,7 +57,7 @@ export class OfferListComponent implements OnInit {
     })
   }
   refresh() {
-    this.fillTab() //insérer l'URL ici
+    this.fillTab()
   }
 
   /**

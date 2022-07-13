@@ -1,8 +1,6 @@
-
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
-import { ListReservationComponent } from 'src/app/collab/components/list-reservation/list-reservation.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CarpoolReservationPages } from '../carpool-reservation/carpool-reservation.pages';
 import { CollabModule } from 'src/app/collab/collab.module';
 
@@ -12,7 +10,8 @@ import { CollabModule } from 'src/app/collab/collab.module';
     CarpoolReservationPages],
   imports: [
     CommonModule,
-    CollabModule
+    CollabModule,
+    NgbModule
   ],
   exports: [CarpoolReservationPages]
 })
