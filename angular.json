@@ -26,7 +26,7 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/assets/reservation.json"
+              "src/assets/user.json"
             ],
             "styles": [
               "src/styles.scss"
@@ -104,5 +104,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

@@ -1,3 +1,4 @@
+import { CarpoolService } from 'src/app/services/carpool.service';
 import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
@@ -33,11 +34,8 @@ export class ListReservationComponent implements OnInit {
 
   modalTable: string[] = ['', '', '', '', ''];
 
-  constructor(
-    private modalService: NgbModal,
-    private client: HttpClient,
-    private refreshEvent: RefreshService
-  ) {}
+
+  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
   ngOnInit(): void {
     this.refresh();
     this.EventSub = this.refreshEvent
@@ -80,19 +78,20 @@ export class ListReservationComponent implements OnInit {
    * @param liste la liste à compléter
    * @param URL le lien où récupérer les tableaux
    *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
-   */
-  fillTab(URL: string): void {
-    this.client.get<Reservation[]>(URL).subscribe((reservations) => {
-      this.historyList = reservations;
-      this.findReservations(this.currentDate);
-    });
-  }
-  /**
-   * La fonction fera une mise à jour des tableaux à chaque appel
-   */
-  refresh() {
-    this.fillTab(`${URL}/carpools?user_id=2`); //insérer l'URL ici
-    //Ici, l'url devra prendre l'ID de connexion de l'utilisateur
+  */
+   refresh() {
+    this.carpoolSrv.listReservationsByUser().subscribe(reservations => {
+      reservations.forEach(reservation => {
+        if (new Date(reservation.dateHeure).getTime() >= this.currentDate){
+          this.reservationList.push(reservation)
+        }
+        else{
+          this.historyList.push(reservation)
+        }
+      })
+      this.reservationList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+      this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+    })
   }
   /**
    * @param dateString la date d'aujourd'hui au format string

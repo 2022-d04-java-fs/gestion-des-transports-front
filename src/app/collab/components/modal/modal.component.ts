@@ -20,7 +20,6 @@ export class ModalComponent implements OnInit {
   ngOnInit(): void {}
 
   postData() {
-    // TODO : Récupérer l'id du user connecté pour la requête post du back
     this.createNewReservation();
     this.activeModal.close();
   }

@@ -42,8 +42,8 @@ export class OfferListComponent implements OnInit {
       );
   }
   fillTab(): void {
-    let userId = 2;
-    this.carpoolService.listCarpoolByUser(userId).subscribe(offerListByUser => {
+
+    this.carpoolService.listCarpoolByUser().subscribe(offerListByUser => {
       offerListByUser.forEach(offer => {
         if (new Date(offer.dateHeure).getTime() >= this.currentDate) {
           this.offerList.push(offer)
@@ -52,10 +52,12 @@ export class OfferListComponent implements OnInit {
           this.historyList.push(offer)
         }
       });
+      this.offerList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
+      this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
     })
   }
   refresh() {
-    this.fillTab() //insérer l'URL ici
+    this.fillTab()
   }
 
   /**
