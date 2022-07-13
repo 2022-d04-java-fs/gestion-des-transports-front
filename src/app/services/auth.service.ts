@@ -24,7 +24,6 @@ export class AuthService {
    * @returns
    */
   login(user:userCredentials){
-    console.log(user)
     return this.http.post<User>(URL+"/auth/", user)
     .pipe(tap(userBack=>localStorage.setItem("user",JSON.stringify(userBack))))
 
