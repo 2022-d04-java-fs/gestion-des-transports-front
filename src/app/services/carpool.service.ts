@@ -50,7 +50,7 @@ export class CarpoolService {
   }
 
   addCarpool(carpool: AddCarpool) {
-    return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
+    return this.http.post<any>(`http://localhost:8080/api/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
   listCarpoolByUser(userID: number) {
     return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + userID); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
