@@ -2,16 +2,19 @@ import { userCredentials, User } from './../models/user';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
-
-const URL: string = 'http://localhost:8080/api'
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient){}
+  private apiUrl: string;
+
+  constructor(private http: HttpClient){
+    this.apiUrl=environment.apiUrl;
+  }
 
   userDetails!: User;
 
@@ -24,7 +27,7 @@ export class AuthService {
    * @returns
    */
   login(user:userCredentials){
-    return this.http.post<User>(URL+"/auth/", user)
+    return this.http.post<User>(this.apiUrl+"/auth/", user)
     .pipe(tap(userBack=>localStorage.setItem("user",JSON.stringify(userBack))))
 
   }

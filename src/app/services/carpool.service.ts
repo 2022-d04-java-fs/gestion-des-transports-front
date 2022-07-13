@@ -5,8 +5,8 @@ import { Observable, Subject } from 'rxjs';
 import { AddCarpool, Carpool } from '../models/carpool';
 import { Offer } from '../models/offer';
 import { Reservation } from '../models/reservation';
+import { environment } from 'src/environments/environment';
 
-const URL = 'http://localhost:8080/api';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,11 @@ export class CarpoolService {
   private arrivalSubject = new Subject<string>();
   private dateSubject = new Subject<string>();
 
-  constructor(private http: HttpClient, private authSrv: AuthService) {}
+  private apiUrl: string;
+
+  constructor(private http: HttpClient, private authSrv: AuthService) {
+    this.apiUrl=environment.apiUrl;
+  }
 
   getDepartureSubject() {
     return this.departureSubject;
@@ -38,25 +42,25 @@ export class CarpoolService {
     departureAddress: string
   ): Observable<Carpool[]> {
     return this.http.get<Carpool[]>(
-      `${URL}/carpools?departureAddress=${departureAddress}`
+      `${this.apiUrl}/carpools?departureAddress=${departureAddress}`
     );
   }
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
     return this.http.post<Carpool>(
-      `${URL}/users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
+      `${this.apiUrl}/users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
       {}
     );
   }
 
   addCarpool(carpool: AddCarpool) {
-    return this.http.post<any>(`${URL}/carpools`, carpool); //TODO url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
+    return this.http.post<any>(`${this.apiUrl}/carpools`, carpool);
   }
   listCarpoolByUser() {
-    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + this.authSrv.getUserId()); //TODO url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+    return this.http.get<Offer[]>(`${this.apiUrl}/carpools/reservations/` + this.authSrv.getUserId());
   }
 
   listReservationsByUser(){
-    return this.http.get<Reservation[]>("http://localhost:8080/api/users/"+ this.authSrv.getUserId()+"/reservations" ) //TODO url à remplacer
+    return this.http.get<Reservation[]>(this.apiUrl+ this.authSrv.getUserId()+"/reservations" )
   }
 }
