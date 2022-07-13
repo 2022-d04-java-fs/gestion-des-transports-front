@@ -42,25 +42,27 @@ export class CarpoolService {
     departureAddress: string
   ): Observable<Carpool[]> {
     return this.http.get<Carpool[]>(
-      `${this.apiUrl}/carpools?departureAddress=${departureAddress}`
+      `${this.apiUrl}carpools?departureAddress=${departureAddress}`
     );
   }
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
     return this.http.post<Carpool>(
-      `${this.apiUrl}/users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
+      `${this.apiUrl}users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
       {}
     );
   }
 
   addCarpool(carpool: AddCarpool) {
-    return this.http.post<any>(`${this.apiUrl}/carpools`, carpool);
+    return this.http.post<any>(`${this.apiUrl}carpools`, carpool);
   }
   listCarpoolByUser() {
-    return this.http.get<Offer[]>(`${this.apiUrl}/carpools/reservations/` + this.authSrv.getUserId());
+    return this.http.get<Offer[]>(`${this.apiUrl}carpools/reservations/` + this.authSrv.getUserId());
   }
 
   listReservationsByUser(){
-    return this.http.get<Reservation[]>(this.apiUrl+ this.authSrv.getUserId()+"/reservations" )
+    return this.http.get<Reservation[]>(
+      this.apiUrl + 'users/' + this.authSrv.getUserId() + '/reservations'
+      );
   }
 }

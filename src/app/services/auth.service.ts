@@ -27,7 +27,7 @@ export class AuthService {
    * @returns
    */
   login(user:userCredentials){
-    return this.http.post<User>(this.apiUrl+"/auth/", user)
+    return this.http.post<User>(this.apiUrl+"auth/", user)
     .pipe(tap(userBack=>localStorage.setItem("user",JSON.stringify(userBack))))
 
   }
