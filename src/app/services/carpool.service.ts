@@ -50,13 +50,13 @@ export class CarpoolService {
   }
 
   addCarpool(carpool: AddCarpool) {
-    return this.http.post<any>(`${URL}/carpools`, carpool); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
+    return this.http.post<any>(`${URL}/carpools`, carpool); //TODO url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools
   }
   listCarpoolByUser() {
-    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + this.authSrv.getUserId()); //url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
+    return this.http.get<Offer[]>(`${URL}/carpools/reservations/` + this.authSrv.getUserId()); //TODO url de test, à remplacer par https://gestion-des-transports.herokuapp.com/carpools/reservations/
   }
 
   listReservationsByUser(){
-    return this.http.get<Reservation[]>("http://localhost:8080/api/users/"+ this.authSrv.getUserId()+"/reservations" )
+    return this.http.get<Reservation[]>("http://localhost:8080/api/users/"+ this.authSrv.getUserId()+"/reservations" ) //TODO url à remplacer
   }
 }

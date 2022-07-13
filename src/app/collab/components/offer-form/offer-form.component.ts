@@ -154,7 +154,7 @@ export class OfferFormComponent implements OnInit {
   }
 
   /**
-   * Calucl de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
+   * Calcul de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
    */
   estimateDistanceTime() {
     let coord1 = this.departureAddressList

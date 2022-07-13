@@ -55,7 +55,7 @@ export class OfferListComponent implements OnInit {
     })
   }
   refresh() {
-    this.fillTab() //insérer l'URL ici
+    this.fillTab()
   }
 
   /**

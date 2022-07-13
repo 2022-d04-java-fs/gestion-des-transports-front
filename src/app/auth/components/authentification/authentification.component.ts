@@ -1,13 +1,13 @@
-import { User, userCredentials } from './../../../../models/user';
 import { Router } from '@angular/router';
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { User, userCredentials } from 'src/app/models/user';
 
 const URL_COLLAB: string = '/collaborateur/reservations'; // URL par défaut une fois connecté en tant que collaborateur
-const URL_DRIVER: string = '/collaborateur/reservations'; // à modifier
-const URL_ADMIN: string = '/collaborateur/reservations'; // à modifier
+const URL_DRIVER: string = '/collaborateur/reservations'; // TODO à modifier pour URL driver par défaut
+const URL_ADMIN: string = '/collaborateur/reservations'; // TODO à modifier pour URL admin par défaut
 
 @Component({
   selector: 'app-authentification',
@@ -41,17 +41,16 @@ export class AuthentificationComponent implements OnInit {
 
   /**
    * Vérifie les infos rentrées par l'utilisateur pour l'envoyer sur la page correspondant à son role
+   * Si email ou mot de passe erroné, affiche un message d'erreur au dessus du bouton "Se Connecter"
    *
-   * Fonctionne qu'avec des données factices pour l'instant
-   * @param data
    */
   checkAuth() {
 
     this.userCredentials.email = this.formDataAuth.value.email;
     this.userCredentials.password = this.formDataAuth.value.password;
-    console.log(this.userCredentials)
+
     this.authSrv.login(this.userCredentials).subscribe(user=>
-      {//this.authError = false;
+      { this.authError = false;
         this.user=user;
         if (user.roles.length == 1) {
           this.router.navigateByUrl(URL_COLLAB)
@@ -60,8 +59,7 @@ export class AuthentificationComponent implements OnInit {
         } else if (user.roles.length == 3) {
           this.modalSrv.open(this.adminRef);
         }
-      }, error => {this.authError = true;
-      console.log('test')}
+      }, error => {this.authError = true;}
     )
 
 
