@@ -1,5 +1,6 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { CarpoolService } from './../../../services/carpool.service';
-import { AddCarpool, Carpool } from './../../../models/carpool';
+import { AddCarpool} from './../../../models/carpool';
 import { Features } from './../../../models/address-models/features';
 import { AddressService } from './../../../services/address.service';
 import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -36,7 +37,8 @@ export class OfferFormComponent implements OnInit {
     private fb: FormBuilder,
     private modalService: NgbModal,
     private addressServ: AddressService,
-    private carpoolServ: CarpoolService
+    private carpoolServ: CarpoolService,
+    private authSrv: AuthService
   ) {
     this.minutesList = Array(6)
       .fill(1)
@@ -152,7 +154,7 @@ export class OfferFormComponent implements OnInit {
   }
 
   /**
-   * Calucl de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
+   * Calcul de la distance et de la durée de trajet grâce à l'API aps.open-street.com/api/route
    */
   estimateDistanceTime() {
     let coord1 = this.departureAddressList
@@ -283,7 +285,7 @@ export class OfferFormComponent implements OnInit {
       model: this.formOffer.get('model')?.value,
     };
     let carpool: AddCarpool = {
-      creatorId: 1, //Default user (PLACEHOLDER)
+      creatorId: this.authSrv.getUserId(),
       departureAddress: this.formOffer.get('departureAddress')?.value,
       arrivalAddress: this.formOffer.get('arrivalAddress')?.value,
       distance: this.distance,
@@ -294,7 +296,10 @@ export class OfferFormComponent implements OnInit {
     };
 
     this.carpoolServ.addCarpool(carpool).subscribe();
+    this.distance = 0;
+    this.time = 0;
     this.formOffer.reset();
+
   }
 
   ngOnInit(): void {}

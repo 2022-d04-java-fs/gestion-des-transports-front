@@ -1,5 +1,4 @@
-import { CollabModule } from './../../collab/collab.module';
-
+import { CollabModule } from 'src/app/collab/collab.module';
 import { MyOfferListPage } from './my-offer-list.page';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,7 +7,7 @@ import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
-    MyOfferListPage,
+    MyOfferListPage
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
 import { DistanceTime } from './../models/address-models/distance-time';
 import { AddressList } from './../models/address-models/address-list';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 const apiKey = '0dc33901a5866e72d8c097a478bf435a';
 
