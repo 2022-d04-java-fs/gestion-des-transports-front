@@ -37,7 +37,8 @@
           <th scope="col" class="col-3">Date/Heure</th>
           <th scope="col" class="col-3">Départ</th>
           <th scope="col" class="col-3">Destination</th>
-          <th scope="col" class="col-3"></th>
+          <th scope="col" class="col-2">Statut</th>
+          <th scope="col" class="col-1"></th>
         </tr>
       </thead>
       <tbody>
@@ -46,10 +47,12 @@
           <th class="col-3">{{history.dateHeure |  date:'dd/MM/yyyy HH:mm'}}</th>
           <th class="col-3">{{history.departureAddress}}</th>
           <th class="col-3">{{history.arrivalAddress}}</th>
-          <th class="col-3">
+          <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
+          <th class="col-2">
             <button class="btn btn-outline-secondary" (click)="openDetails(details, history)"
               data-target="#exampleModal">Détails</button>
           </th>
+
         </tr>
       </tbody>
     </table>

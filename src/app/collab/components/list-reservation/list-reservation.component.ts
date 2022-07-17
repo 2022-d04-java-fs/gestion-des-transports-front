@@ -86,6 +86,8 @@ export class ListReservationComponent implements OnInit {
   */
    refresh() {
     this.carpoolSrv.listReservationsByUser().subscribe(reservations => {
+      this.reservationList = [];
+      this.historyList = [];
       reservations.forEach(reservation => {
         if (new Date(reservation.dateHeure).getTime() >= this.currentDate && reservation.status === "OK"){
           this.reservationList.push(reservation)

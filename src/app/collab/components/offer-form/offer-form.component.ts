@@ -226,6 +226,7 @@ export class OfferFormComponent implements OnInit {
     return null;
   }
 
+
   /**
    *  Validator : vérifie que l'adresse de départ saisie est connue de L'API api-adresse.data.gouv.fr/search/
    */

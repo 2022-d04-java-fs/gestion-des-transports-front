@@ -24,7 +24,7 @@
           <th class="col-4">{{offer.availableSeats}}</th>
           <th>
 
-            <button class="btn btn-danger">Annuler</button>
+            <button class="btn btn-danger" (click)="openCancel(cancelWindow, offer)">Annuler</button>
           </th>
         </tr>
       </tbody>
@@ -41,7 +41,7 @@
               <th scope="col">Départ</th>
               <th scope="col">Destination</th>
               <th scope="col">Nombre de voyageurs</th>
-
+              <th scope="col">Statut</th>
             </tr>
           </thead>
           <tbody>
@@ -50,8 +50,8 @@
               <th class="col-2">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
               <th class="col-2">{{history.departureAddress}}</th>
               <th class="col-2">{{history.arrivalAddress}}</th>
-              <th class="col-8">{{history.availableSeats}}</th>
-
+              <th class="col-4">{{history.availableSeats}}</th>
+              <th class="col-4">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
             </tr>
           </tbody>
         </table>
@@ -74,3 +74,19 @@
       </div>
     </div>
   </div>
+
+
+
+<ng-template #cancelWindow let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Annulation du covoiturage</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    <p>Êtes vous sûr de vouloir annuler ce covoiturage ?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Annuler</button>
+    <button type="button" class="btn btn-outline-dark" (click)="cancel() ; modal.close()">Confimer</button>
+  </div>
+</ng-template>

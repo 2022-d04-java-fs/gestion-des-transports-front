@@ -63,7 +63,7 @@ export class CarpoolService {
   }
 
   cancelCarpool(carpoolId:number){
-    return this.http.patch<Carpool>(`${this.apiUrl}carpools/carpools?carpool_id==${carpoolId}`, {});
+    return this.http.patch<Carpool>(`${this.apiUrl}carpools?carpool_id=${carpoolId}`, {});
   }
 
   getCarpoolsReservationsByUserId(userID:number){

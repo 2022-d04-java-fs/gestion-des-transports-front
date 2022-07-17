@@ -1,3 +1,4 @@
+import { Carpool } from 'src/app/models/carpool';
 
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Offer } from './../../../models/offer';
@@ -7,6 +8,7 @@ import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 import { RefreshService } from '../../../services/refresh.service';
 import { CarpoolService } from 'src/app/services/carpool.service';
+import { CarpoolStatus } from 'src/app/models/carpool-status';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 @Component({
@@ -19,7 +21,7 @@ export class OfferListComponent implements OnInit {
   public isModal = true;
 
   public offerList: Offer[] = []
-
+  cancelOffer!:Offer
 
   public historyList: Offer[] = []
   EventSub!: Subscription;
@@ -44,8 +46,10 @@ export class OfferListComponent implements OnInit {
   fillTab(): void {
 
     this.carpoolService.listCarpoolByUser().subscribe(offerListByUser => {
+      this.offerList = [];
+      this.historyList = [];
       offerListByUser.forEach(offer => {
-        if (new Date(offer.dateHeure).getTime() >= this.currentDate) {
+        if (new Date(offer.dateHeure).getTime() >= this.currentDate && offer.status == CarpoolStatus.OK) {
           this.offerList.push(offer)
         }
         else {
@@ -78,5 +82,14 @@ export class OfferListComponent implements OnInit {
   formatInput(input: HTMLInputElement) {
     input.value = input.value.replace(FILTER_PAG_REGEX, '');
 
+  }
+
+  openCancel(content: object, offer: Offer): void {
+    this.cancelOffer = offer;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  }
+
+  cancel():void{
+    this.carpoolService.cancelCarpool(this.cancelOffer.carpool_id).subscribe();
   }
 }
