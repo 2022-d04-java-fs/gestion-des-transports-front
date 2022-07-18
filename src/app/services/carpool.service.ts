@@ -1,3 +1,4 @@
+
 import { AuthService } from 'src/app/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -48,7 +49,7 @@ export class CarpoolService {
 
   createCarpoolReservation(carpool: Carpool): Observable<Carpool> {
     return this.http.post<Carpool>(
-      `${this.apiUrl}users/${this.authSrv.getUserId()}/carpools/${carpool.carpool_id}`,
+      `${this.apiUrl}carpools/reservations/${this.authSrv.getUserId()}/${carpool.carpool_id}`,
       {}
     );
   }
@@ -56,13 +57,24 @@ export class CarpoolService {
   addCarpool(carpool: AddCarpool) {
     return this.http.post<any>(`${this.apiUrl}carpools`, carpool);
   }
+
+  cancelCarpoolReservation(reservationId:number){
+    return this.http.patch<Reservation>(`${this.apiUrl}carpools/reservations?reservation_id=${reservationId}`, {});
+  }
+
+  cancelCarpool(carpoolId:number){
+    return this.http.patch<Carpool>(`${this.apiUrl}carpools?carpool_id=${carpoolId}`, {});
+  }
+
+  getCarpoolsReservationsByUserId(userID:number){
+    return this.http.get<Reservation[]>(`${this.apiUrl}carpools/reservations?user_id=${userID}`)
+  }
+
   listCarpoolByUser() {
-    return this.http.get<Offer[]>(`${this.apiUrl}carpools/reservations/` + this.authSrv.getUserId());
+    return this.http.get<Offer[]>(`${this.apiUrl}carpools?user_id=${this.authSrv.getUserId()}`);
   }
 
   listReservationsByUser(){
-    return this.http.get<Reservation[]>(
-      this.apiUrl + 'users/' + this.authSrv.getUserId() + '/reservations'
-      );
+    return this.http.get<Reservation[]>(`${this.apiUrl}carpools/reservations?user_id=${this.authSrv.getUserId()}`);
   }
 }

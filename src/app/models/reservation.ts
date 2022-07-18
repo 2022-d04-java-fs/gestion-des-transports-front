@@ -1,4 +1,6 @@
+import { CarpoolStatus } from './carpool-status';
 export interface Reservation {
+    reservation_id: number
     carpool_id: number,
     dateHeure: string,
     departureAddress: string,
@@ -12,7 +14,8 @@ export interface Reservation {
         firstname: string,
         id: number
     },
-    availableSeats: number
+    availableSeats: number,
+    status: CarpoolStatus
 }
 
 

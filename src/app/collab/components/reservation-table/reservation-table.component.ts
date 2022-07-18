@@ -3,7 +3,7 @@ import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { Carpool } from 'src/app/models/carpool';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-reservation-table',

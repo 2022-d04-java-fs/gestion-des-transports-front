@@ -105,15 +105,15 @@
             (click)="d.toggle()" />
         </div>
         <div class="col-sm-1">
-          <select class="form-control custom-select" formControlName="hour" id="exampleFormControlSelect1">
-            <option [ngValue]="null" disabled>Heures</option>
-            <option *ngFor="let hour of hoursList" value={{hour}}>{{hour | number : '2.0-0'}}</option>
+          <select class="form-control custom-select" formControlName="hour">
+            <option value=null disabled>Heures</option>
+            <option *ngFor="let hour of hoursList" [ngValue]="hour">{{hour | number : '2.0-0'}}</option>
           </select>
         </div>
         <div class="col-sm-1">
-          <select class="form-control custom-select" formControlName="minutes" id="exampleFormControlSelect1">
-            <option [ngValue]="null" disabled>Minutes</option>
-            <option *ngFor="let minute of minutesList" value={{minute}}>{{minute | number : '2.0-0'}}</option>
+          <select class="form-control custom-select" formControlName="minutes">
+            <option value=null disabled>Minutes</option>
+            <option *ngFor="let minute of minutesList" [ngValue]="minute">{{minute | number : '2.0-0'}}</option>
           </select>
         </div>
       </div>
