@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'collaborateur/reservations/creer', component: CarReservationPage, canActivate:[AuthGuard] },
   { path: 'collaborateur/reservations', component: CarpoolReservationPages, canActivate:[AuthGuard] },
   { path: 'collaborateur/annonces/creer', component: OfferPage, canActivate:[AuthGuard] },
+  {path: '', pathMatch: 'full', redirectTo: 'auth'},
   {path: '**', component: PageNotFoundComponent},
-  {path: '', pathMatch: 'full', redirectTo: 'auth'}
 ];
 
 @NgModule({
