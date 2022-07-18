@@ -6,6 +6,7 @@ import { CarReservationPage } from './pages/car-reservation/car-reservation.page
 import { OfferPage } from './pages/offer/offer.page';
 import { CarpoolReservationPages } from './pages/carpool-reservation/carpool-reservation.pages';
 import { MyOfferListPage } from './pages/my-offer-list/my-offer-list.page';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {path: 'auth', component: AuthPage},
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'collaborateur/reservations/creer', component: CarReservationPage, canActivate:[AuthGuard] },
   { path: 'collaborateur/reservations', component: CarpoolReservationPages, canActivate:[AuthGuard] },
   { path: 'collaborateur/annonces/creer', component: OfferPage, canActivate:[AuthGuard] },
+  {path: '**', component: PageNotFoundComponent},
   {path: '', pathMatch: 'full', redirectTo: 'auth'}
 ];
 

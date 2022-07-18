@@ -10,10 +10,12 @@ import { OfferModule } from './pages/offer/offer.module';
 import { CarpoolReservationModule } from './pages/carpool-reservation/carpool-reservation.module';
 import { CarReservationModule } from './pages/car-reservation/car-reservation.module';
 import { MyOfferListModule } from './pages/my-offer-list/my-offer-list.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
