@@ -135,7 +135,9 @@
       </div>
     </div>
   </div>
-  <button [disabled]="formOffer.invalid" (click)="open(content)" class="btn btn-primary">Publier</button>
+  <div class="w-100 d-flex justify-content-center mb-2">
+    <button [disabled]="formOffer.invalid" (click)="open(content)" class="btn btn-outline-dark d-flex">Publier</button>
+  </div>
 </form>
 
 
