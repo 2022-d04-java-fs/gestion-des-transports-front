@@ -1,9 +1,9 @@
+
 import { CarpoolService } from 'src/app/services/carpool.service';
 import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 
@@ -20,6 +20,9 @@ const URL = 'https://gestion-des-transports.herokuapp.com/api';
   styleUrls: ['./list-reservation.component.scss'],
 })
 export class ListReservationComponent implements OnInit {
+
+  public cancelResa!:Reservation
+
   public isCollapsed = false;
   public isModal = true;
 
@@ -35,7 +38,8 @@ export class ListReservationComponent implements OnInit {
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
+  constructor(private modalService: NgbModal, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
+
   ngOnInit(): void {
     this.refresh();
     this.EventSub = this.refreshEvent
@@ -48,7 +52,7 @@ export class ListReservationComponent implements OnInit {
    * @param objet: Reservation
    * Cette fonction permettra d'initialiser les éléments de la fenêtre modale avant de l'ouvrir
    */
-  open(content: object, objet: Reservation): void {
+  openDetails(content: object, objet: Reservation): void {
     this.modalTable[0] = objet.departureAddress;
     this.modalTable[1] = objet.arrivalAddress;
     this.modalTable[2] = objet.dateHeure;
@@ -79,10 +83,12 @@ export class ListReservationComponent implements OnInit {
    * @param URL le lien où récupérer les tableaux
    *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
   */
-   refresh() {
+  refresh() {
     this.carpoolSrv.listReservationsByUser().subscribe(reservations => {
+      this.reservationList = [];
+      this.historyList = [];
       reservations.forEach(reservation => {
-        if (new Date(reservation.dateHeure).getTime() >= this.currentDate){
+        if (new Date(reservation.dateHeure).getTime() >= this.currentDate && reservation.status === "OK"){
           this.reservationList.push(reservation)
         }
         else{
@@ -93,15 +99,14 @@ export class ListReservationComponent implements OnInit {
       this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
     })
   }
-  /**
-   * @param dateString la date d'aujourd'hui au format string
-   * La fonction permet d'initialiser toutes les réservations qui sont pendant et après la date donnée dans reservationList
-   */
-  findReservations(date: number) {
-    this.historyList.forEach((reservation) => {
-      if (new Date(reservation.dateHeure).getTime() >= date) {
-        this.reservationList.push(reservation);
-      }
-    });
+
+
+  openCancel(content: object, resa: Reservation): void {
+    this.cancelResa = resa;
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true  });
+  }
+
+  cancel():void{
+    this.carpoolSrv.cancelCarpoolReservation(this.cancelResa.reservation_id).subscribe(() => this.refresh())
   }
 }

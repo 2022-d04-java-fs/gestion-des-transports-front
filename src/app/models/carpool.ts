@@ -1,3 +1,4 @@
+import { CarpoolStatus } from './carpool-status';
 import { PrivateVehicle } from './private-vehicle';
 
 export interface Carpool {
@@ -15,6 +16,7 @@ export interface Carpool {
     firstname: string;
   };
   availableSeats: number;
+  status: CarpoolStatus;
 }
 
 export interface AddCarpool {
