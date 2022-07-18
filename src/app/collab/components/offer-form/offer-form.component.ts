@@ -335,6 +335,7 @@ export class OfferFormComponent implements OnInit {
     const minuteBool =
       this.formOffer.controls['minutes'].hasError('required') &&
       this.formOffer.controls['date'].touched;
+
     return dateBool || hourBool || minuteBool;
   }
 
