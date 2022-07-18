@@ -84,7 +84,7 @@ export class ListReservationComponent implements OnInit {
    * @param URL le lien où récupérer les tableaux
    *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
   */
-   refresh() {
+  refresh() {
     this.carpoolSrv.listReservationsByUser().subscribe(reservations => {
       this.reservationList = [];
       this.historyList = [];
@@ -108,6 +108,6 @@ export class ListReservationComponent implements OnInit {
   }
 
   cancel():void{
-    this.carpoolSrv.cancelCarpoolReservation(this.cancelResa.reservation_id).subscribe()
+    this.carpoolSrv.cancelCarpoolReservation(this.cancelResa.reservation_id).subscribe(() => this.refresh())
   }
 }

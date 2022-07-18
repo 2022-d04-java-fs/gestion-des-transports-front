@@ -90,6 +90,6 @@ export class OfferListComponent implements OnInit {
   }
 
   cancel():void{
-    this.carpoolService.cancelCarpool(this.cancelOffer.carpool_id).subscribe();
+    this.carpoolService.cancelCarpool(this.cancelOffer.carpool_id).subscribe(() => this.refresh());
   }
 }
