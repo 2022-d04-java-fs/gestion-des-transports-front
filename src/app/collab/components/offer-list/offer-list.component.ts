@@ -1,6 +1,4 @@
-import { Carpool } from 'src/app/models/carpool';
 
-import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Offer } from './../../../models/offer';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -32,7 +30,7 @@ export class OfferListComponent implements OnInit {
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService, private carpoolService: CarpoolService) { }
+  constructor(private modalService: NgbModal, private refreshEvent: RefreshService, private carpoolService: CarpoolService) { }
   ngOnInit(): void {
     this.refresh();
     this.EventSub = this.refreshEvent.getRefreshEvent()

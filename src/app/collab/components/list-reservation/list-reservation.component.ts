@@ -4,7 +4,6 @@ import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClient } from '@angular/common/http';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 
@@ -39,7 +38,7 @@ export class ListReservationComponent implements OnInit {
   modalTable: string[] = ['', '', '', '', ''];
 
 
-  constructor(private modalService: NgbModal, private client: HttpClient, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
+  constructor(private modalService: NgbModal, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
 
   ngOnInit(): void {
     this.refresh();
