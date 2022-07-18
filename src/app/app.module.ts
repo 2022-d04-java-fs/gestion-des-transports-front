@@ -27,7 +27,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CarpoolReservationModule,
     CollabModule,
     OfferModule,
-    MyOfferListModule
+    MyOfferListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
