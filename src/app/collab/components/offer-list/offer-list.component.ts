@@ -86,7 +86,7 @@ export class OfferListComponent implements OnInit {
 
   openCancel(content: object, offer: Offer): void {
     this.cancelOffer = offer;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true });
   }
 
   cancel():void{

@@ -104,7 +104,7 @@ export class ListReservationComponent implements OnInit {
 
   openCancel(content: object, resa: Reservation): void {
     this.cancelResa = resa;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true  });
   }
 
   cancel():void{
