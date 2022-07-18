@@ -17,6 +17,7 @@ import { DateInputPipe } from '../collab/pipes/date-input.pipe';
 import { DistancePipe } from './pipes/distance.pipe';
 import { OfferListComponent } from './components/offer-list/offer-list.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { MenuComponent } from './components/menu/menu.component';
     DateInputPipe,
     DurationPipe,
     DistancePipe,
-    MenuComponent
+    MenuComponent,
+    LogoutComponent,
   ],
   imports: [
     RouterModule,
@@ -49,7 +51,8 @@ import { MenuComponent } from './components/menu/menu.component';
     BackBtnComponent,
     ToastGlobalComponent,
     OfferListComponent,
-    MenuComponent
+    MenuComponent,
+    LogoutComponent,
   ],
 })
 export class CollabModule {}

@@ -12,9 +12,7 @@ import { CarReservationModule } from './pages/car-reservation/car-reservation.mo
 import { MyOfferListModule } from './pages/my-offer-list/my-offer-list.module';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -25,7 +23,7 @@ import { MyOfferListModule } from './pages/my-offer-list/my-offer-list.module';
     CarpoolReservationModule,
     CollabModule,
     OfferModule,
-    MyOfferListModule
+    MyOfferListModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
