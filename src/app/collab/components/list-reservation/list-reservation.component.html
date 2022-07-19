@@ -1,7 +1,7 @@
 <div class="container-fluid mb-5">
   <h2 class="my-3">Vos Réservations</h2>
-  <div class="my-3">
-    <a class="btn btn-outline-dark offset-10" routerLink="creer" role="button">Réserver un
+  <div class="my-3 d-flex justify-content-end">
+    <a class="btn btn-outline-dark" routerLink="creer" role="button">Réserver un
       transport</a>
   </div>
   <div class="card m-1">
@@ -10,56 +10,60 @@
     </div>
     <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
       <h3 class="fs-4">Réservations en cours</h3>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col" class="col-3">Date/Heure</th>
-            <th scope="col" class="col-3">Départ</th>
-            <th scope="col" class="col-3">Destination</th>
-            <th scope="col" class="col-3"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let reservation of reservationList; let index = index">
-            <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-            <th class="col-3">{{reservation.departureAddress}}</th>
-            <th class="col-3">{{reservation.arrivalAddress}}</th>
-            <th class="col-3">
-              <button class="btn btn-outline-dark" (click)="openDetails(details, reservation)"
-                data-target="#exampleModal">Détails</button>
-              <button class="btn btn-outline-danger ms-2"
-                (click)="openCancel(cancelWindow, reservation)">Annuler</button>
-            </th>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive-lg">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col" class="col-3">Date/Heure</th>
+              <th scope="col" class="col-3">Départ</th>
+              <th scope="col" class="col-3">Destination</th>
+              <th scope="col" class="col-3"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let reservation of reservationList; let index = index">
+              <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+              <th class="col-3">{{reservation.departureAddress}}</th>
+              <th class="col-3">{{reservation.arrivalAddress}}</th>
+              <th class="col-3">
+                <button class="btn btn-outline-dark mx-2 my-1" (click)="openDetails(details, reservation)"
+                  data-target="#exampleModal">Détails</button>
+                <button class="btn btn-outline-danger mx-2 my-1"
+                  (click)="openCancel(cancelWindow, reservation)">Annuler</button>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <h3 class="fs-4">Historique</h3>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col" class="col-3">Date/Heure</th>
-            <th scope="col" class="col-3">Départ</th>
-            <th scope="col" class="col-3">Destination</th>
-            <th scope="col" class="col-2">Statut</th>
-            <th scope="col" class="col-1"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr
-            *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-            <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-            <th class="col-3">{{history.departureAddress}}</th>
-            <th class="col-3">{{history.arrivalAddress}}</th>
-            <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
-            <th class="col-2">
-              <button class="btn btn-outline-dark" (click)="openDetails(details, history)"
-                data-target="#exampleModal">Détails</button>
-            </th>
+      <div class="table-responsive-lg">
+        <table class="table table-striped align-middle">
+          <thead>
+            <tr>
+              <th scope="col" class="col-3">Date/Heure</th>
+              <th scope="col" class="col-3">Départ</th>
+              <th scope="col" class="col-3">Destination</th>
+              <th scope="col" class="col-2">Statut</th>
+              <th scope="col" class="col-1"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
+              <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+              <th class="col-3">{{history.departureAddress}}</th>
+              <th class="col-3">{{history.arrivalAddress}}</th>
+              <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
+              <th class="col-2">
+                <button class="btn btn-outline-dark" (click)="openDetails(details, history)"
+                  data-target="#exampleModal">Détails</button>
+              </th>
 
-          </tr>
-        </tbody>
-      </table>
-      <div class="offset-10">
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-2 d-flex justify-content-end">
         <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
           <ng-template ngbPaginationPages let-page let-pages="pages">
             <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
