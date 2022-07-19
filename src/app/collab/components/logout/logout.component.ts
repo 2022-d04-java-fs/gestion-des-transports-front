@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-logout',
@@ -11,7 +12,11 @@ import { AuthService } from 'src/app/services/auth.service';
 export class LogoutComponent implements OnInit {
   public user?: any;
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastService: ToastService
+  ) {
     this.user = this.authService.getUser();
   }
 
@@ -19,6 +24,15 @@ export class LogoutComponent implements OnInit {
 
   handleClick() {
     localStorage.removeItem('user');
-    this.router.navigateByUrl('/auth');
+    // this.router.navigateByUrl('/auth');
+    this.showSuccess();
+  }
+
+  showSuccess() {
+    this.toastService.show('Vous avez bien été déconnecté', {
+      classname: 'bg-success text-light',
+      delay: 4000,
+      autohide: true,
+    });
   }
 }

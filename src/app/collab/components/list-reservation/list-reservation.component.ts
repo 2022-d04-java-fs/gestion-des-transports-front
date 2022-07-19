@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
+import { ToastService } from 'src/app/services/toast.service';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 const URL = 'https://gestion-des-transports.herokuapp.com/api';
@@ -38,7 +39,8 @@ export class ListReservationComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private refreshEvent: RefreshService,
-    private carpoolSrv: CarpoolService
+    private carpoolSrv: CarpoolService,
+    private toastSrv: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -121,8 +123,28 @@ export class ListReservationComponent implements OnInit {
   }
 
   cancel(): void {
+    this.showStandard();
     this.carpoolSrv
       .cancelCarpoolReservation(this.cancelResa.reservation_id)
-      .subscribe(() => this.refresh());
+      .subscribe(() => {
+        this.showSuccess();
+        this.refresh();
+      });
+  }
+
+  showSuccess() {
+    this.toastSrv.show('Vous avez bien annulé cette réservation !', {
+      classname: 'bg-success text-light',
+      delay: 4000,
+      autohide: true,
+      headertext: 'Bravo',
+    });
+  }
+
+  showStandard() {
+    this.toastSrv.show('Annulation en cours...', {
+      delay: 5000,
+      autohide: true,
+    });
   }
 }

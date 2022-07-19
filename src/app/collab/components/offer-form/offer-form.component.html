@@ -5,7 +5,8 @@
       <div class="card-header">Itinéraire</div>
       <div class="card-body">
         <div class="form-group row" style="margin:0.5em">
-          <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ*</label>
+          <label for="departureInput" class="col-sm-2 col-form-label text-end">Adresse de départ <span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="text" formControlName="departureAddress" id="departureInput" class="form-control"
               (keydown)="refreshDeparture()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchDepartureAddress">
@@ -20,7 +21,8 @@
         </div>
 
         <div class="form-group row" style="margin:0.5em">
-          <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination*</label>
+          <label class="col-sm-2 col-form-label text-end" for="arrivalInput">Adresse de destination <span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="text" formControlName="arrivalAddress" id="departureInput" class="form-control"
               (keydown)="refreshArrival()" (blur)="estimateDistanceTime()" [ngbTypeahead]="researchArrivalAddress">
@@ -51,7 +53,8 @@
       <div class="card-header">Véhicule</div>
       <div class="card-body">
         <div class="form-group row" style="margin:0.5em">
-          <label for="licenseInput" class="col-sm-2 col-form-label text-end">Immatriculation*</label>
+          <label for="licenseInput" class="col-sm-2 col-form-label text-end">Immatriculation <span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="text" formControlName="licensePlate" id="licenseInput" class="form-control">
             <small class="text-danger" *ngIf="checkRequired('licensePlate')">
@@ -64,7 +67,8 @@
         </div>
 
         <div class="form-group row" style="margin:0.5em">
-          <label for="brandInput" class="col-sm-2 col-form-label text-end">Marque*</label>
+          <label for="brandInput" class="col-sm-2 col-form-label text-end">Marque <span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="text" formControlName="brand" id="brandInput" class="form-control">
             <small class="text-danger" *ngIf="checkRequired('brand')">
@@ -74,7 +78,8 @@
         </div>
 
         <div class="form-group row" style="margin:0.5em">
-          <label for="modelInput" class="col-sm-2 col-form-label text-end">Modèle*</label>
+          <label for="modelInput" class="col-sm-2 col-form-label text-end">Modèle <span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="text" formControlName="model" id="modelInput" class="form-control">
             <small class="text-danger" *ngIf="checkRequired('model')">
@@ -84,7 +89,8 @@
         </div>
 
         <div class="form-group row" style="margin:0.5em">
-          <label for="seatsInput" class="col-sm-2 col-form-label text-end">Nombre de places disponibles*</label>
+          <label for="seatsInput" class="col-sm-2 col-form-label text-end">Nombre de places disponibles<span
+              style="color: red;">*</span></label>
           <div class="col-sm-6">
             <input type="number" formControlName="availableSeats" id="seatsInput" class="form-control">
             <small class="text-danger"
@@ -99,7 +105,7 @@
     <div class="card" style="margin:0.5em">
       <div class="card-header">Date et horaire</div>
       <div class="form-group row" style="margin:0.5em">
-        <label class="col-sm-2 col-form-label text-end">Date/Heure*</label>
+        <label class="col-sm-2 col-form-label text-end">Date/Heure <span style="color: red;">*</span></label>
         <div class="col-sm-2">
           <input type="text" class="form-control" formControlName="date" id="dateInput" ngbDatepicker #d="ngbDatepicker"
             (click)="d.toggle()" />

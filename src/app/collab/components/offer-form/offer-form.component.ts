@@ -16,6 +16,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable, OperatorFunction } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { PrivateVehicle } from 'src/app/models/private-vehicle';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-offer-form',
@@ -38,7 +39,8 @@ export class OfferFormComponent implements OnInit {
     private modalService: NgbModal,
     private addressServ: AddressService,
     private carpoolServ: CarpoolService,
-    private authSrv: AuthService
+    private authSrv: AuthService,
+    private toastSrv: ToastService
   ) {
     this.minutesList = Array(6)
       .fill(1)
@@ -295,10 +297,19 @@ export class OfferFormComponent implements OnInit {
       date: this.formatDate(this.date),
     };
 
-    this.carpoolServ.addCarpool(carpool).subscribe();
+    this.carpoolServ.addCarpool(carpool).subscribe(() => this.showSuccess());
     this.distance = 0;
     this.time = 0;
     this.formOffer.reset();
+  }
+
+  showSuccess() {
+    this.toastSrv.show('Annonce publiée !', {
+      classname: 'bg-success text-light',
+      delay: 4000,
+      autohide: true,
+      headertext: 'Félicitations',
+    });
   }
 
   ngOnInit(): void {}
