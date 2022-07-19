@@ -4,6 +4,7 @@ import { Carpool } from 'src/app/models/carpool';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
 import { Subscription} from 'rxjs';
+import { CarpoolStatus } from 'src/app/models/carpool-status';
 
 @Component({
   selector: 'app-reservation-table',
@@ -36,7 +37,7 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
         if (res.length > 0) {
           this.carpoolService
             .getCarpoolsByDepartureAddressList(res)
-            .subscribe((carpools) => (this.carpoolsList = carpools));
+            .subscribe((carpools) => (this.carpoolsList = carpools.filter(carpool => (new Date(carpool.dateHeure) > new Date()) && carpool.status == CarpoolStatus.OK )));
         } else {
           this.carpoolsList = [];
         }
