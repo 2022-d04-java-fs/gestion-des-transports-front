@@ -1,22 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#"><img src="assets/images/GDT_Logo.png" class="logoNavBar"></a>
+  <a class="navbar-brand" href="#"><img src="assets/images/GDT_Logo.png" class="logoNavBar rounded rounded-3"></a>
   <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
     &#9776;
   </button>
   <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
-    <ul class="navbar-nav ms-3">
-      <li class="nav-item active">
-        <a class="nav-link" routerLink="/collaborateur/reservations/" (click)="isMenuCollapsed = true">Vos Réservations
-          <span class="sr-only"></span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/collaborateur/annonces/" (click)="isMenuCollapsed = true">Vos Annonces</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="isMenuCollapsed = true">Statistiques</a>
-        <!-- routerLink="/collaborateur/statistiques/" -->
-      </li>
-    </ul>
+    <div class="d-flex justify-content-between w-100">
+      <ul class="navbar-nav ms-3">
+        <li class="nav-item active">
+          <a class="nav-link" routerLink="/collaborateur/reservations/" (click)="isMenuCollapsed = true">Vos
+            Réservations
+            <span class="sr-only"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/collaborateur/annonces/" (click)="isMenuCollapsed = true">Vos Annonces</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-secondary" (click)="isMenuCollapsed = true">Statistiques</a>
+        </li>
+      </ul>
+      <app-logout></app-logout>
+    </div>
   </div>
-  <app-logout></app-logout>
 </nav>

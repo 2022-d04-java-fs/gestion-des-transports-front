@@ -1,6 +1,6 @@
 import { AuthService } from 'src/app/services/auth.service';
 import { CarpoolService } from './../../../services/carpool.service';
-import { AddCarpool} from './../../../models/carpool';
+import { AddCarpool } from './../../../models/carpool';
 import { Features } from './../../../models/address-models/features';
 import { AddressService } from './../../../services/address.service';
 import { NgbModal, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
@@ -226,7 +226,6 @@ export class OfferFormComponent implements OnInit {
     return null;
   }
 
-
   /**
    *  Validator : vérifie que l'adresse de départ saisie est connue de L'API api-adresse.data.gouv.fr/search/
    */
@@ -300,7 +299,6 @@ export class OfferFormComponent implements OnInit {
     this.distance = 0;
     this.time = 0;
     this.formOffer.reset();
-
   }
 
   ngOnInit(): void {}

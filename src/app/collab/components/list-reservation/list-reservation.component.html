@@ -1,108 +1,128 @@
-<h2>Vos Réservations</h2>
-<a class="btn btn-outline-secondary offset-10" routerLink="creer" role="button">Réserver un
-  transport</a>
-<div class="card m-1">
-  <div class="card-header">
-    Covoiturage
+<div class="container-fluid mb-5">
+  <h2 class="my-3">Vos Réservations</h2>
+  <div class="my-3">
+    <a class="btn btn-outline-dark offset-10" routerLink="creer" role="button">Réserver un
+      transport</a>
   </div>
-  <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
-    <h4>Réservations en cours</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col" class="col-3">Date/Heure</th>
-          <th scope="col" class="col-3">Départ</th>
-          <th scope="col" class="col-3">Destination</th>
-          <th scope="col" class="col-3"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let reservation of reservationList; let index = index">
-          <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-3">{{reservation.departureAddress}}</th>
-          <th class="col-3">{{reservation.arrivalAddress}}</th>
-          <th class="col-3">
-            <button class="btn btn-outline-secondary" (click)="openDetails(details, reservation)"
-              data-target="#exampleModal">Détails</button>
-            <button class="btn btn-danger ms-2" (click)="openCancel(cancelWindow, reservation)">Annuler</button>
-          </th>
-        </tr>
-      </tbody>
-    </table>
-    <h4>Historique</h4>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col" class="col-3">Date/Heure</th>
-          <th scope="col" class="col-3">Départ</th>
-          <th scope="col" class="col-3">Destination</th>
-          <th scope="col" class="col-2">Statut</th>
-          <th scope="col" class="col-1"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-          <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-          <th class="col-3">{{history.departureAddress}}</th>
-          <th class="col-3">{{history.arrivalAddress}}</th>
-          <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
-          <th class="col-2">
-            <button class="btn btn-outline-secondary" (click)="openDetails(details, history)"
-              data-target="#exampleModal">Détails</button>
-          </th>
+  <div class="card m-1">
+    <div class="card-header">
+      Covoiturage
+    </div>
+    <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
+      <h3 class="fs-4">Réservations en cours</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" class="col-3">Date/Heure</th>
+            <th scope="col" class="col-3">Départ</th>
+            <th scope="col" class="col-3">Destination</th>
+            <th scope="col" class="col-3"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reservation of reservationList; let index = index">
+            <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+            <th class="col-3">{{reservation.departureAddress}}</th>
+            <th class="col-3">{{reservation.arrivalAddress}}</th>
+            <th class="col-3">
+              <button class="btn btn-outline-dark" (click)="openDetails(details, reservation)"
+                data-target="#exampleModal">Détails</button>
+              <button class="btn btn-outline-danger ms-2"
+                (click)="openCancel(cancelWindow, reservation)">Annuler</button>
+            </th>
+          </tr>
+        </tbody>
+      </table>
+      <h3 class="fs-4">Historique</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col" class="col-3">Date/Heure</th>
+            <th scope="col" class="col-3">Départ</th>
+            <th scope="col" class="col-3">Destination</th>
+            <th scope="col" class="col-2">Statut</th>
+            <th scope="col" class="col-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
+            <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+            <th class="col-3">{{history.departureAddress}}</th>
+            <th class="col-3">{{history.arrivalAddress}}</th>
+            <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
+            <th class="col-2">
+              <button class="btn btn-outline-dark" (click)="openDetails(details, history)"
+                data-target="#exampleModal">Détails</button>
+            </th>
 
-        </tr>
-      </tbody>
-    </table>
-    <div class="offset-10">
-      <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
-        <ng-template ngbPaginationPages let-page let-pages="pages">
-          <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
-            <div class="mb-3 d-flex flex-nowrap px-2">
-              <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
-              <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
-                id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
-                (input)="formatInput($any($event).target)" aria-labelledby="paginationInputLabel paginationDescription"
-                style="width: 2.5rem" />
-              <span id="paginationDescription" class="col-form-label text-nowrap px-2">
-                sur {{pages.length}}</span>
-            </div>
-          </li>
-        </ng-template>
-      </ngb-pagination>
+          </tr>
+        </tbody>
+      </table>
+      <div class="offset-10">
+        <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
+          <ng-template ngbPaginationPages let-page let-pages="pages">
+            <li class="ngb-custom-pages-item" *ngIf="pages.length > 0">
+              <div class="mb-3 d-flex flex-nowrap px-2">
+                <label id="paginationInputLabel" for="paginationInput" class="col-form-label me-2 ms-1">Page</label>
+                <input #i type="text" inputmode="numeric" pattern="[0-9]*" class="form-control custom-pages-input"
+                  id="paginationInput" [value]="page" (keyup.enter)="selectPage(i.value)" (blur)="selectPage(i.value)"
+                  (input)="formatInput($any($event).target)"
+                  aria-labelledby="paginationInputLabel paginationDescription" style="width: 2.5rem" />
+                <span id="paginationDescription" class="col-form-label text-nowrap px-2">
+                  sur {{pages.length}}</span>
+              </div>
+            </li>
+          </ng-template>
+        </ngb-pagination>
+      </div>
     </div>
   </div>
+
+  <ng-template #details let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Détails du covoiturage</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <p class="col-4">Départ:</p>
+        <p class="col-8"> {{modalTable[0]}}</p>
+      </div>
+      <div class="row">
+        <p class="col-4">Destination:</p>
+        <p class="col-8"> {{modalTable[1]}}</p>
+      </div>
+      <div class="row">
+        <p class="col-4">Date/heure:</p>
+        <p class="col-8"> {{modalTable[2] | date:'dd/MM/yyyy HH:mm'}}</p>
+      </div>
+      <div class="row">
+        <p class="col-4">Véhicule:</p>
+        <p class="col-8"> {{modalTable[3]}}</p>
+      </div>
+      <div class="row">
+        <p class="col-4">Chauffeur:</p>
+        <p class="col-8"> {{modalTable[4]}}</p>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
+    </div>
+  </ng-template>
+
+
+  <ng-template #cancelWindow let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Annulation de la réservation</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+    </div>
+    <div class="modal-body">
+      <p>Êtes vous sûr de vouloir annuler cette réservation ?</p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Annuler</button>
+      <button type="button" class="btn btn-outline-success" (click)="cancel() ; modal.close()">Confimer</button>
+    </div>
+  </ng-template>
 </div>
-
-<ng-template #details let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Détails du covoiturage</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
-  </div>
-  <div class="modal-body">
-    <p>Départ: {{modalTable[0]}}</p>
-    <p>Destination: {{modalTable[1]}}</p>
-    <p>Date/heure: {{modalTable[2] | date:'dd/MM/yyyy HH:mm'}}</p>
-    <p>Véhicule: {{modalTable[3]}}</p>
-    <p>Chauffeur: {{modalTable[4]}}</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Fermer</button>
-  </div>
-</ng-template>
-
-
-<ng-template #cancelWindow let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Annulation de la réservation</h4>
-    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
-  </div>
-  <div class="modal-body">
-    <p>Êtes vous sûr de vouloir annuler cette réservation ?</p>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Annuler</button>
-    <button type="button" class="btn btn-outline-dark" (click)="cancel() ; modal.close()">Confimer</button>
-  </div>
-</ng-template>

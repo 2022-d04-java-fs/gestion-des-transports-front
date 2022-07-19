@@ -136,7 +136,7 @@
     </div>
   </div>
   <div class="w-100 d-flex justify-content-center mb-2">
-    <button [disabled]="formOffer.invalid" (click)="open(content)" class="btn btn-outline-dark d-flex">Publier</button>
+    <button [disabled]="formOffer.invalid" (click)="open(content)" class="btn btn-outline-dark">Publier</button>
   </div>
 </form>
 
@@ -187,13 +187,13 @@
     <div class="row" style="margin:0.5em">
       <label class="col-sm-6  text-end">Date/heure</label>
       <div class="col-sm-6">
-        le {{formOffer.get("date")?.value | dateInput}} à {{formOffer.get("hour")?.value}} h
+        le {{formOffer.get("date")?.value | dateInput}} à {{formOffer.get("hour")?.value}}h
         {{formOffer.get("minutes")?.value}}
       </div>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Annuler</button>
-    <button type="button" class="btn btn-outline-dark" (click)="validate(); modal.close()">Confirmer</button>
+    <button type="button" class="btn btn-outline-danger" (click)="modal.close()">Annuler</button>
+    <button type="button" class="btn btn-outline-success" (click)="validate(); modal.close()">Confirmer</button>
   </div>
 </ng-template>

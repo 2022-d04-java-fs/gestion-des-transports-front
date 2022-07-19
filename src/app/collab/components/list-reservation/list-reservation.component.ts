@@ -1,4 +1,3 @@
-
 import { CarpoolService } from 'src/app/services/carpool.service';
 import { RefreshService } from './../../../services/refresh.service';
 import { Reservation } from 'src/app/models/reservation';
@@ -20,8 +19,7 @@ const URL = 'https://gestion-des-transports.herokuapp.com/api';
   styleUrls: ['./list-reservation.component.scss'],
 })
 export class ListReservationComponent implements OnInit {
-
-  public cancelResa!:Reservation
+  public cancelResa!: Reservation;
 
   public isCollapsed = false;
   public isModal = true;
@@ -37,8 +35,11 @@ export class ListReservationComponent implements OnInit {
 
   modalTable: string[] = ['', '', '', '', ''];
 
-
-  constructor(private modalService: NgbModal, private refreshEvent: RefreshService, private carpoolSrv: CarpoolService) { }
+  constructor(
+    private modalService: NgbModal,
+    private refreshEvent: RefreshService,
+    private carpoolSrv: CarpoolService
+  ) {}
 
   ngOnInit(): void {
     this.refresh();
@@ -58,7 +59,9 @@ export class ListReservationComponent implements OnInit {
     this.modalTable[2] = objet.dateHeure;
     this.modalTable[3] = objet.vehicle.brand + ' ' + objet.vehicle.model;
     this.modalTable[4] = objet.driver.lastname + ' ' + objet.driver.firstname;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, {
+      centered: true,
+    });
   }
   /**
    *
@@ -82,31 +85,44 @@ export class ListReservationComponent implements OnInit {
    * @param liste la liste à compléter
    * @param URL le lien où récupérer les tableaux
    *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
-  */
+   */
   refresh() {
-    this.carpoolSrv.listReservationsByUser().subscribe(reservations => {
+    this.carpoolSrv.listReservationsByUser().subscribe((reservations) => {
       this.reservationList = [];
       this.historyList = [];
-      reservations.forEach(reservation => {
-        if (new Date(reservation.dateHeure).getTime() >= this.currentDate && reservation.status === "OK"){
-          this.reservationList.push(reservation)
+      reservations.forEach((reservation) => {
+        if (
+          new Date(reservation.dateHeure).getTime() >= this.currentDate &&
+          reservation.status === 'OK'
+        ) {
+          this.reservationList.push(reservation);
+        } else {
+          this.historyList.push(reservation);
         }
-        else{
-          this.historyList.push(reservation)
-        }
-      })
-      this.reservationList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
-      this.historyList.sort((resa1, resa2) => (new Date(resa1.dateHeure).getTime() > new Date(resa2.dateHeure).getTime()) ? -1:1)
-    })
+      });
+      this.reservationList.sort((resa1, resa2) =>
+        new Date(resa1.dateHeure).getTime() >
+        new Date(resa2.dateHeure).getTime()
+          ? -1
+          : 1
+      );
+      this.historyList.sort((resa1, resa2) =>
+        new Date(resa1.dateHeure).getTime() >
+        new Date(resa2.dateHeure).getTime()
+          ? -1
+          : 1
+      );
+    });
   }
-
 
   openCancel(content: object, resa: Reservation): void {
     this.cancelResa = resa;
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true  });
+    this.modalService.open(content, { centered: true });
   }
 
-  cancel():void{
-    this.carpoolSrv.cancelCarpoolReservation(this.cancelResa.reservation_id).subscribe(() => this.refresh())
+  cancel(): void {
+    this.carpoolSrv
+      .cancelCarpoolReservation(this.cancelResa.reservation_id)
+      .subscribe(() => this.refresh());
   }
 }

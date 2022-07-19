@@ -1,52 +1,42 @@
-<div class="container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-        <!-- Logo and name -->
-        <div class="logo_name text-center">
-          <img src="assets/images/GDT_Logo.png" class="logo img-fluid mb-5" alt="Logo GDT">
-          <h1>GDT</h1>
-          <h2>Gestion Des Transports</h2>
-        </div>
-
-        <div class="align-items-center">
-
-          <form method="post" [formGroup]="formDataAuth" (ngSubmit)="checkAuth()" class="container text-center">
-
-            <!-- Email input -->
-            <div class="form-outline mb-4 row">
-              <div class="col-3">
-                <label class="form-label" for="emailInput">Email</label>
-              </div>
-              <div class="col-9 col-md-9 col-sm-5">
-                <input type="email" id="emailInput" class="form-control form-control-lg" formControlName="email" />
-              </div>
-
-
-            </div>
-
-            <!-- Password input -->
-            <div class="form-outline mb-4 row">
-              <div class="col-3">
-                <label class="form-label" for="passwordInput">Mot de passe</label>
-              </div>
-              <div class="col-9 col-md-9 col-sm-5">
-                <input type="password" id="passwordInput" class="form-control form-control-lg"
-                formControlName="password" />
-              </div>
-
-
-            </div>
-
-            <!-- Connexion button-->
-            <small *ngIf="authError" class="text-danger">Vos informations d'authentification sont invalides</small>
-            <div>
-              <button class="btn btn-outline-dark btn-block" type="submit">Se Connecter</button>
-            </div>
-
-          </form>
-        </div>
+    <!-- Logo and name -->
+    <div class="logo_name text-center">
+      <img src="assets/images/GDT_Logo.png" class="logo img-fluid mb-5" alt="Logo GDT">
+      <h1>GDT</h1>
+      <h2>Gestion Des Transports</h2>
     </div>
+
+    <form method="post" [formGroup]="formDataAuth" (ngSubmit)="checkAuth()" class="container text-center">
+
+      <!-- Email input -->
+      <div class="form-outline mb-4 row">
+        <div class="col-3">
+          <label class="form-label" for="emailInput">Email</label>
+        </div>
+        <div class="col-9 col-md-9 col-sm-5">
+          <input type="email" id="emailInput" class="form-control form-control-lg" formControlName="email" />
+        </div>
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4 row">
+        <div class="col-3">
+          <label class="form-label" for="passwordInput">Mot de passe</label>
+        </div>
+        <div class="col-9 col-md-9 col-sm-5">
+          <input type="password" id="passwordInput" class="form-control form-control-lg" formControlName="password" />
+        </div>
+      </div>
+
+      <!-- Connexion button-->
+      <small *ngIf="authError" class="text-danger">Vos informations d'authentification sont invalides</small>
+      <div>
+        <button class="btn btn-outline-dark btn-block" type="submit">Se Connecter</button>
+      </div>
+
+    </form>
   </div>
 </div>
 
