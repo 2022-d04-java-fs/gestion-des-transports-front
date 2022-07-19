@@ -22,15 +22,15 @@
           </thead>
           <tbody>
             <tr *ngFor="let reservation of reservationList; let index = index">
-              <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-              <th class="col-3">{{reservation.departureAddress}}</th>
-              <th class="col-3">{{reservation.arrivalAddress}}</th>
-              <th class="col-3">
+              <td class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="col-3">{{reservation.departureAddress}}</td>
+              <td class="col-3">{{reservation.arrivalAddress}}</td>
+              <td class="col-3">
                 <button class="btn btn-outline-dark mx-2 my-1" (click)="openDetails(details, reservation)"
                   data-target="#exampleModal">Détails</button>
                 <button class="btn btn-outline-danger mx-2 my-1"
                   (click)="openCancel(cancelWindow, reservation)">Annuler</button>
-              </th>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -50,14 +50,14 @@
           <tbody>
             <tr
               *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-              <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-              <th class="col-3">{{history.departureAddress}}</th>
-              <th class="col-3">{{history.arrivalAddress}}</th>
-              <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
-              <th class="col-2">
+              <td class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="col-3">{{history.departureAddress}}</td>
+              <td class="col-3">{{history.arrivalAddress}}</td>
+              <td class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</td>
+              <td class="col-2">
                 <button class="btn btn-outline-dark" (click)="openDetails(details, history)"
                   data-target="#exampleModal">Détails</button>
-              </th>
+              </td>
 
             </tr>
           </tbody>
