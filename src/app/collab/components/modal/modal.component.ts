@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Carpool } from 'src/app/models/carpool';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +15,8 @@ export class ModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private carpoolService: CarpoolService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {}
@@ -22,6 +24,7 @@ export class ModalComponent implements OnInit {
   postData() {
     this.createNewReservation();
     this.activeModal.close();
+    this.router.navigateByUrl('collaborateur/reservations');
   }
 
   createNewReservation() {

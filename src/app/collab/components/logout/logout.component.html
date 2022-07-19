@@ -1,4 +1,4 @@
 <div class="me-5 text-center">
-  <p class="m-0">Bonjour {{user.lastname | uppercase }} {{user.firstname}}</p>
-  <a class="text-secondary" (click)="handleClick()" href="">Se déconnecter</a>
+  <p class="m-0 text-secondary">Bonjour {{user.lastname | uppercase }} {{user.firstname}}</p>
+  <a class="text-secondary" (click)="handleClick()" routerLink="/auth">Se déconnecter</a>
 </div>
