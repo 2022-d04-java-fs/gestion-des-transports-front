@@ -266,7 +266,7 @@ export class OfferFormComponent implements OnInit {
    * ouvre la fenêtre modale
    */
   open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' });
+    this.modalService.open(content, { centered: true });
   }
 
   /**

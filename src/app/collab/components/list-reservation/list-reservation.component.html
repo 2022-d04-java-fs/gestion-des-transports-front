@@ -10,7 +10,7 @@
     </div>
     <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
       <h3 class="fs-4">Réservations en cours</h3>
-      <div class="table-responsive-lg">
+      <div class="table-responsive-lg" *ngIf="reservationList.length > 0">
         <table class="table table-striped align-middle">
           <thead>
             <tr>
@@ -35,8 +35,9 @@
           </tbody>
         </table>
       </div>
+      <p *ngIf="reservationList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
       <h3 class="fs-4">Historique</h3>
-      <div class="table-responsive-lg">
+      <div class="table-responsive-lg" *ngIf="historyList.length > 0">
         <table class="table table-striped align-middle">
           <thead>
             <tr>
@@ -63,6 +64,8 @@
           </tbody>
         </table>
       </div>
+      <p *ngIf="historyList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
+
       <div class="mt-2 d-flex justify-content-end">
         <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
           <ng-template ngbPaginationPages let-page let-pages="pages">

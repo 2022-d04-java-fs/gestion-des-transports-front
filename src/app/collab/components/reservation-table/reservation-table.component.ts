@@ -44,8 +44,13 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
               this.carpoolsList = carpools.filter(
                 (carpool) =>
                   new Date(carpool.dateHeure) > new Date() &&
-                  carpool.status == CarpoolStatus.OK
+                  carpool.status === CarpoolStatus.OK
               );
+
+              if (this.carpoolsList.length === 0) {
+                this.showError();
+                this.message = 'Aucun covoiturage trouvé';
+              }
             },
 
             error: (err) => {
