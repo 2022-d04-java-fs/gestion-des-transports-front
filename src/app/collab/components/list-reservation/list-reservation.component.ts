@@ -98,6 +98,13 @@ export class ListReservationComponent implements OnInit {
           (carpool) => new Date(carpool.dateHeure) < new Date()
         );
 
+        if (
+          this.historyList.length === 0 ||
+          this.reservationList.length === 0
+        ) {
+          this.message = 'Pas de réservation trouvée';
+        }
+
         this.reservationList.sort(
           (a, b) =>
             new Date(b.dateHeure).getTime() - new Date(a.dateHeure).getTime()
