@@ -95,7 +95,9 @@ export class ListReservationComponent implements OnInit {
         );
 
         this.historyList = carpools.filter(
-          (carpool) => new Date(carpool.dateHeure) < new Date()
+          (carpool) =>
+            new Date(carpool.dateHeure) < new Date() ||
+            carpool.status === CarpoolStatus.CANCELLED
         );
 
         if (
