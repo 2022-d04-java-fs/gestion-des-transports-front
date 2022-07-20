@@ -3,8 +3,9 @@ import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { Carpool } from 'src/app/models/carpool';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from '../modal/modal.component';
-import { Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CarpoolStatus } from 'src/app/models/carpool-status';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-reservation-table',
@@ -16,10 +17,12 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
   gdtEventSub!: Subscription;
   departureAddress: string = '';
   carpoolSubscription!: Subscription;
+  message: string = '';
 
   constructor(
     private carpoolService: CarpoolService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {}
@@ -33,15 +36,39 @@ export class ReservationTableComponent implements OnInit, AfterContentInit {
   addCarpoolsInArray() {
     this.carpoolSubscription = this.carpoolService
       .getDepartureSubject()
-      .subscribe((res) => {
-        if (res.length > 0) {
-          this.carpoolService
-            .getCarpoolsByDepartureAddressList(res)
-            .subscribe((carpools) => (this.carpoolsList = carpools.filter(carpool => (new Date(carpool.dateHeure) > new Date()) && carpool.status == CarpoolStatus.OK )));
-        } else {
-          this.carpoolsList = [];
-        }
+      .subscribe({
+        next: (res) => {
+          this.message = 'Recherche en cours...';
+          this.carpoolService.getCarpoolsByDepartureAddressList(res).subscribe({
+            next: (carpools) => {
+              this.carpoolsList = carpools.filter(
+                (carpool) =>
+                  new Date(carpool.dateHeure) > new Date() &&
+                  carpool.status === CarpoolStatus.OK
+              );
+
+              if (this.carpoolsList.length === 0) {
+                this.showError();
+                this.message = 'Aucun covoiturage trouvé';
+              }
+            },
+
+            error: (err) => {
+              this.carpoolsList = [];
+              this.showError();
+              this.message = 'Aucun covoiturage trouvé';
+            },
+          });
+        },
       });
+  }
+
+  showError() {
+    this.toastService.show('Aucun covoiturage trouvé', {
+      classname: 'bg-danger text-light',
+      delay: 4000,
+      autohide: true,
+    });
   }
 
   filterCarpoolsByArrivalAddress() {

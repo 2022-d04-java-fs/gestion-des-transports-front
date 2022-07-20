@@ -10,7 +10,7 @@
     </div>
     <div id="card-covoiture" class="card-body" [ngClass]="{'collapse': isCollapsed}">
       <h3 class="fs-4">Réservations en cours</h3>
-      <div class="table-responsive-lg">
+      <div class="table-responsive-lg" *ngIf="reservationList.length > 0">
         <table class="table table-striped align-middle">
           <thead>
             <tr>
@@ -22,21 +22,22 @@
           </thead>
           <tbody>
             <tr *ngFor="let reservation of reservationList; let index = index">
-              <th class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-              <th class="col-3">{{reservation.departureAddress}}</th>
-              <th class="col-3">{{reservation.arrivalAddress}}</th>
-              <th class="col-3">
+              <td class="col-3">{{reservation.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="col-3">{{reservation.departureAddress}}</td>
+              <td class="col-3">{{reservation.arrivalAddress}}</td>
+              <td class="col-3">
                 <button class="btn btn-outline-dark mx-2 my-1" (click)="openDetails(details, reservation)"
                   data-target="#exampleModal">Détails</button>
                 <button class="btn btn-outline-danger mx-2 my-1"
                   (click)="openCancel(cancelWindow, reservation)">Annuler</button>
-              </th>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
+      <p *ngIf="reservationList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
       <h3 class="fs-4">Historique</h3>
-      <div class="table-responsive-lg">
+      <div class="table-responsive-lg" *ngIf="historyList.length > 0">
         <table class="table table-striped align-middle">
           <thead>
             <tr>
@@ -50,19 +51,21 @@
           <tbody>
             <tr
               *ngFor="let history of historyList| slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-              <th class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-              <th class="col-3">{{history.departureAddress}}</th>
-              <th class="col-3">{{history.arrivalAddress}}</th>
-              <th class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
-              <th class="col-2">
+              <td class="col-3">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+              <td class="col-3">{{history.departureAddress}}</td>
+              <td class="col-3">{{history.arrivalAddress}}</td>
+              <td class="col-1">{{history.status === "OK" ? "Terminé" : "Annulé"}}</td>
+              <td class="col-2">
                 <button class="btn btn-outline-dark" (click)="openDetails(details, history)"
                   data-target="#exampleModal">Détails</button>
-              </th>
+              </td>
 
             </tr>
           </tbody>
         </table>
       </div>
+      <p *ngIf="historyList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
+
       <div class="mt-2 d-flex justify-content-end">
         <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
           <ng-template ngbPaginationPages let-page let-pages="pages">

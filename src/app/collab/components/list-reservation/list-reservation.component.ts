@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { filter, Subscription } from 'rxjs';
 import { Refresh } from 'src/app/models/refresh';
 import { ToastService } from 'src/app/services/toast.service';
+import { CarpoolStatus } from 'src/app/models/carpool-status';
 
 const FILTER_PAG_REGEX = /[^0-9]/g;
 const URL = 'https://gestion-des-transports.herokuapp.com/api';
@@ -21,20 +22,15 @@ const URL = 'https://gestion-des-transports.herokuapp.com/api';
 })
 export class ListReservationComponent implements OnInit {
   public cancelResa!: Reservation;
-
   public isCollapsed = false;
   public isModal = true;
-
   public reservationList: Reservation[] = [];
-
   public historyList: Reservation[] = [];
-
   EventSub!: Subscription;
-  private currentDate: number = Date.now(); //Sert à tester "2017-06-22T13:30"
   page = 1;
   pageSize = 3;
-
   modalTable: string[] = ['', '', '', '', ''];
+  public message: string = '';
 
   constructor(
     private modalService: NgbModal,
@@ -89,31 +85,43 @@ export class ListReservationComponent implements OnInit {
    *La fonction permer de remplir les deux tableaux en récupérant les données de l'URL
    */
   refresh() {
-    this.carpoolSrv.listReservationsByUser().subscribe((reservations) => {
-      this.reservationList = [];
-      this.historyList = [];
-      reservations.forEach((reservation) => {
+    this.message = 'Recherche en cours...';
+    this.carpoolSrv.listReservationsByUser().subscribe({
+      next: (carpools) => {
+        this.reservationList = carpools.filter(
+          (carpool) =>
+            new Date(carpool.dateHeure) > new Date() &&
+            carpool.status === CarpoolStatus.OK
+        );
+
+        this.historyList = carpools.filter(
+          (carpool) =>
+            new Date(carpool.dateHeure) < new Date() ||
+            carpool.status === CarpoolStatus.CANCELLED
+        );
+
         if (
-          new Date(reservation.dateHeure).getTime() >= this.currentDate &&
-          reservation.status === 'OK'
+          this.historyList.length === 0 ||
+          this.reservationList.length === 0
         ) {
-          this.reservationList.push(reservation);
-        } else {
-          this.historyList.push(reservation);
+          this.message = 'Pas de réservation trouvée';
         }
-      });
-      this.reservationList.sort((resa1, resa2) =>
-        new Date(resa1.dateHeure).getTime() >
-        new Date(resa2.dateHeure).getTime()
-          ? -1
-          : 1
-      );
-      this.historyList.sort((resa1, resa2) =>
-        new Date(resa1.dateHeure).getTime() >
-        new Date(resa2.dateHeure).getTime()
-          ? -1
-          : 1
-      );
+
+        this.reservationList.sort(
+          (a, b) =>
+            new Date(b.dateHeure).getTime() - new Date(a.dateHeure).getTime()
+        );
+
+        this.historyList.sort(
+          (a, b) =>
+            new Date(b.dateHeure).getTime() - new Date(a.dateHeure).getTime()
+        );
+      },
+      error: (err) => {
+        this.message = 'Une erreur est survenue';
+        this.showError();
+      },
+      complete: () => {},
     });
   }
 
@@ -130,6 +138,14 @@ export class ListReservationComponent implements OnInit {
         this.showSuccess();
         this.refresh();
       });
+  }
+
+  showError() {
+    this.toastSrv.show('Une erreur est survenue', {
+      classname: 'bg-danger text-light',
+      delay: 5000,
+      autohide: true,
+    });
   }
 
   showSuccess() {

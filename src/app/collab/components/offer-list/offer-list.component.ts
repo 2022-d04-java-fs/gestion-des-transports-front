@@ -17,17 +17,14 @@ const FILTER_PAG_REGEX = /[^0-9]/g;
 export class OfferListComponent implements OnInit {
   public isCollapsed = false;
   public isModal = true;
-
   public offerList: Offer[] = [];
   cancelOffer!: Offer;
-
   public historyList: Offer[] = [];
   EventSub!: Subscription;
-  private currentDate: number = Date.now(); //Sert à tester "2017-06-22T13:30"
-
   page = 1;
   pageSize = 3;
   modalTable: string[] = ['', '', '', '', ''];
+  public message: string = '';
 
   constructor(
     private modalService: NgbModal,
@@ -43,33 +40,51 @@ export class OfferListComponent implements OnInit {
       .subscribe(() => this.refresh());
   }
   fillTab(): void {
-    this.carpoolService.listCarpoolByUser().subscribe((offerListByUser) => {
-      this.offerList = [];
-      this.historyList = [];
-      offerListByUser.forEach((offer) => {
-        if (
-          new Date(offer.dateHeure).getTime() >= this.currentDate &&
-          offer.status == CarpoolStatus.OK
-        ) {
-          this.offerList.push(offer);
-        } else {
-          this.historyList.push(offer);
+    this.message = 'Recherche en cours...';
+    this.carpoolService.listCarpoolByUser().subscribe({
+      next: (offerListByUser) => {
+        this.offerList = offerListByUser.filter(
+          (offer) =>
+            new Date(offer.dateHeure) > new Date() &&
+            offer.status === CarpoolStatus.OK
+        );
+
+        this.historyList = offerListByUser.filter(
+          (offer) =>
+            new Date(offer.dateHeure) < new Date() ||
+            offer.status === CarpoolStatus.CANCELLED
+        );
+
+        if (this.historyList.length === 0 || this.offerList.length === 0) {
+          this.message = 'Pas de réservation trouvée';
         }
-      });
-      this.offerList.sort((resa1, resa2) =>
-        new Date(resa1.dateHeure).getTime() >
-        new Date(resa2.dateHeure).getTime()
-          ? -1
-          : 1
-      );
-      this.historyList.sort((resa1, resa2) =>
-        new Date(resa1.dateHeure).getTime() >
-        new Date(resa2.dateHeure).getTime()
-          ? -1
-          : 1
-      );
+
+        this.offerList.sort(
+          (a, b) =>
+            new Date(b.dateHeure).getTime() - new Date(a.dateHeure).getTime()
+        );
+
+        this.historyList.sort(
+          (a, b) =>
+            new Date(b.dateHeure).getTime() - new Date(a.dateHeure).getTime()
+        );
+      },
+      error: (err) => {
+        this.message = 'Une erreur est survenue';
+        this.showError();
+      },
+      complete: () => {},
     });
   }
+
+  showError() {
+    this.toastSrv.show('Une erreur est survenue', {
+      classname: 'bg-danger text-light',
+      delay: 5000,
+      autohide: true,
+    });
+  }
+
   refresh() {
     this.fillTab();
   }

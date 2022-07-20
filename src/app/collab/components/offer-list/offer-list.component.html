@@ -7,54 +7,58 @@
   </div>
   <div class="m-1">
     <h3 class="fs-4">Annonces en cours</h3>
-    <div class="table-responsive-lg">
+    <div class="table-responsive-lg" *ngIf="offerList.length > 0">
       <table class="table table-striped align-middle">
         <thead>
           <tr>
-            <th scope="col">Date/Heure</th>
-            <th scope="col">Départ</th>
-            <th scope="col">Destination</th>
-            <th scope="col">Nombre de places disponibles</th>
+            <th scope="col" class="col-2">Date/Heure</th>
+            <th scope="col" class="col-3">Départ</th>
+            <th scope="col" class="col-3">Destination</th>
+            <th scope="col" class="col-2">Nombre de places disponibles</th>
+            <th scope="col" class="col-2"></th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let offer of offerList; let index = index">
-            <th class="col">{{offer.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-            <th class="col">{{offer.departureAddress}}</th>
-            <th class="col">{{offer.arrivalAddress}}</th>
-            <th class="col">{{offer.availableSeats}}</th>
-            <th>
-
+            <td class="col-2">{{offer.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td class="col-3">{{offer.departureAddress}}</td>
+            <td class="col-3">{{offer.arrivalAddress}}</td>
+            <td class="col-2">{{offer.availableSeats}}</td>
+            <td class="col-2 text-center">
               <button class="btn btn-outline-danger" (click)="openCancel(cancelWindow, offer)">Annuler</button>
-            </th>
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p *ngIf="offerList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
+
     <h3 class="fs-4 mt-5">Historique</h3>
-    <div class="table-responsive-lg">
+    <div class="table-responsive-lg" *ngIf="historyList.length > 0">
       <table class="table table-striped align-middle">
         <thead>
           <tr>
-            <th scope="col">Date/Heure</th>
-            <th scope="col">Départ</th>
-            <th scope="col">Destination</th>
-            <th scope="col">Nombre de places disponibles</th>
-            <th scope="col">Statut</th>
+            <th scope="col" class="col-2">Date/Heure</th>
+            <th scope="col" class="col-3">Départ</th>
+            <th scope="col" class="col-3">Destination</th>
+            <th scope="col" class="col-2">Nombre de places disponibles</th>
+            <th scope="col" class="col-2 text-center">Statut</th>
           </tr>
         </thead>
         <tbody>
           <tr
             *ngFor="let history of historyList | slice: (page-1) * pageSize : (page-1) * pageSize + pageSize; let index = index">
-            <th class="col">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
-            <th class="col">{{history.departureAddress}}</th>
-            <th class="col">{{history.arrivalAddress}}</th>
-            <th class="col">{{history.availableSeats}}</th>
-            <th class="col">{{history.status === "OK" ? "Terminé" : "Annulé"}}</th>
+            <td class="col-2">{{history.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
+            <td class="col-3">{{history.departureAddress}}</td>
+            <td class="col-3">{{history.arrivalAddress}}</td>
+            <td class="col-2">{{history.availableSeats}}</td>
+            <td class="col-2 text-center">{{history.status === "OK" ? "Terminé" : "Annulé"}}</td>
           </tr>
         </tbody>
       </table>
     </div>
+    <p *ngIf="historyList.length === 0" class="text-center m-3 fs-5">{{message}}</p>
+
     <div class="mt-2 d-flex justify-content-end">
       <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]="historyList.length">
         <ng-template ngbPaginationPages let-page let-pages="pages">

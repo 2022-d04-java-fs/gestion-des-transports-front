@@ -16,7 +16,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let carpool of carpoolsList">
-          <th scope="row ">{{ carpool.dateHeure | date:'dd/MM/yyyy HH:mm'}}</th>
+          <td scope="row ">{{ carpool.dateHeure | date:'dd/MM/yyyy HH:mm'}}</td>
           <td>{{ carpool.departureAddress }}</td>
           <td>{{ carpool.arrivalAddress }}</td>
           <td>{{ carpool.vehicle.brand }} {{ carpool.vehicle.model }}</td>
@@ -30,5 +30,5 @@
       </tbody>
     </table>
   </div>
-  <p class="fw-bold text-center" *ngIf="carpoolsList.length === 0">Aucun covoiturage trouvé !</p>
+  <p class="fw-bold text-center" *ngIf="carpoolsList.length === 0">{{message}}</p>
 </div>
