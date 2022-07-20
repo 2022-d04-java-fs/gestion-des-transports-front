@@ -50,8 +50,14 @@ export class OfferListComponent implements OnInit {
         );
 
         this.historyList = offerListByUser.filter(
-          (offer) => new Date(offer.dateHeure) < new Date()
+          (offer) =>
+            new Date(offer.dateHeure) < new Date() ||
+            offer.status === CarpoolStatus.CANCELLED
         );
+
+        if (this.historyList.length === 0 || this.offerList.length === 0) {
+          this.message = 'Pas de réservation trouvée';
+        }
 
         this.offerList.sort(
           (a, b) =>
